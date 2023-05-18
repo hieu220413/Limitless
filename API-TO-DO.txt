@@ -1,0 +1,35 @@
+User:
++ Sign up
++ Log in
++ Provide personal details for new account 
++ Update personal details
++ Reset password
+Exe: 
++ Search with filter exercise
++ Create new exercise
++ Update exercise info
++ Update view count
++ Delete Exe
+Exe Bunndle:
++ Search with filter exercise bundle ? 
++ Create exercise bundle
++ Update exercise info
++ Add exercise to exercise bundle
++ Remove exercise from exercise bundle
++ Delete exercise bundle
+Staticstic:
++ Create Staticstic
++ Update Staticsitc today when finished exercise
+Subscription:
++ Create subscription (price calculate using star_date and end_date)
++ cancel subscription
+Tag:
++ Create tag
++ Delete tag
++ Update tag
++ Add tag to exercise
+Level:
++ Create Level
++ Delete Level
++ Update Level
++ Add level to exercise or exercise bundle
