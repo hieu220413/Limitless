@@ -1,9 +1,10 @@
-package entity;
+package fpt.edu.limitlessapi.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.sql.Date;
+import java.util.Collection;
 import java.util.UUID;
 
 @Entity
@@ -11,18 +12,20 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Subscription {
-
+public class Statistics {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "subscription_id")
-    private UUID subscriptionId;
+    @Column(name ="statistics_id")
+    private UUID statisticId;
 
-    private double price;
+    private int burnedCalories;
 
-    private Date startDate;
+    private int minutes;
 
-    private Date endDate;
+    private Date workoutDate;
+
+    @ManyToMany(mappedBy = "statistics")
+    Collection<Exercise> finishedExercises;
 
     @ManyToOne
     @JoinColumn(name = "users_id")

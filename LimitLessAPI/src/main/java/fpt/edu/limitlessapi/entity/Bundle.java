@@ -1,4 +1,4 @@
-package entity;
+package fpt.edu.limitlessapi.entity;
 
 import jakarta.persistence.*;
 import lombok.*;

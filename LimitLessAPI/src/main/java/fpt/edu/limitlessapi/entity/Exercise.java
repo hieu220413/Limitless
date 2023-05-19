@@ -1,8 +1,8 @@
-package entity;
+package fpt.edu.limitlessapi.entity;
 
+import fpt.edu.limitlessapi.meta.Status;
 import jakarta.persistence.*;
 import lombok.*;
-import meta.Status;
 
 import java.util.Collection;
 import java.util.UUID;

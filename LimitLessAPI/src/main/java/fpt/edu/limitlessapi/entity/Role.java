@@ -1,12 +1,14 @@
-package entity;
+package fpt.edu.limitlessapi.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Collection;
 import java.util.UUID;
 
 @Entity
@@ -14,15 +16,10 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Tag {
-
+public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "tag_id")
-    private UUID tagId;
+    private UUID roleId;
 
     private String name;
-
-    @ManyToMany(mappedBy = "tags")
-    Collection<Exercise> exercises;
 }

@@ -1,6 +1,6 @@
-package service;
+package fpt.edu.limitlessapi.service;
 
-import model.UserDetailsPrincipalModel;
+import fpt.edu.limitlessapi.model.UserDetailsPrincipalModel;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
