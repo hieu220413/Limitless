@@ -1,4 +1,4 @@
-package model;
+package fpt.edu.limitlessapi.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;

@@ -1,4 +1,4 @@
-package config;
+package fpt.edu.limitlessapi.config;
 
 
 import io.swagger.v3.oas.models.OpenAPI;

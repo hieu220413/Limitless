@@ -1,4 +1,4 @@
-package config;
+package fpt.edu.limitlessapi.config;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -7,6 +7,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+
 import java.io.IOException;
 import java.nio.file.AccessDeniedException;
 

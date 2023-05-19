@@ -1,8 +1,7 @@
-package service;
+package fpt.edu.limitlessapi.service;
 
-import entity.Users;
-import model.UserDetailsPrincipalModel;
-import org.springframework.beans.factory.annotation.Autowired;
+import fpt.edu.limitlessapi.entity.Users;
+import fpt.edu.limitlessapi.model.UserDetailsPrincipalModel;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
