@@ -1,14 +1,28 @@
 spring:
-  datasource:
-    driverClassName: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/limitless
-    username: root
-    password: Dre220413@
   jpa:
-    hibernate.ddl-auto: update
-    generate-ddl: true
-    show-sql: true
-    defer-datasource-initialization: true
+    properties:
+      hibernate:
+        dialect:
+          storage_engine: innodb
+        enable_lazy_load_no_trans: 'true'
+    defer-datasource-initialization: 'true'
+    hibernate:
+      ddl-auto: create
+  datasource:
+    password: Dre220413@
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    url: jdbc:mysql://localhost:3306/limitless
   sql:
     init:
       mode: always
+  mvc:
+    pathmatch:
+      matching-strategy: ANT_PATH_MATCHER
+server:
+  error:
+    include-stacktrace: never
+    include-binding-errors: always
+    include-message: always
+springdoc:
+  use-management-port: 'false'

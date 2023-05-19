@@ -1,14 +1,10 @@
 package entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
+import lombok.*;
+import meta.Status;
 
+import java.util.Collection;
 import java.util.UUID;
 
 @Entity
@@ -20,6 +16,7 @@ public class Exercise {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "exercise_id")
     private UUID exerciseId;
 
     private String thumbnail;
@@ -30,10 +27,41 @@ public class Exercise {
 
     private String video;
 
-    int viewCount;
+    private int viewCount;
 
-    int status;
+    private int sets;
 
-    int caloriesBurn;
+    private int duration;
 
+    @Enumerated(EnumType.ORDINAL)
+    private Status status;
+
+    private int caloriesBurn;
+
+    @ManyToOne
+    @JoinColumn(name = "level_id")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Level level;
+
+    @ManyToMany
+    @JoinTable(
+            name = "exercise_bundle",
+            joinColumns = @JoinColumn(name = "exercise_id"),
+            inverseJoinColumns = @JoinColumn(name = "bundle_id"))
+    Collection<Bundle> bundles;
+
+    @ManyToMany
+    @JoinTable(
+            name = "exercise_tag",
+            joinColumns = @JoinColumn(name = "exercise_id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id"))
+    Collection<Tag> tags;
+
+    @ManyToMany
+    @JoinTable(
+            name = "exercise_statistics",
+            joinColumns = @JoinColumn(name = "exercise_id"),
+            inverseJoinColumns = @JoinColumn(name = "statistics_id"))
+    Collection<Statistics> statistics;
 }

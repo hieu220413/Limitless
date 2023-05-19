@@ -1,14 +1,10 @@
 package entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
+import lombok.*;
 
+import java.sql.Date;
+import java.util.Collection;
 import java.util.UUID;
 
 @Entity
@@ -19,5 +15,21 @@ import java.util.UUID;
 public class Statistics {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name ="statistics_id")
     private UUID statisticId;
+
+    private int burnedCalories;
+
+    private int minutes;
+
+    private Date workoutDate;
+
+    @ManyToMany(mappedBy = "statistics")
+    Collection<Exercise> finishedExercises;
+
+    @ManyToOne
+    @JoinColumn(name = "users_id")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Users user;
 }

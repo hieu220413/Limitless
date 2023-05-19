@@ -1,9 +1,7 @@
 package entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,11 +14,10 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Method {
-
+public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID methodId;
-    private int sets;
-    private int duration;
+    private UUID roleId;
+
+    private String name;
 }

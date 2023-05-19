@@ -1,10 +1,13 @@
 package entity;
 
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.Collection;
+import java.util.UUID;
 
 @Entity
 @Data
@@ -12,4 +15,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Tag {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "tag_id")
+    private UUID tagId;
+
+    private String name;
+
+    @ManyToMany(mappedBy = "tags")
+    Collection<Exercise> exercises;
 }
