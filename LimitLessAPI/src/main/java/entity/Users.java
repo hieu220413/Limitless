@@ -49,7 +49,7 @@ public class Users {
     Collection<Bundle> bundles;
 
     @OneToMany(
-            mappedBy = "statistics_id",
+            mappedBy = "user",
             cascade = CascadeType.ALL
     )
     @EqualsAndHashCode.Exclude
@@ -57,7 +57,7 @@ public class Users {
     private Collection<Statistics> statisticsWithDates;
 
     @OneToMany(
-            mappedBy = "subscriptions_id",
+            mappedBy = "user",
             cascade = CascadeType.ALL
     )
     @EqualsAndHashCode.Exclude

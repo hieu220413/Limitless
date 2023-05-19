@@ -21,7 +21,7 @@ public class Level {
     private String name;
 
     @OneToMany(
-            mappedBy = "exercise_id",
+            mappedBy = "level",
             cascade = CascadeType.ALL
     )
     @EqualsAndHashCode.Exclude
@@ -29,7 +29,7 @@ public class Level {
     private Collection<Exercise> exercises;
 
     @OneToMany(
-            mappedBy = "bundle_id",
+            mappedBy = "level",
             cascade = CascadeType.ALL
     )
     @EqualsAndHashCode.Exclude
