@@ -72,6 +72,16 @@ public class UserServiceImpl implements UserService {
             errorFields.put("usernameError", "Duplicate username");
         }
 
+        if(userRepository.findByEmailAndActive(userSignUpBody.getEmail()) != null){
+            errorFields.put("emailError", "This email has already been registered");
+
+        }
+
+        if(userRepository.findByPhoneAndActive(userSignUpBody.getPhone()) != null){
+            errorFields.put("phoneError", "This number has already been registered");
+
+        }
+
         if(errorFields.size() > 0){
             throw new InvalidUserInputException("UNPROCESSABLE_ENTITY", errorFields);
         }
