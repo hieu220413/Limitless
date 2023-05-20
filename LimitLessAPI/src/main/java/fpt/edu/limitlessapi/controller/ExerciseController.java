@@ -7,16 +7,14 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @Log4j2
 @RestController
-@RequestMapping("api/exercise")
+@RequestMapping("/exercise")
 public class ExerciseController {
 
     @Autowired
@@ -27,9 +25,14 @@ public class ExerciseController {
         return ResponseEntity.status(HttpStatus.OK).body(exerciseService.getAllExercises());
     }
 
-    @GetMapping("/{name}")
-    public ResponseEntity<List<Exercise>> fetchByName(@PathVariable("name") String name) throws ExerciseNotFoundException {
-        return ResponseEntity.status(HttpStatus.OK).body(exerciseService.getExercisesByLevel(name));
+    @GetMapping("/searchByNameAndLevel")
+    public ResponseEntity<List<Exercise>> fetchByName(@RequestParam("name") String name,@RequestParam("level") String level) throws ExerciseNotFoundException {
+        return ResponseEntity.status(HttpStatus.OK).body(exerciseService.getExercisesByName(name,level));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Exercise> fetchById(@PathVariable("id") UUID uuid) throws ExerciseNotFoundException {
+        return ResponseEntity.status(HttpStatus.OK).body(exerciseService.getExerciseById(uuid));
     }
 
     @GetMapping("/{level}")

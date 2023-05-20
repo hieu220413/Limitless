@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @Log4j2
@@ -40,6 +41,13 @@ public class ExerciseServiceImpl implements ExerciseService {
     }
 
     @Override
+    public Exercise getExerciseById(UUID uuid) throws ExerciseNotFoundException {
+        log.info("Fetch exercise by id {}",uuid);
+        return exerciseRepository.findById(uuid)
+                .orElseThrow(() -> new ExerciseNotFoundException("No such exercise"));
+    }
+
+    @Override
     public List<Exercise> getExercisesByLevel(String level) throws ExerciseNotFoundException {
         log.info("Fetch exercise by level {}",level);
         List<Exercise> exerciseList = (List<Exercise>) levelRepository.findByName(level).getExercises();
@@ -62,12 +70,12 @@ public class ExerciseServiceImpl implements ExerciseService {
     }
 
     @Override
-    public List<Exercise> getExercisesByName(String name) throws ExerciseNotFoundException {
+    public List<Exercise> getExercisesByName(String name,String level) throws ExerciseNotFoundException {
         log.info("Fetch exercise by name " + name);
-        List<Exercise> exerciseList = (List<Exercise>) exerciseRepository.findByNameContains(name);
+        List<Exercise> exerciseList = (List<Exercise>) exerciseRepository.findByNameLAndLevel(name,level);
         if(exerciseList.isEmpty()){
-            log.debug("No exercise with this name");
-            throw new ExerciseNotFoundException("No exercise with this name");
+            log.debug("No exercise with this name and level");
+            throw new ExerciseNotFoundException("No exercise with this name and level");
         }
         return exerciseList;
     }
