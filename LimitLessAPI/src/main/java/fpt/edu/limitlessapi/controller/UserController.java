@@ -26,14 +26,11 @@ public class UserController {
     }
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResponseEntity<UserResponseModel> loginUser(@Valid @RequestBody LoginBody loginBody){
         UserResponseModel userResponseModel = userService.userLogin(loginBody);
-        if(userResponseModel == null){
-            throw new AuthFailException("UNAUTHORIZED");
-        }
         HttpHeaders headers = new HttpHeaders();
         headers.setBasicAuth(loginBody.getUsername(), loginBody.getPassword());
         return ResponseEntity.status(HttpStatus.OK).headers(headers).body(userResponseModel);

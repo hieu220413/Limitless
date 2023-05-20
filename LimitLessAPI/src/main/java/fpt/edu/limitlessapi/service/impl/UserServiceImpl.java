@@ -1,6 +1,7 @@
 package fpt.edu.limitlessapi.service.impl;
 
 import fpt.edu.limitlessapi.entity.Users;
+import fpt.edu.limitlessapi.exception.AuthFailException;
 import fpt.edu.limitlessapi.model.LoginBody;
 import fpt.edu.limitlessapi.model.UserResponseModel;
 import fpt.edu.limitlessapi.repository.UserRepository;
@@ -27,6 +28,6 @@ public class UserServiceImpl implements UserService {
                 return userLoginResponse;
             }
         }
-        return null;
+        throw new AuthFailException("UNAUTHORIZED");
     }
 }
