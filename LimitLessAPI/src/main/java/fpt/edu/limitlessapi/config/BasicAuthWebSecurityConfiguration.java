@@ -32,7 +32,7 @@ public class BasicAuthWebSecurityConfiguration {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.csrf().disable().authorizeRequests()
                 .anyRequest().permitAll()
-                .and().httpBasic().and().exceptionHandling().authenticationEntryPoint(myBasicAuthenticationEntryPoint);
+                .and().httpBasic().and().exceptionHandling().authenticationEntryPoint(myBasicAuthenticationEntryPoint).and().logout().logoutUrl("/user/logout");
         return http.build();
     }
 

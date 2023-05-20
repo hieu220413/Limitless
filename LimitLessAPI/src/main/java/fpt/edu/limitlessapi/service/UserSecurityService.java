@@ -2,6 +2,8 @@ package fpt.edu.limitlessapi.service;
 
 import fpt.edu.limitlessapi.entity.Users;
 import fpt.edu.limitlessapi.model.UserDetailsPrincipalModel;
+import fpt.edu.limitlessapi.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -10,20 +12,19 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserSecurityService implements UserDetailsService {
-//    @Autowired
-//    UserRepository userRepository;
+    @Autowired
+    UserRepository userRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        String test = new BCryptPasswordEncoder().encode("123admin");
-//        UserEntity userEntity = userRepository.findByUsername(username);
-        Users userEntity = null;
-//        UserDetailsPrincipalModel user = UserDetailsPrincipalModel.builder()
-//                .username(userEntity.getUsername())
-//                .password(userEntity.getPassword())
+//        String test = new BCryptPasswordEncoder().encode("123admin");
+        Users userEntity = userRepository.findByUsername(username);
+        UserDetailsPrincipalModel user = UserDetailsPrincipalModel.builder()
+                .username(userEntity.getUsername())
+                .password(userEntity.getPassword())
 //                .role(User.RoleEnum.valueOf(userEntity.getRole()))
-//                .build();
-        UserDetailsPrincipalModel user = null;
+                .build();
+//        UserDetailsPrincipalModel user = null;
         UserDetailsPrincipal userDetailsPrincipal = new UserDetailsPrincipal(user);
         return userDetailsPrincipal;
     }
