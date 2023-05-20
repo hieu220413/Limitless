@@ -3,7 +3,8 @@ package fpt.edu.limitlessapi.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.sql.Date;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.UUID;
 
 @Entity
@@ -20,9 +21,9 @@ public class Subscription {
 
     private double price;
 
-    private Date startDate;
+    private LocalDateTime startDate;
 
-    private Date endDate;
+    private LocalDateTime endDate;
 
     @ManyToOne
     @JoinColumn(name = "users_id")
