@@ -34,6 +34,6 @@ public class Level {
     )
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
-    private Collection<Bundle> bundles;
+    private Collection<Workout> workouts;
 
 }

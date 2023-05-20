@@ -43,10 +43,10 @@ public class Users {
 
     @ManyToMany
     @JoinTable(
-            name = "user_bundle",
+            name = "user_workout",
             joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "bundle_id"))
-    Collection<Bundle> bundles;
+            inverseJoinColumns = @JoinColumn(name = "workout_id"))
+    Collection<Workout> workouts;
 
     @OneToMany(
             mappedBy = "user",

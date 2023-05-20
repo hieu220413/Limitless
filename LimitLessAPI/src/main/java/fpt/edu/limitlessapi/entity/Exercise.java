@@ -46,10 +46,10 @@ public class Exercise {
 
     @ManyToMany
     @JoinTable(
-            name = "exercise_bundle",
+            name = "exercise_workout",
             joinColumns = @JoinColumn(name = "exercise_id"),
-            inverseJoinColumns = @JoinColumn(name = "bundle_id"))
-    Collection<Bundle> bundles;
+            inverseJoinColumns = @JoinColumn(name = "workout_id"))
+    Collection<Workout> workouts;
 
     @ManyToMany
     @JoinTable(
