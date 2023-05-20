@@ -11,12 +11,12 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Bundle {
+public class Workout {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "bundle_id")
-    private UUID bundleId;
+    @Column(name = "workout_id")
+    private UUID workoutId;
 
     private String thumbnail;
 
@@ -34,9 +34,9 @@ public class Bundle {
     @ToString.Exclude
     private Level level;
 
-    @ManyToMany(mappedBy = "bundles")
+    @ManyToMany(mappedBy = "workouts")
     Collection<Exercise> exercises;
 
-    @ManyToMany(mappedBy = "bundles")
+    @ManyToMany(mappedBy = "workouts")
     Collection<Users> users;
 }
