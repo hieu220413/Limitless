@@ -1,7 +1,7 @@
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import Svg, { Ellipse } from "react-native-svg";
-import IoniconsIcon from "react-native-vector-icons/Ionicons";
-import CupertinoButtonPurple from "../components/CupertinoButtonPurple";
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import CupertinoButtonPurple from "../component/CupertinoButtonPurple";
 import { useState } from "react";
 
 function Gender(props) {
@@ -34,7 +34,7 @@ function Gender(props) {
                                 ></Ellipse>
                             </Svg>
                             <Text style={styles.male}>MALE</Text>
-                            <IoniconsIcon name="ios-male" style={styles.icon}></IoniconsIcon>
+                            <Ionicons name="male" style={styles.icon}></Ionicons>
                         </View>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.femaleBtn} onPress={() => {
@@ -54,10 +54,7 @@ function Gender(props) {
                                 ></Ellipse>
                             </Svg>
                             <Text style={styles.female2}>FEMALE</Text>
-                            <IoniconsIcon
-                                name="md-female"
-                                style={styles.icon2}
-                            ></IoniconsIcon>
+                            <Ionicons name="female" style={styles.icon}></Ionicons>
                         </View>
                     </TouchableOpacity>
                 </View>
@@ -111,7 +108,6 @@ const styles = StyleSheet.create({
     male: {
         top: 100,
         position: "absolute",
-        fontFamily: "roboto-700",
         color: "rgba(247,244,244,1)",
         left: 39,
         fontSize: 33,
@@ -138,7 +134,6 @@ const styles = StyleSheet.create({
     female2: {
         top: 102,
         position: "absolute",
-        fontFamily: "roboto-700",
         marginLeft: 10,
         color: "rgba(255,255,255,1)",
         fontSize: 30,
@@ -166,7 +161,7 @@ const styles = StyleSheet.create({
         height: 52,
         width: 322,
         backgroundColor: "rgba(148,24,249,1)",
-        position: 'fixed',
+        position: 'relative',
         bottom: 150
     }
 });

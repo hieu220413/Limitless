@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     alignSelf: 'center',
-    position:'fixed',
+    position:'relative',
     bottom:-10,
   }, button: {
     backgroundColor: '#e3e6e9',
