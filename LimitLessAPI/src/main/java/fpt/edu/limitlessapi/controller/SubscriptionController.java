@@ -16,19 +16,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Date;
 
 @RestController
-@RequestMapping(value = "subscription")
+@RequestMapping(value = "api/subscription")
 public class SubscriptionController {
-
-    @ExceptionHandler(InvalidSubscriptionInputException.class)
-    public ResponseEntity<ApiError> handlerInvalidSubscriptionInput(InvalidSubscriptionInputException e){
-        ApiError apiError = new ApiError(new Date(), e.getStatusCode().value(), e.getReason(), "Invalid input fields", e.getErrorFields());
-        return ResponseEntity.status(HttpStatusCode.valueOf(e.getStatusCode().value())).body(apiError);
-    }
-    @ExceptionHandler(DuplicateSubscriptionException.class)
-    public ResponseEntity<ApiError> handlerDuplicateSubscriptionException(DuplicateSubscriptionException e){
-        ApiError apiError = new ApiError(new Date(), e.getStatusCode().value(), e.getReason(), "Duplicate active subscription so can not create new subscription");
-        return ResponseEntity.status(HttpStatusCode.valueOf(e.getStatusCode().value())).body(apiError);
-    }
 
     @Autowired
     private SubscriptionService subscriptionService;

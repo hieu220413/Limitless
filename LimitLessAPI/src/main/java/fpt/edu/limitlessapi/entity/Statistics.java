@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.UUID;
 
@@ -22,7 +23,7 @@ public class Statistics {
 
     private int minutes;
 
-    private Date workoutDate;
+    private LocalDate workoutDate;
 
     @ManyToMany(mappedBy = "statistics")
     Collection<Exercise> finishedExercises;

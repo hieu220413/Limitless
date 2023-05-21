@@ -11,12 +11,12 @@ import java.util.UUID;
 public interface UserRepository extends JpaRepository<Users, UUID> {
      Users findByUsername(String username);
 
-     @Query(value = "SELECT * FROM users WHERE username=:username AND status = 1",nativeQuery = true)
+     @Query(value = "SELECT * FROM users WHERE username=:username AND status = 0",nativeQuery = true)
      Users findByUsernameAndActive(String username);
 
-     @Query(value = "SELECT * FROM users WHERE email=:email AND status = 1",nativeQuery = true)
+     @Query(value = "SELECT * FROM users WHERE email=:email AND status = 0",nativeQuery = true)
      Users findByEmailAndActive(String email);
 
-     @Query(value = "SELECT * FROM users WHERE phone=:phone AND status = 1",nativeQuery = true)
+     @Query(value = "SELECT * FROM users WHERE phone=:phone AND status = 0",nativeQuery = true)
      Users findByPhoneAndActive(String phone);
 }

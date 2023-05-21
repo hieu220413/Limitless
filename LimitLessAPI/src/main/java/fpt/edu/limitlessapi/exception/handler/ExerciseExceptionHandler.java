@@ -11,7 +11,7 @@ public class ExerciseExceptionHandler {
 
     @ExceptionHandler(ExerciseNotFoundException.class)
     public ResponseEntity<String> handleExerciseException(Exception exception){
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getMessage());
     }
 
 }
