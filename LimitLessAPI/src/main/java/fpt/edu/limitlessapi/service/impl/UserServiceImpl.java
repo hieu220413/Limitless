@@ -91,7 +91,7 @@ public class UserServiceImpl implements UserService {
                                 .password(encoder.encode(userSignUpBody.getPassword()))
                                         .email(userSignUpBody.getEmail())
                                                 .phone(userSignUpBody.getPhone())
-                                                        .status(1)
+                                                        .status(0)
                                                                 .build();
         userRepository.save(users);
     }

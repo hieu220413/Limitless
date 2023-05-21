@@ -20,19 +20,8 @@ import java.util.Date;
 import java.util.HashMap;
 
 @RestController
-@RequestMapping(value = "user")
+@RequestMapping(value = "api/user")
 public class UserController {
-
-    @ExceptionHandler(AuthFailException.class)
-    public ResponseEntity<ApiError> handlerAuthFailException(AuthFailException e) throws IOException {
-        ApiError apiError = new ApiError(new Date(), e.getStatusCode().value(), e.getReason(), "wrong password or username");
-        return ResponseEntity.status(HttpStatus.valueOf(e.getStatusCode().value())).body(apiError);
-    }
-    @ExceptionHandler(InvalidUserInputException.class)
-    public ResponseEntity<ApiError> handlerInvalidUserInputException(InvalidUserInputException e){
-        ApiError apiError = new ApiError(new Date(), e.getStatusCode().value(), e.getReason(), "Invalid input fields", e.getErrorFields());
-        return ResponseEntity.status(HttpStatusCode.valueOf(e.getStatusCode().value())).body(apiError);
-    }
 
     @Autowired
     private UserService userService;
