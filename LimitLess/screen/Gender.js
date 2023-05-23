@@ -1,88 +1,101 @@
-import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
+import { StyleSheet, View, Text, TouchableOpacity, ScrollView, StatusBar } from "react-native";
 import Svg, { Ellipse } from "react-native-svg";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import CupertinoButtonPurple from "../component/CupertinoButtonPurple";
 import { useState } from "react";
 
 function Gender(props) {
-    const [gender,setGender] = useState('')
+    const [gender, setGender] = useState('')
     return (
         <View style={styles.container}>
-            <View style={styles.aboutInfoColumn}>
-                <View style={styles.aboutInfo}>
+            <View style={styles.head}>
+                <View>
                     <Text style={styles.loremIpsum}>Tell us about yourself</Text>
                     <Text style={styles.loremIpsum2}>
                         To give you a better experience and results{"\n"}we need to know
                         your gender
                     </Text>
                 </View>
-                <View style={styles.gender}>
-                    <TouchableOpacity style={styles.maleBtn} onPress={() => {
-                        setGender('male')
-                        console.log(gender)
-                    }}>
-                        <View >
-                            <Svg viewBox="-3 -1 105 105" style={styles.ellipse}>
-                                <Ellipse
-                                    stroke="rgba(230, 230, 230,1)"
-                                    strokeWidth={0}
-                                    fill={gender == 'male' ?   "rgba(140,14,241,1)":"rgba(210,210,210,1)"}
-                                    cx={51}
-                                    cy={51}
-                                    rx={51}
-                                    ry={51}
-                                ></Ellipse>
-                            </Svg>
-                            <Text style={styles.male}>MALE</Text>
-                            <Ionicons name="male" style={styles.icon}></Ionicons>
-                        </View>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.femaleBtn} onPress={() => {
-                        setGender('female');
-                        console.log(gender)
-                    }}>
-                        <View>
-                            <Svg viewBox="-3 -1 105 105" style={styles.ellipse1}>
-                                <Ellipse
-                                    stroke="rgba(230, 230, 230,1)"
-                                    strokeWidth={0}
-                                    fill={gender == 'female' ?   "rgba(140,14,241,1)":"rgba(210,210,210,1)"}
-                                    cx={51}
-                                    cy={51}
-                                    rx={51}
-                                    ry={51}
-                                ></Ellipse>
-                            </Svg>
-                            <Text style={styles.female2}>FEMALE</Text>
-                            <Ionicons name="female" style={styles.icon}></Ionicons>
-                        </View>
-                    </TouchableOpacity>
+            </View>
+            <View style={styles.body}>
+                <View style={styles.aboutInfoColumn}>
+                    <View>
+                        <TouchableOpacity style={styles.maleBtn} onPress={() => {
+                            setGender('male')
+                            console.log(gender)
+                        }}>
+                            <View >
+                                <Svg viewBox="-3 -1 105 105" style={styles.ellipse}>
+                                    <Ellipse
+                                        stroke="rgba(230, 230, 230,1)"
+                                        strokeWidth={0}
+                                        fill={gender == 'male' ? "rgba(140,14,241,1)" : "rgba(210,210,210,1)"}
+                                        cx={51}
+                                        cy={51}
+                                        rx={51}
+                                        ry={51}
+                                    ></Ellipse>
+                                </Svg>
+                                <Text style={styles.male}>MALE</Text>
+                                <Ionicons name="male" style={styles.iconMale}></Ionicons>
+                            </View>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.femaleBtn} onPress={() => {
+                            setGender('female');
+                            console.log(gender)
+                        }}>
+                            <View>
+                                <Svg viewBox="-3 -1 105 105" style={styles.ellipse1}>
+                                    <Ellipse
+                                        stroke="rgba(230, 230, 230,1)"
+                                        strokeWidth={0}
+                                        fill={gender == 'female' ? "rgba(140,14,241,1)" : "rgba(210,210,210,1)"}
+                                        cx={51}
+                                        cy={51}
+                                        rx={51}
+                                        ry={51}
+                                    ></Ellipse>
+                                </Svg>
+                                <Text style={styles.female2}>FEMALE</Text>
+                                <Ionicons name="female" style={styles.iconFemale}></Ionicons>
+                            </View>
+                        </TouchableOpacity>
+                    </View>
                 </View>
             </View>
-            <View style={styles.aboutInfoColumnFiller}></View>
-            <CupertinoButtonPurple
-                caption="Continue"
-                style={styles.cupertinoButtonPurple}
-                param = {gender}
-            ></CupertinoButtonPurple>
+            <View style={styles.foot}>
+                <CupertinoButtonPurple
+                    caption="Continue"
+                    style={styles.cupertinoButtonPurple}
+                    param={gender}
+                ></CupertinoButtonPurple>
+            </View>
         </View>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
+        paddingTop: StatusBar.currentHeight,
         flex: 1
     },
-    aboutInfo: {
-        width: "100%",
-        height: 41
+    head: {
+        marginTop: 5,
+        flex: 2
+    },
+    body: {
+        flex: 5,
+        justifyContent:'center'
+    },
+    foot: {
+        flex: 3
     },
     loremIpsum: {
         color: "#121212",
         fontSize: 35,
         fontWeight: "bold",
         justifyContent: "center",
-
+        alignSelf:'center'
     },
     loremIpsum2: {
         color: "#121212",
@@ -92,59 +105,63 @@ const styles = StyleSheet.create({
         height: 40,
         alignSelf: "center"
     },
-    gender: {
-        marginTop: 132
-    },
     maleBtn: {
-        width: 170,
-        height: 180,
+        width: 130,
+        height: 130,
         alignSelf: "center"
     },
     ellipse: {
-        width: 170,
-        height: 166,
-        position: "absolute",
+        width: 150,
+        height: 150,
+        position: "relative",
+        alignSelf: 'center'
+    },
+    ellipse1: {
+        width: 150,
+        height: 150,
+        position: "relative",
     },
     male: {
         top: 100,
         position: "absolute",
         color: "rgba(247,244,244,1)",
-        left: 39,
-        fontSize: 33,
+        alignSelf: 'center',
+        fontSize: 25,
         textAlign: "center"
     },
-    icon: {
+    iconFemale: {
         top: 7,
         position: "absolute",
         color: "rgba(255,255,255,1)",
         fontSize: 84,
-        left: 49
+        left: 35
+    },
+    iconMale: {
+        top: 7,
+        position: "absolute",
+        color: "rgba(255,255,255,1)",
+        fontSize: 84,
+        left: 30
     },
     femaleBtn: {
-        width: 170,
-        height: 166,
+        width: 150,
+        height: 130,
         marginTop: 25,
         alignSelf: "center"
     },
-    ellipse1: {
-        width: 170,
-        height: 166,
-        position: "absolute",
-    },
     female2: {
-        top: 102,
+        top: 100,
         position: "absolute",
-        marginLeft: 10,
         color: "rgba(255,255,255,1)",
-        fontSize: 30,
-        left: 21
+        fontSize: 25,
+        alignSelf: 'center'
     },
     icon2: {
         top: 16,
         left: 42,
         position: "relative",
         color: "rgba(254,249,249,1)",
-        fontSize: 87,
+        fontSize: 70,
     },
     ellipse1Stack: {
         width: 166,
@@ -158,11 +175,11 @@ const styles = StyleSheet.create({
         flex: 1
     },
     cupertinoButtonPurple: {
-        height: 52,
+        height: 55,
         width: 322,
-        backgroundColor: "rgba(148,24,249,1)",
+        backgroundColor: "#461CF0",
         position: 'relative',
-        bottom: 150
+        margin: 50
     }
 });
 
