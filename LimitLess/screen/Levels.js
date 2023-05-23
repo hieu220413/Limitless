@@ -93,18 +93,18 @@ const styles = StyleSheet.create({
   }, 
   head: {
     marginTop:5,
-    flex: 2
+    flex: 1
   },
   body: {
-    flex: 5,
+    flex: 6,
     justifyContent:'center'
   },
   foot: {
-    flex: 3
+    flex: 2
   },
   title: {
     fontWeight: 'bold',
-    fontSize: 35,
+    fontSize: 33,
     alignSelf: 'center'
   },
   subtitle: {

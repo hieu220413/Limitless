@@ -81,14 +81,14 @@ const styles = StyleSheet.create({
     },
     head: {
         marginTop: 5,
-        flex: 2
+        flex: 1
     },
     body: {
-        flex: 5,
+        flex: 6,
         justifyContent:'center'
     },
     foot: {
-        flex: 3
+        flex: 2
     },
     loremIpsum: {
         color: "#121212",
@@ -120,6 +120,7 @@ const styles = StyleSheet.create({
         width: 150,
         height: 150,
         position: "relative",
+        marginTop:'20%'
     },
     male: {
         top: 100,
@@ -134,7 +135,8 @@ const styles = StyleSheet.create({
         position: "absolute",
         color: "rgba(255,255,255,1)",
         fontSize: 84,
-        left: 35
+        left: 35,
+        marginTop:'20%'
     },
     iconMale: {
         top: 7,
@@ -154,7 +156,8 @@ const styles = StyleSheet.create({
         position: "absolute",
         color: "rgba(255,255,255,1)",
         fontSize: 25,
-        alignSelf: 'center'
+        alignSelf: 'center',
+        marginTop:'20%'
     },
     icon2: {
         top: 16,

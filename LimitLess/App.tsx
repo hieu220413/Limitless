@@ -6,6 +6,7 @@ import Gender from './screen/Gender';
 import Old from './screen/Old';
 import Weight from './screen/Weight';
 import Height from './screen/Height';
+import Goals from './screen/Goals';
 
 
 const Stack = createNativeStackNavigator();
@@ -17,7 +18,7 @@ const App = () => {
         <Stack.Screen name="Old" component={Old} options={({ route, navigation }) => ({})} />
         <Stack.Screen name="Weight" component={Weight} options={({ route, navigation }) => ({})} />
         <Stack.Screen name="Height" component={Height} options={({ route, navigation }) => ({})} />
-        {/* <Stack.Screen name="Goals" component={Levels} options={({ route, navigation }) => ({})} /> */}
+        <Stack.Screen name="Goals" component={Goals} options={({ route, navigation }) => ({})} />
         <Stack.Screen name="Level" component={Levels} options={({ route, navigation }) => ({})} />
       </Stack.Navigator>
     </NavigationContainer>

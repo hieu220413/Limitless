@@ -1,5 +1,5 @@
 import { StyleSheet, View, Text, TouchableOpacity, ScrollView, StatusBar, TextInput } from "react-native";
-import { Button, ButtonGroup } from '@rneui/themed';
+import { Button} from '@rneui/themed';
 import { useState } from "react";
 
 function Height(props) {
@@ -51,7 +51,7 @@ function Height(props) {
                         />
                         <Button
                             title='Continue'
-                            onPress={()=> navigation.navigate('Level')}
+                            onPress={()=> navigation.navigate('Goals')}
                             titleStyle={{
                                 color: "white",
                                 fontSize: 25,
@@ -82,14 +82,14 @@ const styles = StyleSheet.create({
     },
     head: {
         marginTop: 5,
-        flex: 2
+        flex: 1
     },
     body: {
-        flex: 5,
+        flex: 6,
         justifyContent:'center'
     },
     foot: {
-        flex: 3
+        flex: 2
     },
     title: {
         fontWeight: 'bold',
