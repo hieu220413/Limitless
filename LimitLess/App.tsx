@@ -1,12 +1,20 @@
 import * as React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
+import {StyleSheet, View} from 'react-native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import Gender from './screen/Gender';
 import Levels from './screen/Levels';
-import {View, Text, StyleSheet} from 'react-native';
-import Screen1 from './screen/onboarding/Screen1';
-import Screen2 from './screen/onboarding/Screen2';
-import OnBoarding from './screen/onboarding/OnBoarding';
+import Gender from './screen/Gender';
+import Old from './screen/Old';
+import Weight from './screen/Weight';
+import Height from './screen/Height';
+import Goals from './screen/Goals';
+import Login from './screen/Login';
+import PremiumSubscribe from './screen/Premium-subscribe';
+import FillProfile from './screen/Fill-profile';
+import Welcome from './screen/Welcome';
+import SettingMenu from './screen/Setting-menu';
+import Register from './screen/Register';
+import ForgotPassword from './screen/forgotPassword/ForgotPassword';
 
 const Stack = createNativeStackNavigator();
 
@@ -14,17 +22,49 @@ const App = () => {
   return (
     <>
       <View style={styles.container}>
-        {/* <Screen1 /> */}
-        {/* <Screen2 /> */}
-        <OnBoarding />
+        <ForgotPassword />
       </View>
-      {/* <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen name="Gender" component={Gender} />
-          <Stack.Screen name="Level" component={Levels} />
-        </Stack.Navigator>
-      </NavigationContainer> */}
     </>
+    // <NavigationContainer>
+    //   <Stack.Navigator>
+    //     <Stack.Screen name="Welcome" component={Welcome} />
+    //     <Stack.Screen name="Login" component={Login} />
+    //     <Stack.Screen name="Register" component={Register} />
+    //     <Stack.Screen
+    //       name="Gender"
+    //       component={Gender}
+    //       options={({route, navigation}) => ({})}
+    //     />
+    //     <Stack.Screen
+    //       name="Old"
+    //       component={Old}
+    //       options={({route, navigation}) => ({})}
+    //     />
+    //     <Stack.Screen
+    //       name="Weight"
+    //       component={Weight}
+    //       options={({route, navigation}) => ({})}
+    //     />
+    //     <Stack.Screen
+    //       name="Height"
+    //       component={Height}
+    //       options={({route, navigation}) => ({})}
+    //     />
+    //     <Stack.Screen
+    //       name="Goals"
+    //       component={Goals}
+    //       options={({route, navigation}) => ({})}
+    //     />
+    //     <Stack.Screen
+    //       name="Level"
+    //       component={Levels}
+    //       options={({route, navigation}) => ({})}
+    //     />
+    //     <Stack.Screen name="Fill Profile" component={FillProfile} />
+    //     <Stack.Screen name="Setting" component={SettingMenu} />
+    //     <Stack.Screen name="Premium" component={PremiumSubscribe} />
+    //   </Stack.Navigator>
+    // </NavigationContainer>
   );
 };
 
