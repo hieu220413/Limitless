@@ -41,7 +41,7 @@ const SettingMenu = ({navigation}) => {
             </TouchableOpacity>
             <View style={styles.settingOptionsStyle}>
                 <View style={styles.Line} />
-                <TouchableOpacity style={styles.optionStyle} activeOpacity={0.8}>
+                <TouchableOpacity style={styles.optionStyle} activeOpacity={0.8} onPress={() => {navigation.navigate('Edit Profile')}}>
                     <IconFontAwesome5 name='user-circle' size={30} color='black'></IconFontAwesome5>
                     <Text style={styles.optionTextLabelStyle}>Edit Profile</Text>
                 </TouchableOpacity>
