@@ -2,6 +2,7 @@ import 'react-native';
 import React, { useState } from 'react';
 import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
 import IconAnt from 'react-native-vector-icons/AntDesign';
+import { AvoidSoftInputView } from 'react-native-avoid-softinput';
 
 export const SignInUpLayoutBody = (props) => {
     return (

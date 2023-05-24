@@ -33,32 +33,32 @@ const SettingMenu = ({navigation}) => {
             </View>
             <TouchableOpacity style={styles.ugradePremiumStyle} activeOpacity={0.8} onPress={() => {navigation.navigate('Premium')}}>
                 <View style={{ flexDirection: 'row', columnGap: 15, alignItems: 'center' }}>
-                    <Text style={{ paddingVertical: 3, paddingHorizontal: 15, color: 'white', backgroundColor: '#FAE20B', fontSize: 11, fontWeight: 'bold', borderRadius: 20 }}>PRO</Text>
-                    <Text style={{ flexGrow: 1, color: 'white', textAlign: 'center', fontSize: 15, fontWeight: 'bold' }}>Upgrade to Premium</Text>
-                    <Icon name='rightcircle' size={20} color="#fff"></Icon>
+                    <Text style={{ paddingVertical: 3, paddingHorizontal: 15, color: 'white', backgroundColor: '#FAE20B', fontSize: 15, fontWeight: 'bold', borderRadius: 20 }}>PRO</Text>
+                    <Text style={{ flexGrow: 1, color: 'white', textAlign: 'center', fontSize: 18, fontWeight: 'bold' }}>Upgrade to Premium</Text>
+                    <Icon name='rightcircle' size={25} color="#fff"></Icon>
                 </View>
-                <Text style={{ color: 'white', fontSize: 11, fontWeight: 'bold' }}>Enjoy workout access without ads and restrictions</Text>
+                <Text style={{ color: 'white', fontSize: 13, fontWeight: 'bold' }}>Enjoy workout access without ads and restrictions</Text>
             </TouchableOpacity>
             <View style={styles.settingOptionsStyle}>
                 <View style={styles.Line} />
                 <TouchableOpacity style={styles.optionStyle} activeOpacity={0.8}>
-                    <IconFontAwesome5 name='user-circle' size={25} color='black'></IconFontAwesome5>
+                    <IconFontAwesome5 name='user-circle' size={30} color='black'></IconFontAwesome5>
                     <Text style={styles.optionTextLabelStyle}>Edit Profile</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.optionStyle} activeOpacity={0.8}>
-                    <IconFontAwesome5 name='bell' size={25} color='black'></IconFontAwesome5>
+                    <IconFontAwesome5 name='bell' size={30} color='black'></IconFontAwesome5>
                     <Text style={styles.optionTextLabelStyle}>Notifications</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.optionStyle} activeOpacity={0.8}>
-                    <IconOcticons name='shield-check' size={25} color='black'></IconOcticons>
+                    <IconOcticons name='shield-check' size={30} color='black'></IconOcticons>
                     <Text style={styles.optionTextLabelStyle}>Security</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.optionStyle} activeOpacity={0.8}>
-                    <IconFeather name='alert-circle' size={25} color='black'></IconFeather>
+                    <IconFeather name='alert-circle' size={30} color='black'></IconFeather>
                     <Text style={styles.optionTextLabelStyle}>Help</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.optionStyle} activeOpacity={0.5} onPress={() => {navigation.reset({index:0, routes: [{name: 'Welcome'}]})}}>
-                    <IconFeather name='log-out' size={25} color='red'></IconFeather>
+                    <IconFeather name='log-out' size={30} color='red'></IconFeather>
                     <Text style={[styles.optionTextLabelStyle, { color: 'red' }]}>Logout</Text>
                 </TouchableOpacity>
             </View>
@@ -81,12 +81,12 @@ const styles = StyleSheet.create({
     },
     userFullNameStyle: {
         fontWeight: 'bold',
-        fontSize: 20,
+        fontSize: 23,
         textAlign: 'center'
     },
     userEmailStyle: {
         fontWeight: 'bold',
-        fontSize: 12,
+        fontSize: 13,
         textAlign: 'center'
     },
     ugradePremiumStyle: {
@@ -94,12 +94,12 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         backgroundColor: '#461CF0',
         paddingHorizontal: 15,
-        paddingVertical: 15,
+        paddingVertical: 25,
         rowGap: 15
     },
     avatarFrame: {
-        width: 80,
-        height: 80,
+        width: 120,
+        height: 120,
         // alignSelf: 'center',
         borderRadius: 100
     },
@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
     },
     optionStyle: {
         flexDirection: 'row',
-        columnGap: 10,
+        columnGap: 15,
         alignItems: 'center',
         marginHorizontal: 10,
     },

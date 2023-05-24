@@ -15,16 +15,16 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import { SignInUpLayout, SignInUpLayoutBody } from '../component/Authen-layout';
 import { useFocusEffect } from '@react-navigation/native';
 import { AvoidSoftInput } from 'react-native-avoid-softinput';
-const Login = ({navigation}) => {
-  const onFocusEffect = () => {
-    AvoidSoftInput.setAdjustNothing()
-    AvoidSoftInput.setEnabled(true)
-    return () => {
-      AvoidSoftInput.setEnabled(false)
-      AvoidSoftInput.setAdjustResize()
-    }
-  }
-  useFocusEffect(onFocusEffect)
+const Login = ({ navigation }) => {
+  // const onFocusEffect = () => {
+  //   AvoidSoftInput.setAdjustPan()
+  //   AvoidSoftInput.setEnabled(true)
+  //   return () => {
+  //     AvoidSoftInput.setEnabled(false)
+  //     AvoidSoftInput.setAdjustResize()
+  //   }
+  // }
+  // useFocusEffect(onFocusEffect)
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
   return (
@@ -40,7 +40,7 @@ const Login = ({navigation}) => {
             <TextInput style={styles.textInputStyle} placeholder='Password' />
             <Text style={styles.errorInputStyle}>Invalid password</Text>
           </View>
-          <View style={{flexDirection: 'row', alignItems: 'center', columnGap: 4}}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', columnGap: 4 }}>
             <Switch
               style={{ alignSelf: 'flex-start' }}
               trackColor={{ false: '#767577', true: '#7CD367' }}
@@ -50,7 +50,7 @@ const Login = ({navigation}) => {
             ></Switch>
             <Text>Remember me</Text>
           </View>
-          <TouchableHighlight style={styles.buttonResgisterStyle} underlayColor="#461CF0" onPress={() => { navigation.reset({ index: 0, routes: [{name: 'Gender'}]}) }}>
+          <TouchableHighlight style={styles.buttonResgisterStyle} underlayColor="#461CF0" onPress={() => { navigation.reset({ index: 0, routes: [{ name: 'Gender' }] }) }}>
             <View>
               <Text style={{ fontSize: 15, fontWeight: 'bold', textAlign: 'center', color: 'white' }}>Sign in</Text>
             </View>
@@ -75,7 +75,7 @@ const Login = ({navigation}) => {
         <View style={{ flexGrow: 1, flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'center' }}>
           <View style={{ flexDirection: 'row', columnGap: 5 }}>
             <Text style={{ textAlign: 'center' }}>Don’t have an account?</Text>
-            <TouchableOpacity><Text style={{ fontWeight: 'bold' }} onPress={() => {navigation.navigate('Register')}}>Signup</Text></TouchableOpacity>
+            <TouchableOpacity><Text style={{ fontWeight: 'bold' }} onPress={() => { navigation.navigate('Register') }}>Signup</Text></TouchableOpacity>
           </View>
         </View>
       </SignInUpLayoutBody>
@@ -116,13 +116,21 @@ const styles = StyleSheet.create({
     backgroundColor: '#461CF0',
     marginBottom: 40,
     marginTop: 10
-  },
+  }, 
   textInputStyle: {
     backgroundColor: '#E6E6E6',
     borderRadius: 50,
-    paddingVertical: 5,
+    paddingVertical: 8,
     paddingHorizontal: 15,
+    fontSize: 13,
     color: 'black'
+  },
+  errorInputStyle: {
+    paddingHorizontal: 15,
+    color: 'red',
+    fontWeight: 'bold',
+    fontSize: 11,
+    marginTop: 2
   },
   formFieldGroupStyle: {
     flexDirection: 'column',
@@ -130,13 +138,6 @@ const styles = StyleSheet.create({
     rowGap: 10,
     paddingHorizontal: 20,
     marginVertical: 20,
-  },
-  errorInputStyle: {
-    paddingHorizontal: 15,
-    color: 'red',
-    fontWeight: 'bold',
-    fontSize: 10,
-    marginTop: 2
   },
   Line: {
     borderBottomColor: "#15186D",

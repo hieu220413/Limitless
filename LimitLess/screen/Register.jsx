@@ -16,15 +16,18 @@ import { useFocusEffect } from '@react-navigation/native';
 import { AvoidSoftInput } from 'react-native-avoid-softinput';
 
 const Register = ({ navigation }) => {
-  const onFocusEffect = () => {
-    AvoidSoftInput.setAdjustPan()
-    AvoidSoftInput.setEnabled(true)
-    return () => {
-      AvoidSoftInput.setEnabled(false)
-      AvoidSoftInput.setAdjustResize()
-    }
-  }
-  useFocusEffect(onFocusEffect)
+  // const onFocusEffect = () => {
+  //   AvoidSoftInput.setAdjustPan()
+  //   AvoidSoftInput.setEnabled(true)
+  //   console.log('focuse')
+
+  //   return () => {
+  //     AvoidSoftInput.setEnabled(false);
+  //     AvoidSoftInput.setEnabled(false)
+  //     console.log('unfocuse')
+  //   }
+  // }
+  // useFocusEffect(onFocusEffect)
   return (
     <SignInUpLayout>
       <SignInUpLayoutBody>
@@ -121,9 +124,17 @@ const styles = StyleSheet.create({
   textInputStyle: {
     backgroundColor: '#E6E6E6',
     borderRadius: 50,
-    paddingVertical: 5,
+    paddingVertical: 8,
     paddingHorizontal: 15,
+    fontSize: 13,
     color: 'black'
+  },
+  errorInputStyle: {
+    paddingHorizontal: 15,
+    color: 'red',
+    fontWeight: 'bold',
+    fontSize: 11,
+    marginTop: 2
   },
   formFieldGroupStyle: {
     flexDirection: 'column',
@@ -131,13 +142,6 @@ const styles = StyleSheet.create({
     rowGap: 10,
     paddingHorizontal: 20,
     marginVertical: 20,
-  },
-  errorInputStyle: {
-    paddingHorizontal: 15,
-    color: 'red',
-    fontWeight: 'bold',
-    fontSize: 10,
-    marginTop: 2
   },
   Line: {
     borderBottomColor: "#15186D",
