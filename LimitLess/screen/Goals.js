@@ -70,6 +70,7 @@ function Goals(props) {
             return (
               <TouchableOpacity
                 key={item.item.description}
+                activeOpacity={0.8}
                 onPress={() => (updateSelectionsState(item.item))}
                 style={
                   [{

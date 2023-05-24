@@ -78,6 +78,7 @@ function Levels(props) {
                 alignSelf: 'center',
                 marginHorizontal: 10
               }}
+              onPress={() => { navigation.navigate('Fill Profile') }}
             />
           </View>
         </View>
