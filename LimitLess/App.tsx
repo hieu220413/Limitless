@@ -14,16 +14,19 @@ import Welcome from './screen/Welcome';
 import SettingMenu from './screen/Setting-menu';
 import Register from './screen/Register';
 import EditProfile from './screen/Edit-profile';
+import MainPage from './screen/MainPage';
+
 
 
 const Stack = createNativeStackNavigator();
 const App = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name='Welcome' component={Welcome}  />
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen name='Welcome' component={Welcome} />
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name='Register' component={Register} />
+        <Stack.Screen name="Main" component={MainPage} options={({ route, navigation }) => ({})} />
         <Stack.Screen name="Gender" component={Gender} options={({ route, navigation }) => ({})} />
         <Stack.Screen name="Old" component={Old} options={({ route, navigation }) => ({})} />
         <Stack.Screen name="Weight" component={Weight} options={({ route, navigation }) => ({})} />
@@ -34,7 +37,6 @@ const App = () => {
         <Stack.Screen name="Setting" component={SettingMenu} />
         <Stack.Screen name="Edit Profile" component={EditProfile} />
         <Stack.Screen name='Premium' component={PremiumSubscribe} />
-        
       </Stack.Navigator>
     </NavigationContainer>
   );
