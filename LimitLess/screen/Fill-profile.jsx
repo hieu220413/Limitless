@@ -16,16 +16,16 @@ import { SignInUpLayout, SignInUpLayoutBody } from '../component/Authen-layout';
 import { useFocusEffect } from '@react-navigation/native';
 import { AvoidSoftInput } from 'react-native-avoid-softinput';
 
-const FillProfile = () => {
-    const onFocusEffect = () => {
-        AvoidSoftInput.setAdjustPan()
-        AvoidSoftInput.setEnabled(true)
-        return () => {
-            AvoidSoftInput.setEnabled(false)
-            AvoidSoftInput.setAdjustResize()
-        }
-    }
-    useFocusEffect(onFocusEffect)
+const FillProfile = ({ navigation }) => {
+    // const onFocusEffect = () => {
+    //     AvoidSoftInput.setAdjustPan()
+    //     AvoidSoftInput.setEnabled(true)
+    //     return () => {
+    //         AvoidSoftInput.setEnabled(false)
+    //         AvoidSoftInput.setAdjustResize()
+    //     }
+    // }
+    // useFocusEffect(onFocusEffect)
     return (
         <SignInUpLayout title='Fill your profile'>
             <SignInUpLayoutBody>
@@ -50,7 +50,7 @@ const FillProfile = () => {
                     <TouchableOpacity style={[styles.buttonStyle, { flex: 1 }, { backgroundColor: '#D8CAFF', }]} activeOpacity={0.8}>
                         <Text style={[{ color: '#461CF0' }, styles.textButtonStyle]}>Skip</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={[styles.buttonStyle, { flex: 1 }, { backgroundColor: '#461CF0', }]} activeOpacity={0.8}>
+                    <TouchableOpacity style={[styles.buttonStyle, { flex: 1 }, { backgroundColor: '#461CF0', }]} activeOpacity={0.8} onPress={() => { navigation.navigate('Setting') }}>
                         <Text style={[{ color: '#FFFFFF' }, styles.textButtonStyle]}>Start</Text>
                     </TouchableOpacity>
                 </View>
@@ -82,16 +82,16 @@ const styles = StyleSheet.create({
     textInputStyle: {
         backgroundColor: '#E6E6E6',
         borderRadius: 50,
-        paddingVertical: 5,
+        paddingVertical: 8,
         paddingHorizontal: 15,
+        fontSize: 13,
         color: 'black'
     },
-
     errorInputStyle: {
         paddingHorizontal: 15,
         color: 'red',
         fontWeight: 'bold',
-        fontSize: 10,
+        fontSize: 11,
         marginTop: 2
     },
     buttonStyle: {
