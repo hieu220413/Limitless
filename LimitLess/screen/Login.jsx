@@ -15,6 +15,7 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import { SignInUpLayout, SignInUpLayoutBody } from '../component/Authen-layout';
 import { useFocusEffect } from '@react-navigation/native';
 import { AvoidSoftInput } from 'react-native-avoid-softinput';
+
 const Login = ({ navigation }) => {
   // const onFocusEffect = () => {
   //   AvoidSoftInput.setAdjustPan()

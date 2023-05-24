@@ -17,12 +17,11 @@ import EditProfile from './screen/Edit-profile';
 import MainPage from './screen/MainPage';
 
 
-
 const Stack = createNativeStackNavigator();
 const App = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Navigator>
         <Stack.Screen name='Welcome' component={Welcome} />
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name='Register' component={Register} />
