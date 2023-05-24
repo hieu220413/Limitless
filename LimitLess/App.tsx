@@ -22,10 +22,11 @@ const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator>
+        <Stack.Screen name="Main" component={MainPage} options={({ route, navigation }) => ({})} />
         <Stack.Screen name='Welcome' component={Welcome} />
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name='Register' component={Register} />
-        <Stack.Screen name="Main" component={MainPage} options={({ route, navigation }) => ({})} />
+
         <Stack.Screen name="Gender" component={Gender} options={({ route, navigation }) => ({})} />
         <Stack.Screen name="Old" component={Old} options={({ route, navigation }) => ({})} />
         <Stack.Screen name="Weight" component={Weight} options={({ route, navigation }) => ({})} />

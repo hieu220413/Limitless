@@ -50,7 +50,7 @@ const FillProfile = ({ navigation }) => {
                     <TouchableOpacity style={[styles.buttonStyle, { flex: 1 }, { backgroundColor: '#D8CAFF', }]} activeOpacity={0.8}>
                         <Text style={[{ color: '#461CF0' }, styles.textButtonStyle]}>Skip</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={[styles.buttonStyle, { flex: 1 }, { backgroundColor: '#461CF0', }]} activeOpacity={0.8} onPress={() => { navigation.navigate('Setting') }}>
+                    <TouchableOpacity style={[styles.buttonStyle, { flex: 1 }, { backgroundColor: '#461CF0', }]} activeOpacity={0.8} onPress={() => { navigation.navigate('Main') }}>
                         <Text style={[{ color: '#FFFFFF' }, styles.textButtonStyle]}>Start</Text>
                     </TouchableOpacity>
                 </View>
