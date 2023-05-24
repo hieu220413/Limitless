@@ -13,6 +13,7 @@ import FillProfile from './screen/Fill-profile';
 import Welcome from './screen/Welcome';
 import SettingMenu from './screen/Setting-menu';
 import Register from './screen/Register';
+import EditProfile from './screen/Edit-profile';
 
 
 const Stack = createNativeStackNavigator();
@@ -31,6 +32,7 @@ const App = () => {
         <Stack.Screen name="Level" component={Levels} options={({ route, navigation }) => ({})} />
         <Stack.Screen name='Fill Profile' component={FillProfile} />
         <Stack.Screen name="Setting" component={SettingMenu} />
+        <Stack.Screen name="Edit Profile" component={EditProfile} />
         <Stack.Screen name='Premium' component={PremiumSubscribe} />
         
       </Stack.Navigator>
