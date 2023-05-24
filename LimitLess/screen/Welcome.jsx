@@ -13,37 +13,37 @@ const Welcome = ({navigation}) => {
             <View style={styles.buttonLoginWithGroupStyle}>
                 <TouchableHighlight underlayColor="white" onPress={() => { }}>
                     <View style={[styles.buttonLoginWithStyle, { flexDirection: 'row', backgroundColor: '#1877F2' }]}>
-                        <Icon name='facebook' size={35} color="#fff"></Icon>
-                        <Text style={{ fontSize: 19, color: '#fff', fontWeight: 'bold' }}>Continue with Facebook</Text>
+                        <Icon name='facebook' size={40} color="#fff"></Icon>
+                        <Text style={{ fontSize: 23, color: '#fff', fontWeight: 'bold' }}>Continue with Facebook</Text>
                     </View>
                 </TouchableHighlight>
                 <TouchableHighlight underlayColor="white" onPress={() => { }}>
                     <View style={[styles.buttonLoginWithStyle, { flexDirection: 'row', backgroundColor: '#fb2d2d' }]}>
-                        <Icon name='google' size={35} color="#fff"></Icon>
-                        <Text style={{ fontSize: 19, color: '#fff', fontWeight: 'bold' }}>Continue with Apple</Text>
+                        <Icon name='google' size={40} color="#fff"></Icon>
+                        <Text style={{ fontSize: 23, color: '#fff', fontWeight: 'bold' }}>Continue with Apple</Text>
                     </View>
                 </TouchableHighlight>
                 <TouchableHighlight underlayColor="white" onPress={() => { }}>
                     <View style={[styles.buttonLoginWithStyle, { flexDirection: 'row', backgroundColor: '#050708' }]}>
-                        <Icon name='apple' size={35} color="#fff"></Icon>
-                        <Text style={{ fontSize: 19, color: '#fff', fontWeight: 'bold' }}>Continue with Apple</Text>
+                        <Icon name='apple' size={40} color="#fff"></Icon>
+                        <Text style={{ fontSize: 23, color: '#fff', fontWeight: 'bold' }}>Continue with Apple</Text>
                     </View>
                 </TouchableHighlight>
             </View>
             <View style={{ flexDirection: 'row', columnGap: 5, alignItems: 'center', marginBottom: 20 }}>
                 <View style={[styles.Line, { flex: 1 }]} />
-                <Text style={{ color: '#15186D' }}>Or sign up with</Text>
+                <Text style={{ color: '#15186D' , fontSize: 18}}>Or sign up with</Text>
                 <View style={[styles.Line, { flex: 1 }]} />
             </View>
             <TouchableHighlight style={styles.buttonLoginPasswordStyle} underlayColor="white" onPress={() => { navigation.navigate('Login') }}>
                 <View>
-                    <Text style={{ fontSize: 16, fontWeight: 'bold', textAlign: 'center' }}>Sign in with password</Text>
+                    <Text style={{ fontSize: 20, fontWeight: 'bold', textAlign: 'center' }}>Sign in with password</Text>
                 </View>
             </TouchableHighlight>
             <View style={{ flexGrow: 1, flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'center' }}>
                 <View style={{flexDirection: 'row', columnGap: 5 }}>
-                    <Text style={{ textAlign: 'center' }}>Don’t have an account?</Text>
-                    <TouchableOpacity onPress={() => { navigation.navigate('Register') }}><Text style={{fontWeight: 'bold'}}>Sign up</Text></TouchableOpacity>
+                    <Text style={{ textAlign: 'center', fontSize: 18 }}>Don’t have an account?</Text>
+                    <TouchableOpacity onPress={() => { navigation.navigate('Register') }}><Text style={{fontWeight: 'bold', fontSize: 18}}>Sign up</Text></TouchableOpacity>
                 </View>
             </View>
         </View>
@@ -53,7 +53,7 @@ const Welcome = ({navigation}) => {
 const styles = StyleSheet.create({
     LayoutStyle: {
         flex: 1,
-        marginTop: 50,
+        marginTop: 30,
         marginBottom: 20,
 
     },
@@ -61,12 +61,12 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontWeight: 'bold',
         color: 'black',
-        fontSize: 35,
+        fontSize: 45,
     },
     subTitleStyle: {
         textAlign: 'center',
         fontWeight: 'bold',
-        fontSize: 20,
+        fontSize: 30,
     },
     buttonLoginWithGroupStyle: {
         marginVertical: 40,
@@ -78,10 +78,10 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         columnGap: 10,
         paddingHorizontal: 10,
-        paddingVertical: 8,
+        paddingVertical: 15,
     },
     buttonLoginPasswordStyle: {
-        padding: 15,
+        padding: 20,
         marginHorizontal: 30,
         borderRadius: 50,
         borderWidth: 1,

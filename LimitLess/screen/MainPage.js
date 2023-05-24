@@ -8,7 +8,7 @@ import { Button } from '@rneui/themed';
 
 
 const Stack = createNativeStackNavigator();
-const MainPage = () => {
+const MainPage = ({navigation}) => {
     var userFullName = 'Anh Khoa';
     const time = ['Morning', 'Afternoon', 'Evening'];
     const DATA = [
@@ -67,7 +67,7 @@ const MainPage = () => {
                             }}>
                                 Feature Workout
                             </Text>
-                            <TouchableOpacity style={{ flex: 1 }}>
+                            <TouchableOpacity style={{ flex: 1 }} onPress={() => { navigation.navigate('Setting') }}>
                                 <Text style={{
                                     fontWeight: 600,
                                     fontSize: 20,

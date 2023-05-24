@@ -50,7 +50,7 @@ const FillProfile = ({ navigation }) => {
                     <TouchableOpacity style={[styles.buttonStyle, { flex: 1 }, { backgroundColor: '#D8CAFF', }]} activeOpacity={0.8}>
                         <Text style={[{ color: '#461CF0' }, styles.textButtonStyle]}>Skip</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={[styles.buttonStyle, { flex: 1 }, { backgroundColor: '#461CF0', }]} activeOpacity={0.8} onPress={() => { navigation.navigate('Setting') }}>
+                    <TouchableOpacity style={[styles.buttonStyle, { flex: 1 }, { backgroundColor: '#461CF0', }]} activeOpacity={0.8} onPress={() => { navigation.navigate('Main') }}>
                         <Text style={[{ color: '#FFFFFF' }, styles.textButtonStyle]}>Start</Text>
                     </TouchableOpacity>
                 </View>
@@ -82,26 +82,26 @@ const styles = StyleSheet.create({
     textInputStyle: {
         backgroundColor: '#E6E6E6',
         borderRadius: 50,
-        paddingVertical: 8,
+        paddingVertical: 15,
         paddingHorizontal: 15,
-        fontSize: 13,
+        fontSize: 20,
         color: 'black'
     },
     errorInputStyle: {
         paddingHorizontal: 15,
         color: 'red',
         fontWeight: 'bold',
-        fontSize: 11,
+        fontSize: 13,
         marginTop: 2
     },
     buttonStyle: {
         borderRadius: 20,
         paddingHorizontal: 15,
-        paddingVertical: 10
+        paddingVertical: 15
     },
     textButtonStyle: {
         textAlign: 'center',
-        fontSize: 17,
+        fontSize: 20,
         fontWeight: 'bold'
     },
     buttonGroupStyle: {
