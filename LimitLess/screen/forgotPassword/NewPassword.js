@@ -8,6 +8,7 @@ import {
   SafeAreaView,
   ScrollView,
   Modal,
+  Animated,
 } from 'react-native';
 import React, {useState} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -18,9 +19,36 @@ import {useToggleRepasswordVisibility} from './useToggleRepasswordVisibility';
 
 const ModalPopup = ({visible, children}) => {
   const [showModal, setShowModal] = useState(visible);
+  const scaleValue = React.useRef(new Animated.Value(0)).current;
+  React.useEffect(() => {
+    toggleModal();
+  }, [visible]);
+  const toggleModal = () => {
+    if (visible) {
+      setShowModal(true);
+      Animated.spring(scaleValue, {
+        toValue: 1,
+        duration: 300,
+        useNativeDriver: true,
+      }).start();
+    } else {
+      setTimeout(() => setShowModal(false), 200);
+      setShowModal(false);
+      Animated.timing(scaleValue, {
+        toValue: 0,
+        duration: 300,
+        useNativeDriver: true,
+      }).start();
+    }
+  };
   return (
-    <Modal transparent visible={true}>
-      <View style={styles.modalBackground}></View>
+    <Modal transparent visible={showModal}>
+      <View style={styles.modalBackground}>
+        <Animated.View
+          style={[styles.modalContainer, {transform: [{scale: scaleValue}]}]}>
+          {children}
+        </Animated.View>
+      </View>
     </Modal>
   );
 };
@@ -37,6 +65,61 @@ const NewPassword = () => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <ModalPopup visible={visible}>
+        {/* <View style={{alignItems: 'center'}}>
+          <View style={styles.headerModal}>
+            <Image
+              source={require('../assets/image/X.png')}
+              style={{height: 20, width: 20}}
+            />
+          </View>
+        </View> */}
+        <View style={{alignItems: 'center'}}>
+          <Image
+            source={require('../assets/image/success.png')}
+            style={{height: 150, width: 150, marginVertical: 0}}></Image>
+        </View>
+        <Text
+          style={{
+            marginVertical: 20,
+            fontSize: 26,
+            textAlign: 'center',
+            fontWeight: 'bold',
+            color: '#461CF0BF',
+          }}>
+          Congratulation!
+        </Text>
+        <Text
+          style={{
+            fontSize: 16,
+            textAlign: 'center',
+          }}>
+          Your account is ready to use
+        </Text>
+        <Button
+          onPress={() => setVisible(false)}
+          title="Go to homepage"
+          titleStyle={{
+            color: 'white',
+            fontSize: 16,
+            fontWeight: '700',
+          }}
+          buttonStyle={{
+            backgroundColor: '#461CF0BF',
+            borderRadius: 25,
+            height: 46,
+            borderWidth: 1,
+          }}
+          containerStyle={{
+            top: 16,
+            width: '80%',
+            alignSelf: 'center',
+            justifyContent: 'center',
+            alignContent: 'center',
+            marginVertical: 10,
+          }}
+        />
+      </ModalPopup>
       <Text style={styles.headerText}>
         <Ionicons name="arrow-back-outline" style={styles.icon} /> Create New
         Password
@@ -75,6 +158,7 @@ const NewPassword = () => {
         </View>
       </View>
       <Button
+        onPress={() => setVisible(true)}
         title="Continue"
         titleStyle={{
           color: 'white',
@@ -144,5 +228,25 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: 18,
     paddingLeft: 10,
+  },
+  modalBackground: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalContainer: {
+    width: '80%',
+    backgroundColor: 'white',
+    paddingHorizontal: 20,
+    paddingVertical: 30,
+    borderRadius: 20,
+    elevation: 20,
+  },
+  headerModal: {
+    width: '100%',
+    height: 40,
+    alignItems: 'flex-end',
+    justifyContent: 'center',
   },
 });
