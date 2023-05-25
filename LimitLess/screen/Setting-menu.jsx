@@ -18,10 +18,12 @@ import Icon from 'react-native-vector-icons/AntDesign';
 import IconOcticons from 'react-native-vector-icons/Octicons'
 import IconFeather from 'react-native-vector-icons/Feather'
 import IconFontAwesome5 from 'react-native-vector-icons/FontAwesome5'
+import Footer from '../component/Footer';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
-const SettingMenu = ({navigation}) => {
+const SettingMenu = ({ navigation }) => {
     return (
-        <View style={styles.layoutStyle}>
+        <SafeAreaView style={styles.layoutStyle}>
             <View style={styles.userInfoStyle}>
                 <Image
                     style={styles.avatarFrame}
@@ -31,7 +33,7 @@ const SettingMenu = ({navigation}) => {
                 <Text style={styles.userFullNameStyle}>Dang Hoang Anh Khoa</Text>
                 <Text style={styles.userEmailStyle}>danghoanganhkhoa@gmail.com</Text>
             </View>
-            <TouchableOpacity style={styles.ugradePremiumStyle} activeOpacity={0.8} onPress={() => {navigation.navigate('Premium')}}>
+            <TouchableOpacity style={styles.ugradePremiumStyle} activeOpacity={0.8} onPress={() => { navigation.navigate('Premium') }}>
                 <View style={{ flexDirection: 'row', columnGap: 15, alignItems: 'center' }}>
                     <Text style={{ paddingVertical: 3, paddingHorizontal: 15, color: 'white', backgroundColor: '#FAE20B', fontSize: 15, fontWeight: 'bold', borderRadius: 20 }}>PRO</Text>
                     <Text style={{ flexGrow: 1, color: 'white', textAlign: 'center', fontSize: 18, fontWeight: 'bold' }}>Upgrade to Premium</Text>
@@ -41,7 +43,7 @@ const SettingMenu = ({navigation}) => {
             </TouchableOpacity>
             <View style={styles.settingOptionsStyle}>
                 <View style={styles.Line} />
-                <TouchableOpacity style={styles.optionStyle} activeOpacity={0.8} onPress={() => {navigation.navigate('Edit Profile')}}>
+                <TouchableOpacity style={styles.optionStyle} activeOpacity={0.8} onPress={() => { navigation.navigate('Edit Profile') }}>
                     <IconFontAwesome5 name='user-circle' size={30} color='black'></IconFontAwesome5>
                     <Text style={styles.optionTextLabelStyle}>Edit Profile</Text>
                 </TouchableOpacity>
@@ -57,12 +59,15 @@ const SettingMenu = ({navigation}) => {
                     <IconFeather name='alert-circle' size={30} color='black'></IconFeather>
                     <Text style={styles.optionTextLabelStyle}>Help</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.optionStyle} activeOpacity={0.5} onPress={() => {navigation.reset({index:0, routes: [{name: 'Welcome'}]})}}>
+                <TouchableOpacity style={styles.optionStyle} activeOpacity={0.5} onPress={() => { navigation.reset({ index: 0, routes: [{ name: 'Welcome' }] }) }}>
                     <IconFeather name='log-out' size={30} color='red'></IconFeather>
                     <Text style={[styles.optionTextLabelStyle, { color: 'red' }]}>Logout</Text>
                 </TouchableOpacity>
             </View>
-        </View>
+            <View>
+                <Footer page='Setting' />
+            </View>
+        </SafeAreaView>
     )
 }
 

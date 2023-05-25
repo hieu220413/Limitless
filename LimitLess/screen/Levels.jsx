@@ -1,6 +1,7 @@
 import { StyleSheet, View, Text, TouchableOpacity, ScrollView, StatusBar } from "react-native";
 import { Button, ButtonGroup } from '@rneui/themed';
 import { useState } from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 function Levels(props) {
   const titleDict = {
@@ -15,7 +16,7 @@ function Levels(props) {
   console.log(route.params)
   return (
     <>
-      <View style={styles.container}>
+      <SafeAreaView style={styles.container}>
         <View style={styles.head}> 
           <Text style={styles.title}>Physical activity level ?</Text>
           <Text style={styles.subtitle}>Choose your regular activity level. This will help us to personalize plan for you</Text>
@@ -82,14 +83,13 @@ function Levels(props) {
             />
           </View>
         </View>
-      </View>
+      </SafeAreaView>
 
     </>
   )
 }
 const styles = StyleSheet.create({
   container: {
-    paddingTop: StatusBar.currentHeight,
     flex: 1
   }, 
   head: {

@@ -15,24 +15,25 @@ import SettingMenu from './screen/Setting-menu';
 import Register from './screen/Register';
 import EditProfile from './screen/Edit-profile';
 import MainPage from './screen/MainPage';
-
-
+import Workouts from './screen/Workouts';
+import Workout_Detail from './screen/Workout-Detail';
 const Stack = createNativeStackNavigator();
 const App = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="Main" component={MainPage} options={({ route, navigation }) => ({})} />
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="Workouts" component={Workouts} />
+        <Stack.Screen name="Main" component={MainPage} />
+        <Stack.Screen name="Workout Detail" component={Workout_Detail} />
         <Stack.Screen name='Welcome' component={Welcome} />
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name='Register' component={Register} />
-
-        <Stack.Screen name="Gender" component={Gender} options={({ route, navigation }) => ({})} />
-        <Stack.Screen name="Old" component={Old} options={({ route, navigation }) => ({})} />
-        <Stack.Screen name="Weight" component={Weight} options={({ route, navigation }) => ({})} />
-        <Stack.Screen name="Height" component={Height} options={({ route, navigation }) => ({})} />
-        <Stack.Screen name="Goals" component={Goals} options={({ route, navigation }) => ({})} />
-        <Stack.Screen name="Level" component={Levels} options={({ route, navigation }) => ({})} />
+        <Stack.Screen name="Gender" component={Gender} />
+        <Stack.Screen name="Old" component={Old} />
+        <Stack.Screen name="Weight" component={Weight} />
+        <Stack.Screen name="Height" component={Height} />
+        <Stack.Screen name="Goals" component={Goals} />
+        <Stack.Screen name="Level" component={Levels} />
         <Stack.Screen name='Fill Profile' component={FillProfile} />
         <Stack.Screen name="Setting" component={SettingMenu} />
         <Stack.Screen name="Edit Profile" component={EditProfile} />

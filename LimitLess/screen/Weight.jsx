@@ -1,6 +1,7 @@
 import { StyleSheet, View, Text, TouchableOpacity, ScrollView, StatusBar, TextInput } from "react-native";
 import { Button, ButtonGroup } from '@rneui/themed';
 import { useState } from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 function Weight(props) {
     const titleDict = {
@@ -14,7 +15,7 @@ function Weight(props) {
     console.log(route.params)
     return (
         <>
-            <View style={styles.container}>
+            <SafeAreaView style={styles.container}>
                 <View style={styles.head}>
                     <Text style={styles.title}>What is your weight ?</Text>
                     <Text style={styles.subtitle}>Weight in kg. Don’t worry, you can    always change it later.</Text>
@@ -70,14 +71,13 @@ function Weight(props) {
                         />
                     </View>
                 </View>
-            </View>
+            </SafeAreaView>
 
         </>
     )
 }
 const styles = StyleSheet.create({
     container: {
-        paddingTop: StatusBar.currentHeight,
         flex: 1
     },
     head: {

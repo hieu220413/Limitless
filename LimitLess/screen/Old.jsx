@@ -1,6 +1,7 @@
 import { StyleSheet, View, Text, TouchableOpacity, ScrollView, StatusBar, TextInput } from "react-native";
 import { Button, ButtonGroup } from '@rneui/themed';
 import { useState } from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 function Old(props) {
     const titleDict = {
@@ -14,7 +15,7 @@ function Old(props) {
     console.log(route.params)
     return (
         <>
-            <View style={styles.container}>
+            <SafeAreaView style={styles.container}>
                 <View style={styles.head}>
                     <Text style={styles.title}>How old are you ?</Text>
                     <Text style={styles.subtitle}>Age in year. This wil help us to personalize an exercise program plan that suits you.</Text>
@@ -72,14 +73,13 @@ function Old(props) {
                         />
                     </View>
                 </View>
-            </View>
+            </SafeAreaView>
 
         </>
     )
 }
 const styles = StyleSheet.create({
     container: {
-        paddingTop: StatusBar.currentHeight,
         flex: 1
     },
     head: {

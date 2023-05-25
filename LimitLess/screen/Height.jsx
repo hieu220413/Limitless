@@ -1,6 +1,7 @@
 import { StyleSheet, View, Text, TouchableOpacity, ScrollView, StatusBar, TextInput } from "react-native";
 import { Button} from '@rneui/themed';
 import { useState } from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 function Height(props) {
     const titleDict = {
@@ -14,7 +15,7 @@ function Height(props) {
     console.log(route.params)
     return (
         <>
-            <View style={styles.container}>
+            <SafeAreaView style={styles.container}>
                 <View style={styles.head}>
                     <Text style={styles.title}>What is your height ?</Text>
                     <Text style={styles.subtitle}>Height in cm. Don’t worry, you can always change it later.</Text>
@@ -70,14 +71,13 @@ function Height(props) {
                         />
                     </View>
                 </View>
-            </View>
+            </SafeAreaView>
 
         </>
     )
 }
 const styles = StyleSheet.create({
     container: {
-        paddingTop: StatusBar.currentHeight,
         flex: 1
     },
     head: {

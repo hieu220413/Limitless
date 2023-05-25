@@ -3,37 +3,53 @@ import { SafeAreaView, Image, FlatList, StyleSheet, View, Text, TouchableOpacity
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import Octicons from 'react-native-vector-icons/Octicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useState } from "react";
 import { Button } from '@rneui/themed';
+import Footer from '../component/Footer';
+import Header from '../component/Header';
 
 
 const Stack = createNativeStackNavigator();
-const MainPage = () => {
+const MainPage = (props) => {
+    const { navigation, route } = props
     var userFullName = 'Anh Khoa';
     const time = ['Morning', 'Afternoon', 'Evening'];
     const DATA = [
         {
             id: '1',
             url: 'https://drive.google.com/uc?export=view&id=12flrjOCJm27ywCDk5QLaC8hnM_cWRInf',
+            name: 'Arm Workout',
+            level: 'Beginner',
+            time: 10
         },
         {
             id: '2',
             url: 'https://drive.google.com/uc?export=view&id=1acuudDHiSkC62sv71wjmcNnXpH-wfNkz',
+            name: 'Chest Workout',
+            level: 'Beginner',
+            time: 12
         },
         {
             id: '3',
             url: 'https://drive.google.com/uc?export=view&id=16cJPE7RPENKN3P-dGeGGzHbltvtOSrA4',
+            name: 'Leg Workout',
+            level: 'Beginner',
+            time: 20
         },
         {
             id: '4',
             url: 'https://drive.google.com/uc?export=view&id=16oYazh304-TOvtFQ8C0sCqq15r24ejuC',
+            name: 'Push Workout',
+            level: 'Beginner',
+            time: 6
         },
         {
             id: '5',
             url: 'https://drive.google.com/uc?export=view&id=1RnbR8vgeJ4KIvHdC59KjPEEsO1iKlh-A',
+            name: 'Squat Workout',
+            level: 'Beginner',
+            time: 8
         },
     ];
 
@@ -45,10 +61,9 @@ const MainPage = () => {
     const [levels, setLevels] = useState(levelsDict);
     return (
         <>
-            <View style={styles.container}>
+            <SafeAreaView style={styles.container}>
                 <View style={styles.head}>
-                    <View style={styles.backgroundIcon}><Ionicons name='barbell-sharp' size={25} style={styles.icon}></Ionicons></View>
-                    <Text style={styles.appName}>LimitLess</Text>
+                    <Header></Header>
                     <View style={styles.iconBar}>
                         <TouchableOpacity style={styles.notificationIcon}>
                             <EvilIcons name='bell' size={40}  ></EvilIcons>
@@ -104,14 +119,16 @@ const MainPage = () => {
                             data={DATA}
                             keyExtractor={item => item.id}
                             renderItem={({ item }) => (
-                                <View style={{
-                                    width: 120,
-                                    height: 120,
-                                    borderRadius: 10,
-                                    borderWidth: 0.5,
-                                    borderColor: 'black',
-                                    margin: 5
-                                }}>
+                                <TouchableOpacity
+                                    onPress={() => navigation.navigate('Workout Detail', [item.id])}
+                                    style={{
+                                        width: 120,
+                                        height: 120,
+                                        borderRadius: 10,
+                                        borderWidth: 0.5,
+                                        borderColor: 'black',
+                                        margin: 5
+                                    }}>
                                     <Image
                                         source={{
                                             uri: item.url,
@@ -127,7 +144,15 @@ const MainPage = () => {
                                         }}
 
                                     />
-                                </View>
+                                    <View style={{
+                                        position: 'absolute',
+                                        marginLeft: '6%',
+                                        marginTop: '67%'
+                                    }}>
+                                        <Text style={{ fontSize: 15, fontWeight: 600, color: 'white' }}>{item.name}</Text>
+                                        <Text style={{ fontSize: 10, color: 'white' }}>{item.time} minutes | {item.level}</Text>
+                                    </View>
+                                </TouchableOpacity>
                             )}
                         />
                     </View>
@@ -138,7 +163,7 @@ const MainPage = () => {
                         }}>
                             Workout Level
                         </Text>
-                        <TouchableOpacity style={{ flex: 1 }}>
+                        <TouchableOpacity style={{ flex: 1 }} onPress={() => navigation.navigate('Workouts')}>
                             <Text style={{
                                 fontWeight: 600,
                                 fontSize: 20,
@@ -170,7 +195,14 @@ const MainPage = () => {
                                 }}
                             />))}
                     </View>
-                    <SafeAreaView style={{ height: '100%', marginTop: '2%', alignSelf: 'center', justifyContent: 'center' }}>
+                    <SafeAreaView style={{
+                        flexDirection: 'column',
+                        width: '100%',
+                        height: '100%',
+                        marginTop: '2%',
+                        alignSelf: 'center',
+                        justifyContent: 'center'
+                    }}>
                         <FlatList
                             style={styles.exercise}
                             showsVerticalScrollIndicator={false}
@@ -178,39 +210,44 @@ const MainPage = () => {
                             data={DATA}
                             keyExtractor={item => item.id}
                             renderItem={({ item }) => (
-                                <View style={{
-                                    width: 340,
-                                    height: 120,
-                                    borderRadius: 20,
-                                    margin: 5
-                                }}>
+                                <TouchableOpacity
+                                    onPress={() => navigation.navigate('Workout Detail', [item.id])}
+                                    style={{
+                                        width: '100%',
+                                        height: 120,
+                                        borderRadius: 20,
+                                        marginTop: '3%'
+                                    }}>
                                     <Image
                                         source={{
                                             uri: item.url
                                         }}
                                         key={item.id}
                                         style={{
-                                            width: 325,
+                                            width: '95%',
                                             height: 120,
                                             borderRadius: 30,
-                                            padding: 10,
                                             alignSelf: 'center',
                                             borderWidth: 1
                                         }}
-
                                     />
-                                </View>
+                                    <View style={{
+                                        position: 'absolute',
+                                        marginLeft: '8%',
+                                        marginTop: '17%'
+                                    }}>
+                                        <Text style={{ fontSize: 20, fontWeight: 600, color: 'white' }}>{item.name}</Text>
+                                        <Text style={{ color: 'white' }}>{item.time} minutes | {item.level}</Text>
+                                    </View>
+                                </TouchableOpacity>
                             )}
                         />
                     </SafeAreaView>
                 </ScrollView>
                 <View style={styles.foot}>
-                    <Ionicons name='ios-home-outline' size={25} />
-                    <Ionicons name='ios-compass-outline' size={25} />
-                    <AntDesign name='linechart' size={25} />
-                    <Octicons name='note' size={25}></Octicons>
+                    <Footer page='Home' />
                 </View>
-            </View>
+            </SafeAreaView>
         </>
     );
 };
@@ -222,40 +259,15 @@ const styles = StyleSheet.create({
         flex: 1
     },
     head: {
-        flex: 0.11,
+        flex: 0.08,
         flexDirection: 'row'
     },
     body: {
-        flex: 10
+        flex: 10,
+        marginTop: '2%'
     },
     foot: {
-        flex: 0.07,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        marginTop: '4%',
-        marginHorizontal: '4%'
-    },
-    icon: {
-        transform: [{
-            rotate: '-30deg'
-        }],
-        padding: '10%',
-        color: 'white'
-    },
-    backgroundIcon: {
-        backgroundColor: '#461CF0',
-        width: '8%',
-        height: '55%',
-        marginRight: '2%',
-        marginTop: '2%',
-        borderRadius: 10,
-        justifyContent: 'center'
-    },
-    appName: {
-        fontSize: 20,
-        fontWeight: 600,
-        paddingTop: '3%'
-
+        flex: 0.08
     },
     notificationIcon: {
         paddingTop: '4%',

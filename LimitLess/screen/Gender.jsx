@@ -3,11 +3,12 @@ import Svg, { Ellipse } from "react-native-svg";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import CupertinoButtonPurple from "../component/CupertinoButtonPurple";
 import { useState } from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 function Gender(props) {
     const [gender, setGender] = useState('')
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
             <View style={styles.head}>
                 <View>
                     <Text style={styles.loremIpsum}>Tell us about yourself</Text>
@@ -70,13 +71,12 @@ function Gender(props) {
                     param={gender}
                 ></CupertinoButtonPurple>
             </View>
-        </View>
+        </SafeAreaView>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
-        paddingTop: StatusBar.currentHeight,
         flex: 1
     },
     head: {
