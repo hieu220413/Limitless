@@ -82,26 +82,26 @@ const styles = StyleSheet.create({
     textInputStyle: {
         backgroundColor: '#E6E6E6',
         borderRadius: 50,
-        paddingVertical: 8,
+        paddingVertical: 15,
         paddingHorizontal: 15,
-        fontSize: 13,
+        fontSize: 20,
         color: 'black'
     },
     errorInputStyle: {
         paddingHorizontal: 15,
         color: 'red',
         fontWeight: 'bold',
-        fontSize: 11,
+        fontSize: 13,
         marginTop: 2
     },
     buttonStyle: {
         borderRadius: 20,
         paddingHorizontal: 15,
-        paddingVertical: 10
+        paddingVertical: 15
     },
     textButtonStyle: {
         textAlign: 'center',
-        fontSize: 17,
+        fontSize: 20,
         fontWeight: 'bold'
     },
     buttonGroupStyle: {
