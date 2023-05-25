@@ -15,6 +15,8 @@ import Welcome from './screen/Welcome';
 import SettingMenu from './screen/Setting-menu';
 import Register from './screen/Register';
 import ForgotPassword from './screen/forgotPassword/ForgotPassword';
+import VerifyOTP from './screen/forgotPassword/VerifyOTP';
+import NewPassword from './screen/forgotPassword/NewPassword';
 
 const Stack = createNativeStackNavigator();
 
@@ -22,7 +24,9 @@ const App = () => {
   return (
     <>
       <View style={styles.container}>
-        <ForgotPassword />
+        {/* <ForgotPassword /> */}
+        {/* <VerifyOTP/> */}
+        <NewPassword />
       </View>
     </>
     // <NavigationContainer>
