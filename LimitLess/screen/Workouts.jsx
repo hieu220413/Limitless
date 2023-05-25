@@ -11,41 +11,42 @@ import Header from '../component/Header';
 
 
 const Stack = createNativeStackNavigator();
-const Workouts = () => {
+const Workouts = (props) => {
     var userFullName = 'Anh Khoa';
+    const {navigation,route} = props
     const time = ['Morning', 'Afternoon', 'Evening'];
     const DATA = [
         {
             id: '1',
-            url: 'https://drive.google.com/uc?export=view&id=12flrjOCJm27ywCDk5QLaC8hnM_cWRInf',
+            url: require('../image/workout1.png'),
             name: 'Arm Workout',
             level: 'Beginner',
             time: 10
         },
         {
             id: '2',
-            url: 'https://drive.google.com/uc?export=view&id=1acuudDHiSkC62sv71wjmcNnXpH-wfNkz',
+            url: require('../image/workout2.png'),
             name: 'Chest Workout',
             level: 'Beginner',
             time: 12
         },
         {
             id: '3',
-            url: 'https://drive.google.com/uc?export=view&id=16cJPE7RPENKN3P-dGeGGzHbltvtOSrA4',
+            url: require('../image/workout3.png'),
             name: 'Leg Workout',
             level: 'Beginner',
             time: 20
         },
         {
             id: '4',
-            url: 'https://drive.google.com/uc?export=view&id=16oYazh304-TOvtFQ8C0sCqq15r24ejuC',
+            url: require('../image/workout4.png'),
             name: 'Push Workout',
             level: 'Beginner',
             time: 6
         },
         {
             id: '5',
-            url: 'https://drive.google.com/uc?export=view&id=1RnbR8vgeJ4KIvHdC59KjPEEsO1iKlh-A',
+            url: require('../image/workout5.png'),
             name: 'Squat Workout',
             level: 'Beginner',
             time: 8
@@ -90,26 +91,27 @@ const Workouts = () => {
                                 }}
                             />))}
                     </View>
-                    <View style={{ width: '100%', height: '88%', marginTop: '2%', alignSelf: 'center', justifyContent: 'center' }}>
+                    <View style={{ width: '100%', height: '92%', marginTop: '2%', alignSelf: 'center', justifyContent: 'center' }}>
                         <FlatList
+                            style={{ width: '100%', alignSelf: 'center' }}
                             showsVerticalScrollIndicator={false}
                             data={DATA}
                             keyExtractor={item => item.id}
                             renderItem={({ item }) => (
-                                <View style={{
-                                    width: 340,
+                                <TouchableOpacity 
+                                onPress={()=> navigation.navigate('Workout Detail',[item])}
+                                style={{
+                                    width: '100%',
                                     height: 120,
                                     borderRadius: 20,
                                     marginTop: 10
                                 }}>
                                     <Image
-                                        source={{
-                                            uri: item.url
-                                        }}
+                                        source={item.url}
                                         key={item.id}
                                         style={{
-                                            width: 340,
-                                            height: 120,
+                                            width: '95%',
+                                            height: '100%',
                                             borderRadius: 30,
                                             alignSelf: 'center',
                                             borderWidth: 1
@@ -124,7 +126,7 @@ const Workouts = () => {
                                         <Text style={{ fontSize: 20, fontWeight: 600, color: 'white' }}>{item.name}</Text>
                                         <Text style={{ color: 'white' }}>{item.time} minutes | {item.level}</Text>
                                     </View>
-                                </View>
+                                </TouchableOpacity>
                             )}
                         />
                     </View>

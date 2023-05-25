@@ -17,21 +17,21 @@ const Workouts = (props) => {
     const DATA = [
         {
             id: '1',
-            url: 'https://drive.google.com/uc?export=view&id=12flrjOCJm27ywCDk5QLaC8hnM_cWRInf',
+            url: require('../image/workout1.png'),
             name: 'Bench Press',
             reps: 5,
             sets: 2
         },
         {
             id: '2',
-            url: 'https://drive.google.com/uc?export=view&id=1acuudDHiSkC62sv71wjmcNnXpH-wfNkz',
+            url: require('../image/workout3.png'),
             name: 'Dumbbell Press',
             reps: 3,
             sets: 3
         },
         {
             id: '3',
-            url: 'https://drive.google.com/uc?export=view&id=16cJPE7RPENKN3P-dGeGGzHbltvtOSrA4',
+            url: require('../image/workout4.png'),
             name: 'Cable Fly',
             reps: 5,
             sets: 4
@@ -51,9 +51,9 @@ const Workouts = (props) => {
                     <Header></Header>
                 </View>
                 <Image
-                    source={{
-                        uri: DATA[0].url
-                    }}
+                    source={
+                        DATA[0].url
+                    }
                     key={DATA[0].id}
                     style={styles.image}
                 />
@@ -115,9 +115,9 @@ const Workouts = (props) => {
                                     flexDirection: 'row'
                                 }}>
                                     <Image
-                                        source={{
-                                            uri: item.url
-                                        }}
+                                        source={
+                                            item.url
+                                        }
                                         key={item.id}
                                         style={{
                                             width: 160,
