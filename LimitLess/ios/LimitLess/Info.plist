@@ -62,6 +62,9 @@
 		<string>FontAwesome.ttf</string>
 		<string>Octicons.ttf</string>
 		<string>MaterialCommunityIcons.ttf</string>
+		<string>FontAwesome5.ttf</string>
+		<string>Fontisto.ttf</string>
+
 	</array>
 </dict>
 </plist>

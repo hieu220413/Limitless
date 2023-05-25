@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import {NavigationContainer} from '@react-navigation/native';
+import {StyleSheet, View} from 'react-native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Levels from './screen/Levels';
 import Gender from './screen/Gender';
 import Old from './screen/Old';
@@ -17,7 +18,12 @@ import EditProfile from './screen/Edit-profile';
 import MainPage from './screen/MainPage';
 import Workouts from './screen/Workouts';
 import Workout_Detail from './screen/Workout-Detail';
+import ForgotPassword from './screen/forgotPassword/ForgotPassword';
+import VerifyOTP from './screen/forgotPassword/VerifyOTP';
+import NewPassword from './screen/forgotPassword/NewPassword';
+
 const Stack = createNativeStackNavigator();
+
 const App = () => {
   return (
     <NavigationContainer>
@@ -42,5 +48,11 @@ const App = () => {
     </NavigationContainer>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+});
 
 export default App;
