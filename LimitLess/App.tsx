@@ -15,7 +15,9 @@ import SettingMenu from './screen/Setting-menu';
 import Register from './screen/Register';
 import EditProfile from './screen/Edit-profile';
 import MainPage from './screen/MainPage';
+import { LogBox } from 'react-native';
 
+LogBox.ignoreLogs(['new NativeEventEmitter']); // Ignore log notification by message
 
 const Stack = createNativeStackNavigator();
 const App = () => {
