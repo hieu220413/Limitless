@@ -12,14 +12,16 @@ import {
     Switch,
     Image,
     ImageBackground,
-    NativeEventEmitter
+    NativeEventEmitter,
+    Modal,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import VnpayMerchant, { VnpayMerchantModule } from '../../react-native-vnpay-merchant'
+import Icon from 'react-native-vector-icons/AntDesign'
 
 const eventEmitter = new NativeEventEmitter(VnpayMerchantModule);
 
-const vnpayCall = async () => {
+const vnpayCall = async (setModalVisible) => {
     // mở sdk
     eventEmitter.addListener('PaymentBack', (e) => {
         console.log('Sdk back!')
@@ -45,6 +47,10 @@ const vnpayCall = async () => {
                 //resultCode == 97
                 //vi: thanh toán thành công trên webview
                 //en: payment success
+                case 97:
+                    setModalVisible(true)
+                    break;
+
             }
 
             // khi tắt sdk
@@ -107,16 +113,16 @@ const vnpayCall = async () => {
 
     console.log(JSON.stringify(fields))
 
-    const vnp_TxnRef = fields.vnp_TxnRef 
-    const vnp_CreateDate = fields.vnp_CreateDate 
+    const vnp_TxnRef = fields.vnp_TxnRef
+    const vnp_CreateDate = fields.vnp_CreateDate
 
     console.log(JSON.stringify(vnp_TxnRef))
     console.log(JSON.stringify(vnp_CreateDate))
 
-    
+
     // vnp_Amount=15000000&vnp_BankCode=MBAPP&vnp_Command=pay&vnp_CreateDate=20210225130220&vnp_CurrCode=VND&vnp_Locale=vn&vnp_OrderInfo=TEST%20BAEMIN%20ORDER&vnp_TmnCode=BAEMIN01&vnp_TxnRef=130220&vnp_Version=2.0.0
 
-    const queryParamsFirstHalf = `vnp_Amount=${vnp_Amount*100}&vnp_Command=${vnp_Command}&vnp_CreateDate=${vnp_CreateDate}&vnp_CurrCode=${vnp_CurrCode}&vnp_IpAddr=${vnp_IpAddr}&` //vnp_IpAddr=${vnp_IpAddr}&
+    const queryParamsFirstHalf = `vnp_Amount=${vnp_Amount * 100}&vnp_Command=${vnp_Command}&vnp_CreateDate=${vnp_CreateDate}&vnp_CurrCode=${vnp_CurrCode}&vnp_IpAddr=${vnp_IpAddr}&` //vnp_IpAddr=${vnp_IpAddr}&
     const queryParamsSecondHalf = `vnp_Locale=${vnp_Locale}&vnp_OrderInfo=${encodeURIComponent(vnp_OrderInfo)}&vnp_ReturnUrl=${encodeURIComponent(vnp_ReturnUrl)}&`// vnp_ReturnUrl=${encodeURIComponent(vnp_ReturnUrl)}&
     const queryParamsThirdHalf = `vnp_TmnCode=${vnp_TmnCode}&vnp_TxnRef=${vnp_TxnRef}&vnp_Version=${vpn_Version}`
 
@@ -141,8 +147,34 @@ const vnpayCall = async () => {
 }
 
 const PremiumSubscribe = () => {
+    const [modalVisible, setModalVisible] = useState(false);
     return (
         <ImageBackground style={styles.imageBackgroundStyle} imageStyle={styles.imageStyle} source={require('../../image/premium-background.jpg')}>
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={() => {
+                    setModalVisible(!modalVisible);
+                }}>
+                <View style={styles.centeredView}>
+                    <View style={styles.modalView}>
+                        <View style={{alignContent: 'center', alignItems: 'center', rowGap: 25}}>
+                            <Icon name='checkcircle' size={100} color={'lightgreen'}></Icon>
+                            <Text style={{fontSize: 20}}>Payment Successful!</Text>
+                        </View>
+
+                        <TouchableHighlight style={styles.buttonPaymentStyle} underlayColor="#461CF0" onPress={() => setModalVisible(!modalVisible)}>
+                            <Text style={styles.buttonTextStyle}>Close</Text>
+                        </TouchableHighlight>
+                        {/* <TouchableOpacity
+                            style={[styles.button, styles.buttonClose]}
+                            onPress={() => setModalVisible(!modalVisible)}>
+                            <Text style={styles.textStyle}>Hide Modal</Text>
+                        </TouchableOpacity> */}
+                    </View>
+                </View>
+            </Modal>
             <LinearGradient
                 colors={['rgba(255, 255, 255, 0.3)', 'rgba(255, 255, 255, 0.4)', 'rgba(255, 255, 255, 1)']}
                 style={{ height: '100%', width: '100%' }}>
@@ -153,7 +185,7 @@ const PremiumSubscribe = () => {
                         <Text style={styles.subTitleSytle}>Get Unlimited Access</Text>
                         <Text style={styles.descriptionStyle}>Enjoy workout access without ads and restrictions</Text>
                     </View>
-                    <TouchableHighlight style={styles.buttonStyle} underlayColor="#461CF0" onPress={() => { vnpayCall() }}>
+                    <TouchableHighlight style={styles.buttonStyle} underlayColor="#461CF0" onPress={() => { vnpayCall(setModalVisible) }}>
                         <Text style={styles.buttonTextStyle}>Subscribe</Text>
                     </TouchableHighlight>
                 </View>
@@ -210,7 +242,54 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         textAlign: 'center',
         fontSize: 15
-    }
+    },
+
+    // modal
+    centeredView: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    modalView: {
+        height: '50%',
+        width: '65%',
+        justifyContent: 'space-between',
+        margin: 20,
+        backgroundColor: 'white',
+        borderRadius: 20,
+        padding: 30,
+        alignItems: 'center',
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5,
+    },
+    buttonPaymentStyle: {
+        width: '100%',
+        borderRadius: 20,
+        padding: 15,
+        elevation: 2,
+        backgroundColor: '#461CF0',
+    },
+    buttonOpen: {
+        backgroundColor: '#F194FF',
+    },
+    buttonClose: {
+        backgroundColor: '#2196F3',
+    },
+    textStyle: {
+        color: 'white',
+        fontWeight: 'bold',
+        textAlign: 'center',
+    },
+    modalText: {
+        marginBottom: 15,
+        textAlign: 'center',
+    },
 })
 
 export default PremiumSubscribe 
