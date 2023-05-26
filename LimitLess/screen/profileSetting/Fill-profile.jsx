@@ -47,11 +47,11 @@ const FillProfile = ({ navigation }) => {
                 </View>
 
                 <View style={styles.buttonGroupStyle}>
-                    <TouchableOpacity style={[styles.buttonStyle, { flex: 1 }, { backgroundColor: '#D8CAFF', }]} activeOpacity={0.8}>
-                        <Text style={[{ color: '#461CF0' }, styles.textButtonStyle]}>Skip</Text>
+                    <TouchableOpacity style={[styles.buttonStyle, { flex: 1 }, { backgroundColor: '#D8CAFF', }]} activeOpacity={0.8} onPress={()=> navigation.goBack()}>
+                        <Text style={[{ color: '#461CF0' }, styles.textButtonStyle]}>Back</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={[styles.buttonStyle, { flex: 1 }, { backgroundColor: '#461CF0', }]} activeOpacity={0.8} onPress={() => { navigation.navigate('Main') }}>
-                        <Text style={[{ color: '#FFFFFF' }, styles.textButtonStyle]}>Start</Text>
+                        <Text style={[{ color: '#FFFFFF' }, styles.textButtonStyle]}>Skip</Text>
                     </TouchableOpacity>
                 </View>
             </SignInUpLayoutBody>
@@ -97,7 +97,8 @@ const styles = StyleSheet.create({
     buttonStyle: {
         borderRadius: 20,
         paddingHorizontal: 15,
-        paddingVertical: 15
+        paddingVertical: 15,
+        margin:'2%'
     },
     textButtonStyle: {
         textAlign: 'center',

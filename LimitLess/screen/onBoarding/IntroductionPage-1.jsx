@@ -28,7 +28,7 @@ const IntroductionPage_1 = (props) => {
       <Ionicons name="barbell-sharp" style={styles.icon} />
       <ActivityIndicator
         style={styles.indicator}
-        size="large"
+        size= 'large'
         color="rgba(255,255,255,1)"
         animating={animate}
       />
@@ -44,14 +44,15 @@ const styles = StyleSheet.create({
   icon: {
     position: 'absolute',
     color: 'rgba(255,255,255,1)',
-    fontSize: 150,
+    fontSize: 200,
     padding: 117,
-    top: 60,
+    top: '30%',
     transform: [{rotate: '-30deg'}],
+    alignSelf:'center'
   },
   indicator: {
     padding: 100,
-    top: 470,
+    bottom: '-250%'
   },
 });
 export default IntroductionPage_1;

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   ImageBackground,
   View,
@@ -59,7 +59,14 @@ const styles = StyleSheet.create({
     color: 'rgba(255,255,255,1)',
     fontSize: 50,
     left: 2,
-    transform: [{rotate: '-30deg'}],
+    transform: [{ rotate: '-30deg' }],
+    zIndex: 50,
+    shadowOpacity: 0.4,
+    shadowColor: 'black',
+    shadowOffset: {
+      width: 0,
+      height: 3
+    }
   },
   outline: {
     top: 90,

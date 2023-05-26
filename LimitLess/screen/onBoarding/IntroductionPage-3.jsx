@@ -60,7 +60,7 @@ export default function IntroductionPage_3(props) {
         buttonStyle={{
           backgroundColor: '#461CF0BF',
           borderRadius: 25,
-          height: 38,
+          height: 43,
           borderColor: 'black',
           borderWidth: 1,
         }}
