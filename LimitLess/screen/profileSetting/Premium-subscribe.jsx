@@ -15,7 +15,7 @@ import {
     NativeEventEmitter
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import VnpayMerchant, { VnpayMerchantModule } from '../react-native-vnpay-merchant'
+import VnpayMerchant, { VnpayMerchantModule } from '../../react-native-vnpay-merchant'
 
 const eventEmitter = new NativeEventEmitter(VnpayMerchantModule);
 
