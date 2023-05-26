@@ -95,7 +95,7 @@ const Workouts = (props) => {
                     <View
                         style={{
                             width: '100%',
-                            height: '78%',
+                            height: '75%',
                             marginTop: '2%',
                             marginLeft: '9%',
                             marginRight: '1%',
@@ -107,7 +107,9 @@ const Workouts = (props) => {
                             data={DATA}
                             keyExtractor={item => item.id}
                             renderItem={({ item }) => (
-                                <View style={{
+                                <TouchableOpacity 
+                                onPress={()=> props.navigation.navigate('Exercise')}
+                                style={{
                                     width: 340,
                                     height: 120,
                                     borderRadius: 20,
@@ -136,7 +138,7 @@ const Workouts = (props) => {
                                         <Text style={{ fontSize: 20, fontWeight: 400 }}>{item.name}</Text>
                                         <Text style={{ fontSize: 15, fontWeight: 200 }}>{item.sets} sets of {item.reps} reps</Text>
                                     </View>
-                                </View>
+                                </TouchableOpacity>
                             )}
                         />
                     </View>
