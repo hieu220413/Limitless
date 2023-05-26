@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
 import IconAnt from 'react-native-vector-icons/AntDesign';
 import { AvoidSoftInputView } from 'react-native-avoid-softinput';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export const SignInUpLayoutBody = (props) => {
     return (
@@ -14,7 +15,7 @@ export const SignInUpLayoutBody = (props) => {
 
 export const SignInUpLayout = (props) => {
     return (
-        <View style={styles.LayoutStyle}>
+        <SafeAreaView style={styles.LayoutStyle}>
             <View style={{flexDirection:'row', alignItems: 'center'}}>
                 {/* <TouchableOpacity>
                     <IconAnt name='arrowleft' size={25} color="#050708"></IconAnt>
@@ -23,7 +24,7 @@ export const SignInUpLayout = (props) => {
             </View>
 
             {props.children}
-        </View>
+        </SafeAreaView>
     )
 }
 
