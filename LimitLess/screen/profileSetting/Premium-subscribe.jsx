@@ -17,7 +17,7 @@ import LinearGradient from 'react-native-linear-gradient';
 
 const PremiumSubscribe = () => {
     return (
-        <ImageBackground style={styles.imageBackgroundStyle} imageStyle={styles.imageStyle} source={require('../image/premium-background.jpg')}>
+        <ImageBackground style={styles.imageBackgroundStyle} imageStyle={styles.imageStyle} source={require('../../image/premium-background.jpg')}>
             <LinearGradient
                 colors={['rgba(255, 255, 255, 0.3)', 'rgba(255, 255, 255, 0.4)', 'rgba(255, 255, 255, 1)']}
                 style={{ height: '100%', width: '100%' }}>

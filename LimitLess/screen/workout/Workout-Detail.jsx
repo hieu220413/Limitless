@@ -6,8 +6,8 @@ import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useState } from "react";
 import { Button } from '@rneui/themed';
-import Footer from '../component/Footer';
-import Header from '../component/Header';
+import Footer from '../../component/Footer';
+import Header from '../../component/Header';
 
 
 const Stack = createNativeStackNavigator();
@@ -17,21 +17,21 @@ const Workouts = (props) => {
     const DATA = [
         {
             id: '1',
-            url: require('../image/workout1.png'),
+            url: require('../../image/workout1.png'),
             name: 'Bench Press',
             reps: 5,
             sets: 2
         },
         {
             id: '2',
-            url: require('../image/workout3.png'),
+            url: require('../../image/workout3.png'),
             name: 'Dumbbell Press',
             reps: 3,
             sets: 3
         },
         {
             id: '3',
-            url: require('../image/workout4.png'),
+            url: require('../../image/workout4.png'),
             name: 'Cable Fly',
             reps: 5,
             sets: 4

@@ -18,7 +18,7 @@ import Icon from 'react-native-vector-icons/AntDesign';
 import IconOcticons from 'react-native-vector-icons/Octicons'
 import IconFeather from 'react-native-vector-icons/Feather'
 import IconFontAwesome5 from 'react-native-vector-icons/FontAwesome5'
-import Footer from '../component/Footer';
+import Footer from '../../component/Footer';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const SettingMenu = ({ navigation }) => {

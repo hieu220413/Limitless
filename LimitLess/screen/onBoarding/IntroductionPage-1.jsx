@@ -10,9 +10,8 @@ import {
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-const Screen1 = () => {
+const IntroductionPage_1 = (props) => {
   const [animate, setAnimate] = useState(true);
-
   useEffect(() => {
     closeActivityIndicator();
   }, []);
@@ -20,7 +19,8 @@ const Screen1 = () => {
   const closeActivityIndicator = () => {
     setTimeout(() => {
       setAnimate(false);
-    }, 5000);
+      props.navigation.navigate('Intro2');
+    }, 4000);
   };
 
   return (
@@ -54,4 +54,4 @@ const styles = StyleSheet.create({
     top: 470,
   },
 });
-export default Screen1;
+export default IntroductionPage_1;

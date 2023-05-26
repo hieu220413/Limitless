@@ -1,7 +1,7 @@
 import { StyleSheet, View, Text, TouchableOpacity, ScrollView, StatusBar } from "react-native";
 import Svg, { Ellipse } from "react-native-svg";
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import CupertinoButtonPurple from "../component/CupertinoButtonPurple";
+import CupertinoButtonPurple from "../../component/CupertinoButtonPurple";
 import { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 

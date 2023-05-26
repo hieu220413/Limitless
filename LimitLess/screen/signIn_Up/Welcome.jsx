@@ -2,12 +2,13 @@ import 'react-native';
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, TouchableHighlight } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 
 
 const Welcome = ({navigation}) => {
     return (
-        <View style={styles.LayoutStyle}>
+        <SafeAreaView style={styles.LayoutStyle}>
             <Text style={styles.titleStyle}>Welcome!</Text>
             <Text style={styles.subTitleStyle}>Let's go fit!</Text>
             <View style={styles.buttonLoginWithGroupStyle}>
@@ -46,7 +47,7 @@ const Welcome = ({navigation}) => {
                     <TouchableOpacity onPress={() => { navigation.navigate('Register') }}><Text style={{fontWeight: 'bold', fontSize: 18}}>Sign up</Text></TouchableOpacity>
                 </View>
             </View>
-        </View>
+        </SafeAreaView>
     )
 }
 

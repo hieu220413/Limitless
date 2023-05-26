@@ -10,8 +10,13 @@ import {
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-const Screen2 = () => {
+const IntroductionPage_2 = (props) => {
   const image = require('../assets/image/gym.png');
+  useEffect(() => {
+    setTimeout(() => {
+      props.navigation.navigate('Intro3');
+    }, 2000);
+  }, []);
   return (
     <>
       <ImageBackground
@@ -70,4 +75,4 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
-export default Screen2;
+export default IntroductionPage_2;

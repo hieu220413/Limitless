@@ -6,8 +6,8 @@ import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useState } from "react";
 import { Button } from '@rneui/themed';
-import Footer from '../component/Footer';
-import Header from '../component/Header';
+import Footer from '../../component/Footer';
+import Header from '../../component/Header';
 
 
 const Stack = createNativeStackNavigator();
@@ -18,35 +18,35 @@ const Workouts = (props) => {
     const DATA = [
         {
             id: '1',
-            url: require('../image/workout1.png'),
+            url: require('../../image/workout1.png'),
             name: 'Arm Workout',
             level: 'Beginner',
             time: 10
         },
         {
             id: '2',
-            url: require('../image/workout2.png'),
+            url: require('../../image/workout2.png'),
             name: 'Chest Workout',
             level: 'Beginner',
             time: 12
         },
         {
             id: '3',
-            url: require('../image/workout3.png'),
+            url: require('../../image/workout3.png'),
             name: 'Leg Workout',
             level: 'Beginner',
             time: 20
         },
         {
             id: '4',
-            url: require('../image/workout4.png'),
+            url: require('../../image/workout4.png'),
             name: 'Push Workout',
             level: 'Beginner',
             time: 6
         },
         {
             id: '5',
-            url: require('../image/workout5.png'),
+            url: require('../../image/workout5.png'),
             name: 'Squat Workout',
             level: 'Beginner',
             time: 8

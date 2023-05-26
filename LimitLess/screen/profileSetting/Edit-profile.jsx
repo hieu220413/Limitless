@@ -12,7 +12,7 @@ import {
     Switch,
     Image
 } from 'react-native';
-import { SignInUpLayout, SignInUpLayoutBody } from '../component/Authen-layout';
+import { SignInUpLayout, SignInUpLayoutBody } from '../../component/Authen-layout';
 import { useFocusEffect } from '@react-navigation/native';
 import { AvoidSoftInput } from 'react-native-avoid-softinput';
 import DatePicker from 'react-native-date-picker';
