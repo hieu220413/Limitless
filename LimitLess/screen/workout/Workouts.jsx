@@ -91,7 +91,7 @@ const Workouts = (props) => {
                                 }}
                             />))}
                     </View>
-                    <View style={{ width: '100%', height: '92%', marginTop: '2%', alignSelf: 'center', justifyContent: 'center' }}>
+                    <View style={{ width: '100%', height: '90%', marginTop: '2%', alignSelf: 'center', justifyContent: 'center' }}>
                         <FlatList
                             style={{ width: '100%', alignSelf: 'center' }}
                             showsVerticalScrollIndicator={false}
