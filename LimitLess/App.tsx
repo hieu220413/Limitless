@@ -24,6 +24,9 @@ import Workout_Detail from './screen/workout/Workout-Detail';
 import ForgotPassword from './screen/forgotPassword/ForgotPassword';
 import VerifyOTP from './screen/forgotPassword/VerifyOTP';
 import NewPassword from './screen/forgotPassword/NewPassword';
+import { LogBox } from 'react-native';
+
+LogBox.ignoreLogs(['new NativeEventEmitter']); // Ignore log notification by message
 
 const Stack = createNativeStackNavigator();
 
