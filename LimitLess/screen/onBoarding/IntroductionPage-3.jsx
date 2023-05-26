@@ -25,7 +25,7 @@ export default function IntroductionPage_3(props) {
         return (index = 0);
       }
     }, 3000);
-    setTimeout(() => { clearInterval(slideScroll); }, 10000);
+    setTimeout(() => { clearInterval(slideScroll); }, 9000);
   }, []);
   return (
     <View style={styles.container}>

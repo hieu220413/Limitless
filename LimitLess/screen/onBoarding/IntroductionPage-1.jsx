@@ -20,7 +20,7 @@ const IntroductionPage_1 = (props) => {
     setTimeout(() => {
       setAnimate(false);
       props.navigation.navigate('Intro2');
-    }, 4000);
+    }, 3000);
   };
 
   return (
