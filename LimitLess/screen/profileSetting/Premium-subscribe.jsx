@@ -18,10 +18,12 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import VnpayMerchant, { VnpayMerchantModule } from '../../react-native-vnpay-merchant'
 import Icon from 'react-native-vector-icons/AntDesign'
+import { useFocusEffect } from '@react-navigation/native';
 
 const eventEmitter = new NativeEventEmitter(VnpayMerchantModule);
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const vnpayCall = async (setModalVisible) => {
+const vnpayCall = async (setModalVisible, setIsPremiumUser) => {
     // mở sdk
     eventEmitter.addListener('PaymentBack', (e) => {
         console.log('Sdk back!')
@@ -48,6 +50,8 @@ const vnpayCall = async (setModalVisible) => {
                 //vi: thanh toán thành công trên webview
                 //en: payment success
                 case 97:
+                    console.log('payment successe')
+                    setIsPremiumUser(true)
                     setModalVisible(true)
                     break;
 
@@ -58,43 +62,11 @@ const vnpayCall = async (setModalVisible) => {
         }
     })
 
-    // VnpayMerchant.show({
-    //   iconBackName: 'ic_back',
-    //   paymentUrl: 'https://sandbox.vnpayment.vn/testsdk',
-    //   scheme: 'sampleapp',
-    //   tmn_code: 'FAHASA03',
-    // })
-    // VnpayMerchant.show({
-    //   iconBackName: 'ic_back',
-    //   paymentUrl: 'https://sandbox.vnpayment.vn/paymentv2/vpcpay.html?vnp_Amount=15000000&vnp_Command=pay&vnp_CreateDate=20210225130220&vnp_CurrCode=VND&vnp_Locale=vn&vnp_OrderInfo=TEST%20BAEMIN%20ORDER&vnp_TmnCode=BAEMIN01&vnp_TxnRef=130220&vnp_Version=2.0.0&vnp_SecureHashType=SHA256&vnp_SecureHash=c7d9dedc25b304c961bd9a5c6ae21cb604700193ecb6b67ed871c1d084a462f4',
-    //   scheme: 'swing',
-    //   tmn_code: 'BAEMIN01',
-    //   title: 'payment'
-    // })
-    // VnpayMerchant.show({
-    //   iconBackName: 'ic_back',
-    //   // paymentUrl: 'https://sandbox.vnpayment.vn/paymentv2/vpcpay.html?vnp_Amount=15000000&vnp_BankCode=MBAPP&vnp_Command=pay&vnp_CreateDate=20210225130220&vnp_CurrCode=VND&vnp_Locale=vn&vnp_OrderInfo=TEST%20BAEMIN%20ORDER&vnp_TmnCode=BAEMIN01&vnp_TxnRef=130220&vnp_Version=2.0.0&vnp_SecureHashType=SHA256&vnp_SecureHash=129664d02f0852765c8ade75b3fcca644bd0bfb26ceeb64b576e672c17f2cba1',
-    //   paymentUrl: 'https://sandbox.vnpayment.vn/testsdk/',
-    //   scheme: 'swing',
-    //   tmn_code: 'BAEMIN01',
-    //   title: 'tittlelelelel',
-    //   beginColor: '#ffffff',
-    //   endColor: '#ffffff', //6 ký tự.
-    //   titleColor: '#000000'
-    // })
-
-    // VnpayMerchant.show({
-    //   isSandbox: true,
-    //   paymentUrl: 'https://sandbox.vnpayment.vn/testsdk',
-    //   tmn_code: 'FAHASA03',
-    //   backAlert: 'Bạn có chắc chắn trở lại ko?',
-    //   title: 'VNPAY',
-    //   iconBackName: 'ic_close',
-    //   beginColor: 'ffffff',
-    //   endColor: 'ffffff',
-    //   titleColor: '000000',
-    //   scheme: 'swing'
-    // });
+    let userId = 'null'
+    const user_info = await AsyncStorage.getItem('user_info')
+    if (user_info != null) {
+        userId = JSON.parse(user_info).userId
+    }
 
     const vnp_HashSecret = 'CZQRWKJUMKNIUPGECAIOTTBLXOJAIMFM'
     const vpn_Version = '2.1.0'
@@ -105,9 +77,9 @@ const vnpayCall = async (setModalVisible) => {
     const vnp_IpAddr = '127.0.0.1'
     const vnp_Locale = 'vn'
     const vnp_OrderInfo = 'Nangcappremiumfitness'
-    const vnp_ReturnUrl = 'http://10.0.2.2:8080/api/vnpay/transaction/result' // http://success.sdk.merchantbackapp/
+    const vnp_ReturnUrl = `http://10.0.2.2:8080/api/vnpay/transaction/${userId}/result` // http://success.sdk.merchantbackapp/
 
-    const fields = await fetch(`http://10.0.2.2:8080/api/vnpay/transaction/getImportantFields?orderInfo=Nangcappremiumfitness&amount=${vnp_Amount}`)
+    const fields = await fetch(`http://10.0.2.2:8080/api/vnpay/transaction/getImportantFields?orderInfo=Nangcappremiumfitness&amount=${vnp_Amount}&userId=${userId}`)
         .then(response => response.json())
         .then(json => json)
 
@@ -147,7 +119,37 @@ const vnpayCall = async (setModalVisible) => {
 }
 
 const PremiumSubscribe = () => {
+
     const [modalVisible, setModalVisible] = useState(false);
+    const [isPremiumUser, setIsPremiumUser] = useState(false)
+    useFocusEffect(
+        React.useCallback(() => {
+            // Do something when the screen is focused
+            const checkPremium = async () => {
+                let userId = ''
+                const user_info = await AsyncStorage.getItem('user_info')
+                if (user_info != null) {
+                    userId = JSON.parse(user_info).userId
+                    console.log(userId)
+                } else {
+                    //redirect to welcomepage
+                }
+                const checkResult = await fetch(`http://10.0.2.2:8080/api/subscription/checkActiveSubscription?userId=${userId}`).then(response => response.json()).then(json => json)
+                console.log(checkResult)
+                if (checkResult.isPremium) {
+                    console.log(checkResult.isPremium)
+                    setIsPremiumUser(checkResult.isPremium)
+                }
+            }
+            checkPremium()
+
+            return () => {
+                // Do something when the screen is unfocused
+                // Useful for cleanup functions
+            };
+        }, [])
+    );
+
     return (
         <ImageBackground style={styles.imageBackgroundStyle} imageStyle={styles.imageStyle} source={require('../../image/premium-background.jpg')}>
             <Modal
@@ -159,9 +161,9 @@ const PremiumSubscribe = () => {
                 }}>
                 <View style={styles.centeredView}>
                     <View style={styles.modalView}>
-                        <View style={{alignContent: 'center', alignItems: 'center', rowGap: 25}}>
+                        <View style={{ alignContent: 'center', alignItems: 'center', rowGap: 25 }}>
                             <Icon name='checkcircle' size={100} color={'lightgreen'}></Icon>
-                            <Text style={{fontSize: 20}}>Payment Successful!</Text>
+                            <Text style={{ fontSize: 20 }}>Payment Successful!</Text>
                         </View>
 
                         <TouchableHighlight style={styles.buttonPaymentStyle} underlayColor="#461CF0" onPress={() => setModalVisible(!modalVisible)}>
@@ -185,8 +187,8 @@ const PremiumSubscribe = () => {
                         <Text style={styles.subTitleSytle}>Get Unlimited Access</Text>
                         <Text style={styles.descriptionStyle}>Enjoy workout access without ads and restrictions</Text>
                     </View>
-                    <TouchableHighlight style={styles.buttonStyle} underlayColor="#461CF0" onPress={() => { vnpayCall(setModalVisible) }}>
-                        <Text style={styles.buttonTextStyle}>Subscribe</Text>
+                    <TouchableHighlight style={[styles.buttonStyle, isPremiumUser && {opacity: 0.7}]} underlayColor="#461CF0" onPress={() => { vnpayCall(setModalVisible, setIsPremiumUser) }} disabled={isPremiumUser}>
+                        <Text style={styles.buttonTextStyle}>{isPremiumUser ? 'Already subscribed' : 'Subscribe'}</Text>
                     </TouchableHighlight>
                 </View>
             </LinearGradient>

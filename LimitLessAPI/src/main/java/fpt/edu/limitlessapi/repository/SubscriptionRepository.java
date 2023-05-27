@@ -10,6 +10,6 @@ import java.util.UUID;
 @Repository
 public interface SubscriptionRepository extends JpaRepository<Subscription, UUID> {
 
-    @Query("SELECT sub FROM Subscription sub WHERE sub.endDate > CURRENT_TIMESTAMP")
-    Subscription findActiveSubscription();
+    @Query("SELECT sub FROM Subscription sub WHERE sub.user.userId = :userId AND sub.endDate > CURRENT_TIMESTAMP")
+    Subscription findActiveSubscription(UUID userId);
 }
