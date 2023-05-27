@@ -44,7 +44,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
             throw new InvalidSubscriptionInputException("UNPROCESSABLE_ENTITY", errorFields);
         }
 
-        if(subscriptionRepository.findActiveSubscription() != null){
+        if(subscriptionRepository.findActiveSubscription(UUID.fromString(userEntity.get().getUserId().toString())) != null){
             throw new DuplicateSubscriptionException("FORBIDDEN");
         }
 
@@ -60,5 +60,16 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         Subscription subscriptionSaved = subscriptionRepository.save(subscription);
         SubscriptionResponseBody subscriptionResponseBody = new SubscriptionResponseBody(subscriptionSaved);
         return subscriptionResponseBody;
+    }
+
+    @Override
+    public HashMap checkActiveSubscription(String userId) {
+        HashMap result = new HashMap();
+        if(subscriptionRepository.findActiveSubscription(UUID.fromString(userId)) != null) {
+            result.put("isPremium", true);
+            return result;
+        }
+        result.put("isPremium", false);
+        return result;
     }
 }

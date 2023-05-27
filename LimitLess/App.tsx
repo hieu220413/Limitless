@@ -34,11 +34,11 @@ const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen name='Welcome' component={Welcome} />
         <Stack.Screen name='Exercise' component={Exercise} />
         <Stack.Screen name='Intro1' component={IntroductionPage_1} />
         <Stack.Screen name='Intro2' component={IntroductionPage_2} />
         <Stack.Screen name='Intro3' component={IntroductionPage_3} />
-        <Stack.Screen name='Welcome' component={Welcome} />
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name='Register' component={Register} />
         <Stack.Screen name="Gender" component={Gender} />
