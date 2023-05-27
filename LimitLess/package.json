@@ -10,6 +10,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@react-native-async-storage/async-storage": "^1.18.1",
     "@react-native-masked-view/masked-view": "^0.2.9",
     "@react-navigation/native": "^6.1.6",
     "@react-navigation/native-stack": "^6.9.12",
@@ -27,8 +28,8 @@
     "react-native-select-dropdown": "^3.3.3",
     "react-native-svg": "^13.9.0",
     "react-native-vector-icons": "^9.2.0",
-    "react-native-vnpay-merchant": "file:react-native-vnpay-merchant",
     "react-native-video": "^5.2.1",
+    "react-native-vnpay-merchant": "file:react-native-vnpay-merchant",
     "styled-components": "^5.3.10"
   },
   "devDependencies": {
