@@ -1,10 +1,14 @@
 package fpt.edu.limitlessapi.controller;
 
+import fpt.edu.limitlessapi.entity.Subscription;
+import fpt.edu.limitlessapi.entity.Users;
+import fpt.edu.limitlessapi.exception.UserNotFoundException;
+import fpt.edu.limitlessapi.model.SubscriptionResponseBody;
+import fpt.edu.limitlessapi.repository.SubscriptionRepository;
+import fpt.edu.limitlessapi.repository.UserRepository;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.crypto.Mac;
@@ -21,10 +25,13 @@ import java.util.*;
 @RequestMapping("/api/vnpay")
 @Log4j2
 public class PaymentController {
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private SubscriptionRepository subscriptionRepository;
 
-    @RequestMapping(value = "/transaction/result", method = RequestMethod.GET)
-    public RedirectView transactionResult(@RequestParam Map<String,String> allRequestParams) {
-
+    @RequestMapping(value = "/transaction/{userId}/result", method = RequestMethod.GET)
+    public RedirectView transactionResult(@RequestParam Map<String,String> allRequestParams, @PathVariable String userId) {
         String vnp_SecureHash = "";
         String vnp_HashSecret = "CZQRWKJUMKNIUPGECAIOTTBLXOJAIMFM";
         if (allRequestParams.containsKey("vnp_SecureHashType")) {
@@ -40,11 +47,35 @@ public class PaymentController {
         if (signValue.equals(vnp_SecureHash)) {
             if ("00".equals(allRequestParams.get("vnp_ResponseCode"))) {
                 log.info("success");
-                return  new RedirectView("http://success.sdk.merchantbackapp/");
-            } else {
-                log.error("GD Khong thanh cong");
-                return  new RedirectView("http://fail.sdk.merchantbackapp/");
+                Optional<Users> userEntity =  userRepository.findById(UUID.fromString(userId));
+
+                if(!userEntity.isPresent()){
+                    throw new UserNotFoundException("NOT_FOUND");
+                }
+//                LocalDateTime startDate = LocalDateTime.now().withNano(0);
+//                LocalDateTime endDate = startDate.plusMonths(subscriptionRequestBody.getDuration());
+                String price  = allRequestParams.get("vnp_Amount");
+                String transactionDateTime = allRequestParams.get("vnp_PayDate");
+                String year = transactionDateTime.substring(0,4);
+                String month = transactionDateTime.substring(4,6);
+                String date = transactionDateTime.substring(6,8);
+                String hour = transactionDateTime.substring(8,10);
+                String minute = transactionDateTime.substring(10,12);
+                String second = transactionDateTime.substring(12,14);
+                LocalDateTime transactionLocalDateTime = LocalDateTime.parse(""+ year + "-" + month + "-" + date + "T" + hour + ":" + minute + ":" + second );
+                Subscription subscription = Subscription.builder()
+                        .price(Integer.parseInt(price.substring(0, price.length()-1-1)))
+                        .startDate(transactionLocalDateTime)
+                        .endDate(transactionLocalDateTime.plusMonths(1))
+                        .user(userEntity.get())
+                        .build();
+                Subscription subscriptionSaved = subscriptionRepository.save(subscription);
+                if(subscriptionSaved != null){
+                    return  new RedirectView("http://success.sdk.merchantbackapp/");
+                }
             }
+            log.error("GD Khong thanh cong");
+            return  new RedirectView("http://fail.sdk.merchantbackapp/");
 
         } else {
             log.error("Chu ky khong hop le");
@@ -53,7 +84,7 @@ public class PaymentController {
     }
 
     @RequestMapping(value = "/transaction/getImportantFields", method = RequestMethod.GET)
-    public HashMap getImportantFields(@RequestParam String orderInfo, @RequestParam int amount){
+    public HashMap getImportantFields(@RequestParam String orderInfo, @RequestParam int amount, @RequestParam String userId){
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("YYYYMMddHHmmss");
         LocalDateTime today = LocalDateTime.now();
         String vpn_Version = "2.1.0";
@@ -62,7 +93,7 @@ public class PaymentController {
         String vnp_CurrCode = "VND";
         String vnp_IpAddr = "127.0.0.1";
         String vnp_Locale = "vn";
-        String vnp_ReturnUrl = "http://10.0.2.2:8080/api/vnpay/transaction/result"; //http://success.sdk.merchantbackapp/
+        String vnp_ReturnUrl = "http://10.0.2.2:8080/api/vnpay/transaction/" + userId + "/result"; //http://success.sdk.merchantbackapp/
         String vnp_OrderInfo = orderInfo;
         int vnp_Amount = amount*100;
         int vnp_TxnRef = new Random().nextInt(9999999);

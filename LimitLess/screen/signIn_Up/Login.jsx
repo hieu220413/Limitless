@@ -66,7 +66,7 @@ const Login = ({ navigation }) => {
             {errorLoginMessage.length != 0 && <Text style={styles.errorInputStyle}>{errorLoginMessage}</Text>}
           </View>
           <View>
-            <TextInput style={styles.textInputStyle} placeholder='Password' onChangeText={newText => setPasswordInput(newText)} defaultValue={passwordInput} />
+            <TextInput style={styles.textInputStyle} secureTextEntry={true} placeholder='Password' onChangeText={newText => setPasswordInput(newText)} defaultValue={passwordInput} />
             {errorLoginMessage.length != 0 && <Text style={styles.errorInputStyle}>{errorLoginMessage}</Text>}
           </View>
           <View style={{ flexDirection: 'row', alignItems: 'center', columnGap: 4 }}>

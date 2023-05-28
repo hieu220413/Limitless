@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.HashMap;
 
 @RestController
 @RequestMapping(value = "api/subscription")
@@ -27,4 +28,9 @@ public class SubscriptionController {
         SubscriptionResponseBody subscriptionResponseBody = subscriptionService.subscriptionRequestBody(subscriptionRequestBody);
         return ResponseEntity.status(HttpStatus.OK).body(subscriptionResponseBody);
     };
+
+    @RequestMapping(value = "/checkActiveSubscription", method = RequestMethod.GET)
+    public ResponseEntity<HashMap> checkActiveSubscription(@RequestParam String userId) {
+        return ResponseEntity.status(HttpStatus.OK).body(subscriptionService.checkActiveSubscription(userId));
+    }
 }
