@@ -11,7 +11,7 @@ import {
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const IntroductionPage_2 = (props) => {
-  const image = require('../assets/image/gym.png');
+  const image = require('../assets/image/gym.jpg');
   useEffect(() => {
     setTimeout(() => {
       props.navigation.navigate('Intro3');
