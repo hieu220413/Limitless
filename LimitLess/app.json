@@ -1,4 +1,9 @@
 {
   "name": "LimitLess",
-  "displayName": "LimitLess"
+  "displayName": "LimitLess",
+  "extra": {
+    "eas": {
+      "projectId": "db17174c-e461-48c9-988b-12fd45423c53"
+    }
+  }
 }

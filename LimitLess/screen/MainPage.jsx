@@ -18,35 +18,35 @@ const MainPage = (props) => {
     const DATA = [
         {
             id: '1',
-            url: require('../image/workout1.png'),
+            url: require('../image/workout1.jpg'),
             name: 'Arm Workout',
             level: 'Beginner',
             time: 10
         },
         {
             id: '2',
-            url: require('../image/workout2.png'),
+            url: require('../image/workout2.jpg'),
             name: 'Chest Workout',
             level: 'Beginner',
             time: 12
         },
         {
             id: '3',
-            url: require('../image/workout3.png'),
+            url: require('../image/workout3.jpg'),
             name: 'Leg Workout',
             level: 'Beginner',
             time: 20
         },
         {
             id: '4',
-            url: require('../image/workout4.png'),
+            url: require('../image/workout4.jpg'),
             name: 'Push Workout',
             level: 'Beginner',
             time: 6
         },
         {
             id: '5',
-            url: require('../image/workout5.png'),
+            url: require('../image/workout5.jpg'),
             name: 'Squat Workout',
             level: 'Beginner',
             time: 8
