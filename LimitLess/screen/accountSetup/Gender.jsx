@@ -6,7 +6,7 @@ import { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 function Gender(props) {
-    const [gender, setGender] = useState('')
+    const [gender, setGender] = useState('male')
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.head}>
@@ -68,7 +68,7 @@ function Gender(props) {
                 <CupertinoButtonPurple
                     caption="Continue"
                     style={styles.cupertinoButtonPurple}
-                    param={gender}
+                    param={{"gender": (gender == 'male' ? 0 : 1)}}
                 ></CupertinoButtonPurple>
             </View>
         </SafeAreaView>

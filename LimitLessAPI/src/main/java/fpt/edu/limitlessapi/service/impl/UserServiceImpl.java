@@ -3,18 +3,20 @@ package fpt.edu.limitlessapi.service.impl;
 import fpt.edu.limitlessapi.entity.Users;
 import fpt.edu.limitlessapi.exception.AuthFailException;
 import fpt.edu.limitlessapi.exception.InvalidUserInputException;
+import fpt.edu.limitlessapi.exception.UserNotFoundException;
 import fpt.edu.limitlessapi.model.LoginBody;
+import fpt.edu.limitlessapi.model.UserAdditionalDetailRequestBody;
 import fpt.edu.limitlessapi.model.UserResponseModel;
 import fpt.edu.limitlessapi.model.UserSignUpBody;
 import fpt.edu.limitlessapi.repository.UserRepository;
 import fpt.edu.limitlessapi.service.UserService;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -94,5 +96,27 @@ public class UserServiceImpl implements UserService {
                                                         .status(0)
                                                                 .build();
         userRepository.save(users);
+    }
+
+    @Override
+    public UserResponseModel updateAdditionalDetail(UserAdditionalDetailRequestBody userAdditionalDetailRequestBody, UUID id) {
+        Users users = userRepository.findByIdAndActive(id);
+        if( users == null){
+            throw new UserNotFoundException("NOT_FOUND");
+        }
+
+        users.setFullName(userAdditionalDetailRequestBody.getFullName());
+        users.setAge(userAdditionalDetailRequestBody.getAge());
+        users.setGender(userAdditionalDetailRequestBody.getGender());
+        users.setHeight(userAdditionalDetailRequestBody.getHeight());
+        users.setWeight(userAdditionalDetailRequestBody.getWeight());
+
+
+        Users updateResult = userRepository.save(users);
+        if(updateResult == null){
+            return null;
+        }
+
+        return new UserResponseModel(updateResult);
     }
 }

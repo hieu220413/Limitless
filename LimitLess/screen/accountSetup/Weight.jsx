@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text, TouchableOpacity, ScrollView, StatusBar, TextInput } from "react-native";
+import { StyleSheet, View, Text, TouchableOpacity, ScrollView, StatusBar, TextInput, Alert } from "react-native";
 import { Button, ButtonGroup } from '@rneui/themed';
 import { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -12,6 +12,23 @@ function Weight(props) {
     const navigationTitleArray = ['Back', 'Continue'];
     const { route, navigation } = props;
     const [number, onChangeNumber] = useState('');
+    const validateInput = (number) => {
+        if(number < 30 || number > 200 ){
+            Alert.alert('Invalid input', 'weight is in range 30kg to 200kg', [
+                {
+                  text: 'Cancel',
+                  onPress: () => {},
+                  style: 'cancel',
+                },
+                {text: 'OK'},
+              ]);
+            return
+        }
+        navigation.navigate('Height', {
+            ...route.params,
+            weight: number,
+        })
+    }
     console.log(route.params)
     return (
         <>
@@ -25,6 +42,7 @@ function Weight(props) {
                         style={styles.input}
                         onChangeText={onChangeNumber}
                         value={number}
+                        maxLength={3}
                         placeholder="Your weight"
                         keyboardType="numeric"
                     />
@@ -52,7 +70,7 @@ function Weight(props) {
                         />
                         <Button
                             title='Continue'
-                            onPress={() => navigation.navigate('Height')}
+                            onPress={() => validateInput(number)}
                             titleStyle={{
                                 color: "white",
                                 fontSize: 25,

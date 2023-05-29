@@ -2,10 +2,7 @@ package fpt.edu.limitlessapi.controller;
 
 import fpt.edu.limitlessapi.exception.AuthFailException;
 import fpt.edu.limitlessapi.exception.InvalidUserInputException;
-import fpt.edu.limitlessapi.model.ApiError;
-import fpt.edu.limitlessapi.model.LoginBody;
-import fpt.edu.limitlessapi.model.UserResponseModel;
-import fpt.edu.limitlessapi.model.UserSignUpBody;
+import fpt.edu.limitlessapi.model.*;
 import fpt.edu.limitlessapi.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.UUID;
 
 @RestController
 @RequestMapping(value = "api/user")
@@ -40,5 +38,10 @@ public class UserController {
         HashMap<String,String> message = new HashMap<>();
         message.put("message", "sign up successfully");
         return ResponseEntity.status(HttpStatus.OK).body(message);
+    }
+
+    @RequestMapping(value =  "/{id}/updateAdditonalDetail", method = RequestMethod.PUT)
+    public ResponseEntity<UserResponseModel> updateAdditionalDetail(@Valid @RequestBody UserAdditionalDetailRequestBody userAdditionalDetailRequestBody, @PathVariable UUID id){
+        return ResponseEntity.status(HttpStatus.OK).body(userService.updateAdditionalDetail(userAdditionalDetailRequestBody, id));
     }
 }

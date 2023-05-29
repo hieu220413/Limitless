@@ -5,13 +5,13 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 function Levels(props) {
   const titleDict = {
-    'Beginner': false,
+    'Beginner': true,
     'Intermediate': false,
     'Advanced': false
   }
   const navigationTitleArray = ['Back', 'Continue'];
   const [levels, setLevels] = useState(titleDict);
-  var levelPicked = '';
+  const [levelPicked, setLevelPicked] = useState('Beginner');
   const { route, navigation } = props;
   console.log(route.params)
   return (
@@ -27,10 +27,11 @@ function Levels(props) {
               key={title}
               title={title}
               onPress={() => {
+                // reset default state
+                titleDict['Beginner'] = false
                 setLevels(titleDict)
                 setLevels(prev => ({ ...prev, [title]: true }))
-                levelPicked = title
-                console.log(levelPicked)
+                setLevelPicked(title)
               }}
               titleStyle={!levels[title] ? styles.titleBtn : styles.titleBtnPressed}
               buttonStyle={!levels[title] ? styles.button : styles.buttonPressed}
@@ -79,7 +80,10 @@ function Levels(props) {
                 alignSelf: 'center',
                 marginHorizontal: 10
               }}
-              onPress={() => { navigation.navigate('Fill Profile') }}
+              onPress={() => { navigation.navigate('Fill Profile', {
+                ...route.params,
+                level: levelPicked,
+              }) }}
             />
           </View>
         </View>
