@@ -109,6 +109,7 @@ public class UserServiceImpl implements UserService {
         users.setAge(userAdditionalDetailRequestBody.getAge());
         users.setGender(userAdditionalDetailRequestBody.getGender());
         users.setHeight(userAdditionalDetailRequestBody.getHeight());
+        users.setLevel(userAdditionalDetailRequestBody.getLevel());
         users.setWeight(userAdditionalDetailRequestBody.getWeight());
 
 

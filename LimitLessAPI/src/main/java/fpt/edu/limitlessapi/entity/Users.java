@@ -42,6 +42,8 @@ public class Users {
 
     private int height;
 
+    private String level;
+
     private int gender;
 
     private int status;
