@@ -5,7 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 function CupertinoButtonPurple(props) {
   const navigation = useNavigation();
   return (
-    <TouchableOpacity style={[styles.container, props.style]} onPress={() => navigation.navigate('Old',[props.param])}>
+    <TouchableOpacity style={[styles.container, props.style]} onPress={() => navigation.navigate('Old',props.param)}>
       <Text style={styles.caption}>{props.caption || "Button"}</Text>
     </TouchableOpacity>
   );

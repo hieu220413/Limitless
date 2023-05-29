@@ -19,4 +19,7 @@ public interface UserRepository extends JpaRepository<Users, UUID> {
 
      @Query(value = "SELECT * FROM users WHERE phone=:phone AND status = 0",nativeQuery = true)
      Users findByPhoneAndActive(String phone);
+
+     @Query(value = "SELECT * FROM users WHERE user_id=:userId AND status = 0",nativeQuery = true)
+     Users findByIdAndActive(UUID userId);
 }

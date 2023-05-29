@@ -10,13 +10,15 @@ import {
     TextInput,
     TouchableHighlight,
     Switch,
-    Image
+    Image,
+    Alert
 } from 'react-native';
 import { SignInUpLayout, SignInUpLayoutBody } from '../../component/Authen-layout';
 import { useFocusEffect } from '@react-navigation/native';
 import { AvoidSoftInput } from 'react-native-avoid-softinput';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const FillProfile = ({ navigation }) => {
+const FillProfile = ({ navigation, route }) => {
     // const onFocusEffect = () => {
     //     AvoidSoftInput.setAdjustPan()
     //     AvoidSoftInput.setEnabled(true)
@@ -26,6 +28,60 @@ const FillProfile = ({ navigation }) => {
     //     }
     // }
     // useFocusEffect(onFocusEffect)
+    const [nameInput, setNameInput] = useState('')
+    console.log(route.params)
+    const validateInput = async (name = '') => {
+        if (name.length < 2 || name.length > 50) {
+            Alert.alert('Invalid input', 'name length min is 2 and max is 50', [
+                {
+                    text: 'Cancel',
+                    onPress: () => { },
+                    style: 'cancel',
+                },
+                { text: 'OK' },
+            ]);
+            return
+        }
+        console.log(await AsyncStorage.getItem('user_info'))
+        const user_info = await AsyncStorage.getItem('user_info') ? JSON.parse(await AsyncStorage.getItem('user_info')) : undefined
+        const userId = user_info ? user_info.userId : ''
+        const result = await fetch(`http://limitless-api.us-east-1.elasticbeanstalk.com:8080/api/user/${userId}/updateAdditonalDetail`, {
+            method: 'PUT',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                ...route.params,
+                fullName: nameInput,
+            }),
+        }).then(response => response.json()).then(json => json)
+
+        console.log(result)
+        if(!result.error){
+            user_info.fullName = result.fullName
+            user_info.gender = result.gender
+            user_info.weight = result.weight
+            user_info.height = result.height
+            user_info.age = result.age
+            console.log(JSON.stringify(user_info))
+            await AsyncStorage.setItem('user_info', JSON.stringify(user_info))
+            navigation.reset({ index: 0, routes: [{ name: 'Main' }] })
+        } else{
+            Alert.alert('Update detail Error', 'Update detail failed', [
+                {
+                    text: 'Cancel',
+                    onPress: () => { },
+                    style: 'cancel',
+                },
+                { text: 'OK' },
+            ]);
+        }
+        // navigation.navigate('Main', {
+        //     ...route.params,
+        //     name: nameInput,
+        // })
+    }
     return (
         <SignInUpLayout title='Fill your profile'>
             <SignInUpLayoutBody>
@@ -40,18 +96,17 @@ const FillProfile = ({ navigation }) => {
                         }}></Image>
                     <View style={styles.formFieldGroupStyle}>
                         <View>
-                            <TextInput style={styles.textInputStyle} placeholder='Name' />
-                            <Text style={styles.errorInputStyle}>Invaid Name</Text>
+                            <TextInput style={styles.textInputStyle} placeholder='Name' onChangeText={setNameInput} value={nameInput} />
                         </View>
                     </View>
                 </View>
 
                 <View style={styles.buttonGroupStyle}>
-                    <TouchableOpacity style={[styles.buttonStyle, { flex: 1 }, { backgroundColor: '#D8CAFF', }]} activeOpacity={0.8} onPress={()=> navigation.goBack()}>
+                    <TouchableOpacity style={[styles.buttonStyle, { flex: 1 }, { backgroundColor: '#D8CAFF', }]} activeOpacity={0.8} onPress={() => navigation.goBack()}>
                         <Text style={[{ color: '#461CF0' }, styles.textButtonStyle]}>Back</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={[styles.buttonStyle, { flex: 1 }, { backgroundColor: '#461CF0', }]} activeOpacity={0.8} onPress={() => { navigation.navigate('Main') }}>
-                        <Text style={[{ color: '#FFFFFF' }, styles.textButtonStyle]}>Skip</Text>
+                    <TouchableOpacity style={[styles.buttonStyle, { flex: 1 }, { backgroundColor: '#461CF0', }]} activeOpacity={0.8} onPress={() => validateInput(nameInput)}>
+                        <Text style={[{ color: '#FFFFFF' }, styles.textButtonStyle]}>Start</Text>
                     </TouchableOpacity>
                 </View>
             </SignInUpLayoutBody>
@@ -98,7 +153,7 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         paddingHorizontal: 15,
         paddingVertical: 15,
-        margin:'2%'
+        margin: '2%'
     },
     textButtonStyle: {
         textAlign: 'center',
