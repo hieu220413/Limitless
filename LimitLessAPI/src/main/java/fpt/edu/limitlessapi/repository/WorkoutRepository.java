@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 
 @Repository
@@ -15,4 +16,6 @@ public interface WorkoutRepository extends JpaRepository<Workout, UUID> {
 
     @Query("SELECT wk FROM Workout wk WHERE wk.level.name = :level AND wk.name LIKE %:name%")
     Collection<Workout> findByNameLAndLevel(@Param("name") String name, @Param("level") String level);
+    @Query("SELECT wk FROM Workout wk WHERE wk.level.name = :level")
+    List<Workout> findByLevelName(@Param("level") String level);
 }

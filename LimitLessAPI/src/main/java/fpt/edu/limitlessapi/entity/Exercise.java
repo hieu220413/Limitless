@@ -43,7 +43,6 @@ public class Exercise {
 
     private int caloriesBurn;
 
-    private boolean isPremium;
 
     @ManyToOne
     @JoinColumn(name = "level_id")

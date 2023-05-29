@@ -18,6 +18,11 @@ public class WorkoutController {
     @Autowired
     private WorkoutService workoutService;
 
+    @GetMapping("")
+    public ResponseEntity<List<Workout>> getAll() throws WorkoutNotFoundException {
+        return ResponseEntity.status(HttpStatus.OK).body(workoutService.getAll());
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Workout> getWorkoutById(@PathVariable("id") UUID id) throws WorkoutNotFoundException {
         return ResponseEntity.status(HttpStatus.OK).body(workoutService.getWorkoutById(id));
@@ -26,6 +31,11 @@ public class WorkoutController {
     @GetMapping("/searchByNameAndLevel")
     public ResponseEntity<List<Workout>> getWorkout(@RequestParam("name") String name, @RequestParam("level") String level) throws WorkoutNotFoundException {
         return ResponseEntity.status(HttpStatus.OK).body(workoutService.getWorkoutsByNameAndLevel(name, level));
+    }
+
+    @GetMapping("/fetchByLevel")
+    public ResponseEntity<List<Workout>> getWorkout(@RequestParam("level") String level) throws WorkoutNotFoundException {
+        return ResponseEntity.status(HttpStatus.OK).body(workoutService.getWorkoutsByLevel(level));
     }
 
 }
