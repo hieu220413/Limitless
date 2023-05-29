@@ -1,6 +1,7 @@
 package fpt.edu.limitlessapi.entity;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import fpt.edu.limitlessapi.meta.Status;
 import jakarta.persistence.*;
@@ -48,6 +49,7 @@ public class Exercise {
     @JoinColumn(name = "level_id")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
+    @JsonIgnore
     private Level level;
 
     @ManyToMany
@@ -55,8 +57,10 @@ public class Exercise {
             name = "exercise_workout",
             joinColumns = @JoinColumn(name = "exercise_id"),
             inverseJoinColumns = @JoinColumn(name = "workout_id"))
+    @JsonIgnore
     Collection<Workout> workouts;
 
+    @JsonIgnore
     @ManyToMany
     @JoinTable(
             name = "exercise_tag",
@@ -69,5 +73,6 @@ public class Exercise {
             name = "exercise_statistics",
             joinColumns = @JoinColumn(name = "exercise_id"),
             inverseJoinColumns = @JoinColumn(name = "statistics_id"))
+    @JsonIgnore
     Collection<Statistics> statistics;
 }
