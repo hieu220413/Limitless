@@ -107,9 +107,10 @@ public class UserServiceImpl implements UserService {
 
         users.setFullName(userAdditionalDetailRequestBody.getFullName());
         users.setAge(userAdditionalDetailRequestBody.getAge());
-        users.setGender(users.getGender());
-        users.setHeight(users.getHeight());
-        users.setWeight(users.getWeight());
+        users.setGender(userAdditionalDetailRequestBody.getGender());
+        users.setHeight(userAdditionalDetailRequestBody.getHeight());
+        users.setWeight(userAdditionalDetailRequestBody.getWeight());
+
 
         Users updateResult = userRepository.save(users);
         if(updateResult == null){

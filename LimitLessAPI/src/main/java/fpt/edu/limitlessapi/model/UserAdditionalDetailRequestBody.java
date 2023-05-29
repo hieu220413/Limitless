@@ -43,6 +43,9 @@ public class UserAdditionalDetailRequestBody {
     private int weight;
 
     @NotNull
+    private String level;
+
+    @NotNull
     @Range(min = 130, max = 190, message = "height is in range 130cm to 190cm")
     private int height;
 
