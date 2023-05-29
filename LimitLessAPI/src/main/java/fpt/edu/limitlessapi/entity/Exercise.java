@@ -1,5 +1,7 @@
 package fpt.edu.limitlessapi.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import fpt.edu.limitlessapi.meta.Status;
 import jakarta.persistence.*;
 import lombok.*;
@@ -12,6 +14,9 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "exerciseId")
 public class Exercise {
 
     @Id
@@ -37,6 +42,8 @@ public class Exercise {
     private Status status;
 
     private int caloriesBurn;
+
+    private boolean isPremium;
 
     @ManyToOne
     @JoinColumn(name = "level_id")
