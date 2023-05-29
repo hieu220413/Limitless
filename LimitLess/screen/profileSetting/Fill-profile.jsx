@@ -45,7 +45,11 @@ const FillProfile = ({ navigation, route }) => {
         console.log(await AsyncStorage.getItem('user_info'))
         const user_info = await AsyncStorage.getItem('user_info') ? JSON.parse(await AsyncStorage.getItem('user_info')) : undefined
         const userId = user_info ? user_info.userId : ''
-        const result = await fetch(`http://limitless-api.us-east-1.elasticbeanstalk.com:8080/api/user/${userId}/updateAdditonalDetail`, {
+        console.log(JSON.stringify({
+            ...route.params,
+            fullName: nameInput,
+        }))
+        const result = await fetch(`http://limitless-api.us-east-1.elasticbeanstalk.com/api/user/${userId}/updateAdditonalDetail`, {
             method: 'PUT',
             headers: {
                 Accept: 'application/json',
@@ -58,7 +62,7 @@ const FillProfile = ({ navigation, route }) => {
         }).then(response => response.json()).then(json => json)
 
         console.log(result)
-        if(!result.error){
+        if (!result.error) {
             user_info.fullName = result.fullName
             user_info.gender = result.gender
             user_info.weight = result.weight
@@ -67,7 +71,7 @@ const FillProfile = ({ navigation, route }) => {
             console.log(JSON.stringify(user_info))
             await AsyncStorage.setItem('user_info', JSON.stringify(user_info))
             navigation.reset({ index: 0, routes: [{ name: 'Main' }] })
-        } else{
+        } else {
             Alert.alert('Update detail Error', 'Update detail failed', [
                 {
                     text: 'Cancel',
@@ -76,11 +80,8 @@ const FillProfile = ({ navigation, route }) => {
                 },
                 { text: 'OK' },
             ]);
+            return
         }
-        // navigation.navigate('Main', {
-        //     ...route.params,
-        //     name: nameInput,
-        // })
     }
     return (
         <SignInUpLayout title='Fill your profile'>

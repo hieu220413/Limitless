@@ -28,28 +28,65 @@ const Register = ({ navigation }) => {
   //   }
   // }
   // useFocusEffect(onFocusEffect)
+  const [usernameInput, setUsernameInput] = useState('')
+  const [passwordInput, setPasswordInput] = useState('')
+  const [emailInput, setEmailInput] = useState('')
+  const [phoneInput, setPhoneInput] = useState('')
+  const [errorMessage, setErrorMessage] = useState({
+    usernameError: '',
+    passwordError: '',
+    emailError: '',
+    phoneError: '',
+  })
+  const signUp = async () => {
+
+    const result = await fetch('http://limitless-api.us-east-1.elasticbeanstalk.com/api/user/signup', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        username: usernameInput,
+        password: passwordInput,
+        email: emailInput,
+        phone: phoneInput,
+      }),
+    }).then(response => response.json()).then(json => json)
+    if (result.status == 422) {
+      setErrorMessage({
+        usernameError: result.errorFieldsDetail.usernameError ? result.errorFieldsDetail.usernameError : '',
+        passwordError: result.errorFieldsDetail.passwordError ? result.errorFieldsDetail.passwordError : '',
+        emailError: result.errorFieldsDetail.emailError ? result.errorFieldsDetail.emailError : '',
+        phoneError: result.errorFieldsDetail.phoneError ? result.errorFieldsDetail.phoneError : '',
+      })
+      return
+    }
+    navigation.navigate('Login')
+  }
+
   return (
     <SignInUpLayout>
       <SignInUpLayoutBody>
         <Text style={styles.titleStyle}>Create your account</Text>
         <View style={styles.formFieldGroupStyle}>
           <View>
-            <TextInput style={styles.textInputStyle} placeholder='Name' />
-            <Text style={styles.errorInputStyle}>Invaid Name</Text>
+            <TextInput style={styles.textInputStyle} placeholder='Username' onChangeText={setUsernameInput} value={usernameInput} />
+            {errorMessage.usernameError.length != 0 && <Text style={styles.errorInputStyle}>{errorMessage.usernameError}</Text>}
           </View>
           <View>
-            <TextInput style={styles.textInputStyle} placeholder='Email' />
-            <Text style={styles.errorInputStyle}>Invalid Email Format</Text>
+            <TextInput style={styles.textInputStyle} placeholder='Email' onChangeText={setEmailInput} value={emailInput} />
+            {errorMessage.emailError.length != 0 && <Text style={styles.errorInputStyle}>{errorMessage.emailError}</Text>}
           </View>
           <View>
-            <TextInput style={styles.textInputStyle} placeholder='Password' />
-            <Text style={styles.errorInputStyle}>at least 8 characters, 1 digit, 1 uppercase and lowercase letter</Text>
+            <TextInput style={styles.textInputStyle} secureTextEntry={true} placeholder='Password' onChangeText={setPasswordInput} value={passwordInput} />
+            {errorMessage.passwordError.length != 0 && <Text style={styles.errorInputStyle}>{errorMessage.passwordError}</Text>}
           </View>
           <View>
-            <TextInput style={styles.textInputStyle} placeholder='Phone Number' />
-            <Text style={styles.errorInputStyle}>Invalid phone number</Text>
+            <TextInput style={styles.textInputStyle} placeholder='Phone Number' maxLength={11} keyboardType='phone-pad' onChangeText={setPhoneInput} value={phoneInput} />
+            {errorMessage.phoneError.length != 0 && <Text style={styles.errorInputStyle}>{errorMessage.phoneError}</Text>}
           </View>
-          <TouchableHighlight style={styles.buttonResgisterStyle} underlayColor="#461CF0" onPress={() => { navigation.navigate('Login') }}>
+          <TouchableHighlight style={styles.buttonResgisterStyle} underlayColor="#461CF0" onPress={() => { signUp() }}>
             <View>
               <Text style={{ fontSize: 20, fontWeight: 'bold', textAlign: 'center', color: 'white' }}>Join us</Text>
             </View>
@@ -57,7 +94,7 @@ const Register = ({ navigation }) => {
         </View>
         <View style={{ flexDirection: 'row', columnGap: 5, alignItems: 'center', marginBottom: 10 }}>
           <View style={[styles.Line, { flex: 1 }]} />
-          <Text style={{fontSize: 20, color: '#15186D' }}>Or sign up with</Text>
+          <Text style={{ fontSize: 20, color: '#15186D' }}>Or sign up with</Text>
           <View style={[styles.Line, { flex: 1 }]} />
         </View>
         <View style={styles.buttonLoginWithGroupStyle}>
@@ -73,8 +110,8 @@ const Register = ({ navigation }) => {
         </View>
         <View style={{ flexGrow: 1, flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'center' }}>
           <View style={{ flexDirection: 'row', columnGap: 5 }}>
-            <Text style={{ textAlign: 'center' , fontSize: 18}}>Already have an account?</Text>
-            <TouchableOpacity onPress={() => { navigation.navigate('Login') }}><Text style={{ fontWeight: 'bold' , fontSize: 18}}>Login</Text></TouchableOpacity>
+            <Text style={{ textAlign: 'center', fontSize: 18 }}>Already have an account?</Text>
+            <TouchableOpacity onPress={() => { navigation.navigate('Login') }}><Text style={{ fontWeight: 'bold', fontSize: 18 }}>Login</Text></TouchableOpacity>
           </View>
         </View>
       </SignInUpLayoutBody>
