@@ -38,10 +38,12 @@ const Exercise = (props) => {
                     <Header></Header>
                 </View>
                 <Video
-                    source={video}   // Can be a URL or a local file.
+                    source={video}
+                       // Can be a URL or a local file.
                     style={styles.image}
                     controls={true}
                     onEnd={()=> setFinish(true)}
+                    resizeMode={'stretch'}
                     ref={exerciseVideo}
                     muted={true}
                     paused={isPaused || (!isFocused)} />
