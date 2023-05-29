@@ -111,6 +111,7 @@ public class UserServiceImpl implements UserService {
         users.setHeight(userAdditionalDetailRequestBody.getHeight());
         users.setLevel(userAdditionalDetailRequestBody.getLevel());
         users.setWeight(userAdditionalDetailRequestBody.getWeight());
+        users.setStatus(2);
 
 
         Users updateResult = userRepository.save(users);
