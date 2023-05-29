@@ -31,6 +31,8 @@ public class Workout {
 
     private int totalExercise;
 
+    private byte isPremium;
+
     private int status;
 
     @ManyToOne
