@@ -49,7 +49,8 @@ const Login = ({ navigation }) => {
     console.log(JSON.stringify(loginResponseBody))
     if (!loginResponseBody.error){
       await AsyncStorage.setItem('user_info', JSON.stringify(loginResponseBody))
-      navigation.reset({ index: 0, routes: [{ name: 'Gender' }] })
+      loginResponseBody.status == 2 ? navigation.reset({ index: 0, routes: [{ name: 'Main' }] }) : navigation.reset({ index: 0, routes: [{ name: 'Gender' }] })
+      
     } else{
       console.log(JSON.stringify(loginResponseBody))
       setErrorLoginMessage(loginResponseBody.message)
