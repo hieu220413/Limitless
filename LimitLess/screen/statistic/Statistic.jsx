@@ -182,17 +182,40 @@ const Statistic = props => {
           </View>
           <View
             style={{
-              //   backgroundColor: 'pink',
-              height: 120,
+              //   backgroundColor: 'red',
+              flexGrow: 1,
               width: '100%',
               marginTop: '2%',
               alignSelf: 'center',
               justifyContent: 'center',
-            }}></View>
+            }}>
+            <TouchableOpacity
+              //   onPress={() => navigation.navigate('Workout Detail', [item])}
+              style={{
+                width: '100%',
+                flexGrow: 1,
+                borderRadius: 20,
+                marginTop: 10,
+                marginBottom: 10,
+              }}>
+              <Image
+                // source={require('../../image/workout1.png')}
+                // key={item.id}
+                style={{
+                  width: '95%',
+                  flexGrow: 1,
+                  borderRadius: 30,
+                  alignSelf: 'center',
+                  borderWidth: 1,
+                  resizeMode: 'contain',
+                }}
+              />
+            </TouchableOpacity>
+          </View>
         </View>
 
         <View style={styles.foot}>
-          <Footer />
+          <Footer page='Statistic'/>
         </View>
       </SafeAreaView>
     </>
@@ -205,20 +228,22 @@ const styles = StyleSheet.create({
   container: {
     marginLeft: '4%',
     marginRight: '4%',
+    // backgroundColor:'pink',
     flex: 1,
   },
   head: {
-    flex: 0.7,
+    flex: 0.07,
+    // backgroundColor:'red',
     flexDirection: 'row',
   },
   body: {
-    flex: 8,
+    flex: 0.86,
     // backgroundColor: 'pink',
   },
   foot: {
-    flex: 0.55,
-    // backgroundColor: 'pink',
-    paddingBottom: '2%',
+    flex: 0.07,
+    // backgroundColor: 'blue',
+    // paddingBottom: '2%',
   },
   notificationIcon: {
     paddingTop: '4%',
