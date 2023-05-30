@@ -8,6 +8,8 @@ import { useState } from "react";
 import { Button } from '@rneui/themed';
 import Footer from '../../component/Footer';
 import Header from '../../component/Header';
+import { useFocusEffect } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const Stack = createNativeStackNavigator();
@@ -59,6 +61,34 @@ const Workouts = (props) => {
         'Advanced': false
     }
     const [levels, setLevels] = useState(levelsDict);
+
+    const [isPremiumUser, setIsPremiumUser] = useState(false)
+    useFocusEffect(
+        React.useCallback(() => {
+            // Do something when the screen is focused
+            const checkPremium = async () => {
+                let userId = ''
+                const user_info = await AsyncStorage.getItem('user_info')
+                if (user_info != null) {
+                    userId = JSON.parse(user_info).userId
+                    console.log(userId)
+                } else {
+                    //redirect to welcomepage
+                }
+                const checkResult = await fetch(`http://limitless-api.us-east-1.elasticbeanstalk.com/api/subscription/checkActiveSubscription?userId=${userId}`).then(response => response.json()).then(json => json)
+                if (checkResult.isPremium) {
+                    console.log(checkResult.isPremium)
+                    setIsPremiumUser(checkResult.isPremium)
+                }
+            }
+            checkPremium()
+
+            return () => {
+                // Do something when the screen is unfocused
+                // Useful for cleanup functions
+            };
+        }, [])
+    );
     return (
         <>
             <SafeAreaView style={styles.container}>

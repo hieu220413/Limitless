@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useState, useEffect } from 'react';
 import {
   ImageBackground,
@@ -13,7 +14,12 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 const IntroductionPage_2 = (props) => {
   const image = require('../assets/image/gym.jpg');
   useEffect(() => {
-    setTimeout(() => {
+    setTimeout(async () => {
+      const isCacheUser = await AsyncStorage.getItem('user_info')
+      if(isCacheUser){
+        props.navigation.navigate('Main');
+        return
+      }
       props.navigation.navigate('Intro3');
     }, 2000);
   }, []);
