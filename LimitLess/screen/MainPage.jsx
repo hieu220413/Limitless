@@ -27,7 +27,7 @@ const MainPage = (props) => {
             // Do something when the screen is focused
             const checkPremiumAndGetName = async () => {
                 let userId = ''
-                const user_info = await AsyncStorage.getItem('user_info')
+                const user_info = await AsynStorage.getItem('user_info')
                 if (user_info != null) {
                     userId = JSON.parse(user_info).userId
                     setUserFullName(JSON.parse(user_info).fullName)
@@ -118,7 +118,7 @@ const MainPage = (props) => {
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                         <Text style={{
                             fontWeight: 700,
-                            fontSize: 30,
+                            fontSize: 26,
                             paddingLeft: '2%'
                         }}>
                             {time[0]}, {userFullName}
