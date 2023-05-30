@@ -4,14 +4,19 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Icon from 'react-native-vector-icons/AntDesign';
 import { useState } from "react";
 import { Button } from '@rneui/themed';
 import Footer from '../component/Footer';
 import Header from '../component/Header';
+import { BlurView } from '@react-native-community/blur';
+import { ReactNativeModal } from 'react-native-modal';
 
 
 const Stack = createNativeStackNavigator();
 const MainPage = (props) => {
+    const [isModalVisible, setIsModalVisible] = React.useState(false);
+    const handleModal = () => setIsModalVisible(() => !isModalVisible);
     const { navigation, route } = props
     var userFullName = 'Anh Khoa';
     const time = ['Morning', 'Afternoon', 'Evening'];
@@ -21,35 +26,40 @@ const MainPage = (props) => {
             url: require('../image/workout1.jpg'),
             name: 'Arm Workout',
             level: 'Beginner',
-            time: 10
+            time: 10,
+            isPremium: false
         },
         {
             id: '2',
             url: require('../image/workout2.jpg'),
             name: 'Chest Workout',
             level: 'Beginner',
-            time: 12
+            time: 12,
+            isPremium: false
         },
         {
             id: '3',
             url: require('../image/workout3.jpg'),
             name: 'Leg Workout',
             level: 'Beginner',
-            time: 20
+            time: 20,
+            isPremium: false
         },
         {
             id: '4',
             url: require('../image/workout4.jpg'),
             name: 'Push Workout',
             level: 'Beginner',
-            time: 6
+            time: 6,
+            isPremium: true
         },
         {
             id: '5',
             url: require('../image/workout5.jpg'),
             name: 'Squat Workout',
             level: 'Beginner',
-            time: 8
+            time: 8,
+            isPremium: true
         },
     ];
     // 'https://drive.google.com/uc?export=view&id=1RnbR8vgeJ4KIvHdC59KjPEEsO1iKlh-A'
@@ -74,6 +84,7 @@ const MainPage = (props) => {
                     </View>
                 </View>
                 <ScrollView style={styles.body} showsVerticalScrollIndicator={false}>
+
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                         <Text style={{
                             fontWeight: 700,
@@ -119,36 +130,81 @@ const MainPage = (props) => {
                             data={DATA}
                             keyExtractor={item => item.id}
                             renderItem={({ item }) => (
-                                <TouchableOpacity
-                                    onPress={() => navigation.navigate('Workout Detail', [item.id])}
-                                    style={{
-                                        width: 120,
-                                        height: 120,
-                                        borderRadius: 10,
-                                        borderWidth: 0.5,
-                                        borderColor: 'black',
-                                        margin: 5
-                                    }}>
-                                    <Image
-                                        source={item.url}
-                                        key={item.id}
+                                !item.isPremium ?
+                                    <TouchableOpacity
+                                        onPress={() => navigation.navigate('Workout Detail', [item.id])}
                                         style={{
                                             width: 120,
                                             height: 120,
                                             borderRadius: 10,
-                                            padding: 10
-                                        }}
+                                            borderWidth: 0.5,
+                                            borderColor: 'black',
+                                            margin: 5,
+                                            blurRadius: 1
+                                        }}>
+                                        <Image
+                                            source={item.url}
+                                            key={item.id}
+                                            style={{
+                                                width: 120,
+                                                height: 120,
+                                                borderRadius: 10,
+                                                padding: 10
+                                            }}
 
-                                    />
-                                    <View style={{
-                                        position: 'absolute',
-                                        marginLeft: '6%',
-                                        marginTop: '67%'
-                                    }}>
-                                        <Text style={{ fontSize: 15, fontWeight: 600, color: 'white' }}>{item.name}</Text>
-                                        <Text style={{ fontSize: 10, color: 'white' }}>{item.time} minutes | {item.level}</Text>
-                                    </View>
-                                </TouchableOpacity>
+                                        />
+                                        <View style={{
+                                            position: 'absolute',
+                                            marginLeft: '6%',
+                                            marginTop: '67%'
+                                        }}>
+                                            <Text style={{ fontSize: 15, fontWeight: 600, color: 'white' }}>{item.name}</Text>
+                                            <Text style={{ fontSize: 10, color: 'white' }}>{item.time} minutes | {item.level}</Text>
+                                        </View>
+                                    </TouchableOpacity>
+                                    :
+                                    <TouchableOpacity
+                                        onPress={handleModal}
+                                        style={{
+                                            width: 120,
+                                            height: 120,
+                                            borderRadius: 10,
+                                            borderColor: 'black',
+                                            margin: 5,
+                                            blurRadius: 1
+                                        }}>
+                                        <Image
+                                            source={item.url}
+                                            key={item.id}
+                                            style={{
+                                                width: 120,
+                                                height: 120,
+                                                borderRadius: 10,
+                                                padding: 10
+                                            }}
+                                        />
+                                        <BlurView
+                                            style={{
+                                                width: 120,
+                                                height: 120,
+                                                borderRadius: 10,
+                                                borderColor: 'black',
+                                                blurRadius: 1,
+                                                position: 'absolute'
+                                            }}
+                                            blurType="light"
+                                            blurAmount={3}
+                                            blurRadius={5}
+                                        />
+
+                                        <View style={{
+                                            position: 'absolute',
+                                            alignSelf: 'center',
+                                            marginVertical: '37%'
+                                        }}>
+                                            <EvilIcons name='lock' size={40} style={{ color: 'white' }}  ></EvilIcons>
+                                        </View>
+                                    </TouchableOpacity>
                             )}
                         />
                     </View>
@@ -206,34 +262,75 @@ const MainPage = (props) => {
                             data={DATA}
                             keyExtractor={item => item.id}
                             renderItem={({ item }) => (
-                                <TouchableOpacity
-                                    onPress={() => navigation.navigate('Workout Detail', [item.id])}
-                                    style={{
-                                        width: '100%',
-                                        height: 120,
-                                        borderRadius: 20,
-                                        marginTop: '3%'
-                                    }}>
-                                    <Image
-                                        source={item.url}
-                                        key={item.id}
+                                !item.isPremium ?
+                                    <TouchableOpacity
+                                        onPress={() => navigation.navigate('Workout Detail', [item.id])}
                                         style={{
-                                            width: '95%',
+                                            width: '100%',
                                             height: 120,
-                                            borderRadius: 30,
+                                            borderRadius: 20,
+                                            marginTop: '3%'
+                                        }}>
+                                        <Image
+                                            source={item.url}
+                                            key={item.id}
+                                            style={{
+                                                width: '95%',
+                                                height: 120,
+                                                borderRadius: 30,
+                                                alignSelf: 'center',
+                                                borderWidth: 1
+                                            }}
+                                        />
+                                        <View style={{
+                                            position: 'absolute',
+                                            marginLeft: '8%',
+                                            marginTop: '17%'
+                                        }}>
+                                            <Text style={{ fontSize: 20, fontWeight: 600, color: 'white' }}>{item.name}</Text>
+                                            <Text style={{ color: 'white' }}>{item.time} minutes | {item.level}</Text>
+                                        </View>
+                                    </TouchableOpacity> :
+                                    <TouchableOpacity
+                                        onPress={handleModal}
+                                        style={{
+                                            width: '100%',
+                                            height: 120,
+                                            borderRadius: 20,
+                                            marginTop: '3%'
+                                        }}>
+                                        <Image
+                                            source={item.url}
+                                            key={item.id}
+                                            style={{
+                                                width: '95%',
+                                                height: 120,
+                                                borderRadius: 30,
+                                                alignSelf: 'center',
+                                                borderWidth: 1
+                                            }}
+                                        />
+                                        <BlurView
+                                            style={{
+                                                width: '95%',
+                                                height: 120,
+                                                borderRadius: 30,
+                                                alignSelf: 'center',
+                                                borderWidth: 1,
+                                                position: 'absolute'
+                                            }}
+                                            blurType="light"
+                                            blurAmount={3}
+                                            blurRadius={5}
+                                        />
+                                        <View style={{
+                                            position: 'absolute',
                                             alignSelf: 'center',
-                                            borderWidth: 1
-                                        }}
-                                    />
-                                    <View style={{
-                                        position: 'absolute',
-                                        marginLeft: '8%',
-                                        marginTop: '17%'
-                                    }}>
-                                        <Text style={{ fontSize: 20, fontWeight: 600, color: 'white' }}>{item.name}</Text>
-                                        <Text style={{ color: 'white' }}>{item.time} minutes | {item.level}</Text>
-                                    </View>
-                                </TouchableOpacity>
+                                            marginTop: '12%'
+                                        }}>
+                                            <EvilIcons name='lock' size={46} style={{ color: 'white' }}  ></EvilIcons>
+                                        </View>
+                                    </TouchableOpacity>
                             )}
                         />
                     </SafeAreaView>
@@ -241,6 +338,21 @@ const MainPage = (props) => {
                 <View style={styles.foot}>
                     <Footer page='Home' />
                 </View>
+                <ReactNativeModal isVisible={isModalVisible}>
+                    <View style={{ backgroundColor: 'white', borderWidth: 0.5, borderRadius: 20, height: '40%' }}>
+                        <TouchableOpacity style={styles.ugradePremiumStyle} activeOpacity={0.8} onPress={() => { navigation.navigate('Premium'), setIsModalVisible(() => !isModalVisible) }}>
+                            <View style={{ flexDirection: 'row', columnGap: 15, alignItems: 'center', marginTop: '20%' }}>
+                                <Text style={{ paddingVertical: 3, paddingHorizontal: 15, color: 'white', backgroundColor: '#FAE20B', fontSize: 20, fontWeight: 'bold', borderRadius: 20 }}>PRO</Text>
+                                <Text style={{ flexGrow: 1, color: 'white', textAlign: 'center', fontSize: 19, fontWeight: 'bold' }}>Upgrade to Premium</Text>
+                                <Icon name='rightcircle' size={25} color="#fff"></Icon>
+                            </View>
+                            <Text style={{ color: 'white', fontSize: 16, fontWeight: 'bold' }}>Enjoy workout access without ads and restrictions</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={handleModal} style={{ position: 'absolute', alignSelf: 'flex-end' }}>
+                            <Ionicons name='ios-close-outline' size={46} style={{ color: 'white' }}  ></Ionicons>
+                        </TouchableOpacity>
+                    </View>
+                </ReactNativeModal>
             </SafeAreaView>
         </>
     );
@@ -301,6 +413,16 @@ const styles = StyleSheet.create({
     },
     exercise: {
         height: '100%'
-    }
+    },
+    ugradePremiumStyle: {
+        flexDirection: 'column',
+        backgroundColor: '#461CF0',
+        paddingHorizontal: 15,
+        paddingVertical: 25,
+        rowGap: 15,
+        padding: '10%',
+        borderRadius: 20,
+        flex: 1
+    },
 })
 export default MainPage;
