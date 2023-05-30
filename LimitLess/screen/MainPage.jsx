@@ -11,8 +11,8 @@ import Footer from '../component/Footer';
 import Header from '../component/Header';
 import { BlurView } from '@react-native-community/blur';
 import { ReactNativeModal } from 'react-native-modal';
-import AsynStorage from '@react-native-async-storage/async-storage';
 import { useFocusEffect } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const Stack = createNativeStackNavigator();
