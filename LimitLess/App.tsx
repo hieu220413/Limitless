@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { StyleSheet, View } from 'react-native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import {NavigationContainer} from '@react-navigation/native';
+import {StyleSheet, View} from 'react-native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import IntroductionPage_1 from './screen/onBoarding/IntroductionPage-1';
 import IntroductionPage_2 from './screen/onBoarding/IntroductionPage-2';
 import IntroductionPage_3 from './screen/onBoarding/IntroductionPage-3';
@@ -27,19 +27,20 @@ import NewPassword from './screen/forgotPassword/NewPassword';
 // import { LogBox } from 'react-native';
 // LogBox.ignoreLogs(['new NativeEventEmitter']); // Ignore log notification by message
 import Exercise from './screen/workout/Exercise';
+import Statistic from './screen/statistic/Statistic';
 
 const Stack = createNativeStackNavigator();
 
 const App = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name='Intro1' component={IntroductionPage_1} />
-        <Stack.Screen name='Intro2' component={IntroductionPage_2} />
-        <Stack.Screen name='Intro3' component={IntroductionPage_3} />
-        <Stack.Screen name='Welcome' component={Welcome} />
+      <Stack.Navigator screenOptions={{headerShown: false}}>
+        <Stack.Screen name="Intro1" component={IntroductionPage_1} />
+        <Stack.Screen name="Intro2" component={IntroductionPage_2} />
+        <Stack.Screen name="Intro3" component={IntroductionPage_3} />
+        <Stack.Screen name="Welcome" component={Welcome} />
         <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name='Register' component={Register} />
+        <Stack.Screen name="Register" component={Register} />
         <Stack.Screen name="Gender" component={Gender} />
         <Stack.Screen name="Old" component={Old} />
         <Stack.Screen name="Weight" component={Weight} />
@@ -49,11 +50,12 @@ const App = () => {
         <Stack.Screen name="Workouts" component={Workouts} />
         <Stack.Screen name="Main" component={MainPage} />
         <Stack.Screen name="Workout Detail" component={Workout_Detail} />
-        <Stack.Screen name='Exercise' component={Exercise} />
-        <Stack.Screen name='Fill Profile' component={FillProfile} />
+        <Stack.Screen name="Exercise" component={Exercise} />
+        <Stack.Screen name="Fill Profile" component={FillProfile} />
         <Stack.Screen name="Setting" component={SettingMenu} />
         <Stack.Screen name="Edit Profile" component={EditProfile} />
-        <Stack.Screen name='Premium' component={PremiumSubscribe} />
+        <Stack.Screen name="Premium" component={PremiumSubscribe} />
+        <Stack.Screen name="Statistic" component={Statistic} />
       </Stack.Navigator>
     </NavigationContainer>
   );
