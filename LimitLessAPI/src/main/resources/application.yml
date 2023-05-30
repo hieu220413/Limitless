@@ -7,12 +7,12 @@ spring:
         enable_lazy_load_no_trans: 'true'
     defer-datasource-initialization: 'true'
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: create
   datasource:
-    password: ${PASSWORD:Dre220413@}
+    password: admin123
     driver-class-name: com.mysql.cj.jdbc.Driver
-    username: root
-    url: jdbc:mysql://localhost:3306/limitless
+    username: admin
+    url: jdbc:mysql://limitless.c0sz6hfqoyiu.us-east-1.rds.amazonaws.com:3306/limitless
   sql:
     init:
       mode: always

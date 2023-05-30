@@ -12,6 +12,7 @@ const svgXml = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" f
 
 function Goals(props) {
   const { navigation, route } = props
+  console.log(route.params)
   const [selections, setSelections] = useState([
     {
       description: 'Get fitter',
@@ -117,7 +118,7 @@ function Goals(props) {
             />
             <Button
               title='Continue'
-              onPress={() => navigation.navigate('Level')}
+              onPress={() => navigation.navigate('Level', {...route.params})}
               titleStyle={{
                 color: "white",
                 fontSize: 25,

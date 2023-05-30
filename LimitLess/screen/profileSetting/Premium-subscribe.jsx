@@ -77,9 +77,9 @@ const vnpayCall = async (setModalVisible, setIsPremiumUser) => {
     const vnp_IpAddr = '127.0.0.1'
     const vnp_Locale = 'vn'
     const vnp_OrderInfo = 'Nangcappremiumfitness'
-    const vnp_ReturnUrl = `http://10.0.2.2:8080/api/vnpay/transaction/${userId}/result` // http://success.sdk.merchantbackapp/
+    const vnp_ReturnUrl = `http://limitless-api.us-east-1.elasticbeanstalk.com/api/vnpay/transaction/${userId}/result` // http://success.sdk.merchantbackapp/
 
-    const fields = await fetch(`http://10.0.2.2:8080/api/vnpay/transaction/getImportantFields?orderInfo=Nangcappremiumfitness&amount=${vnp_Amount}&userId=${userId}`)
+    const fields = await fetch(`http://limitless-api.us-east-1.elasticbeanstalk.com/api/vnpay/transaction/getImportantFields?orderInfo=Nangcappremiumfitness&amount=${vnp_Amount}&userId=${userId}`)
         .then(response => response.json())
         .then(json => json)
 
@@ -134,7 +134,7 @@ const PremiumSubscribe = () => {
                 } else {
                     //redirect to welcomepage
                 }
-                const checkResult = await fetch(`http://10.0.2.2:8080/api/subscription/checkActiveSubscription?userId=${userId}`).then(response => response.json()).then(json => json)
+                const checkResult = await fetch(`http://limitless-api.us-east-1.elasticbeanstalk.com/api/subscription/checkActiveSubscription?userId=${userId}`).then(response => response.json()).then(json => json)
                 console.log(checkResult)
                 if (checkResult.isPremium) {
                     console.log(checkResult.isPremium)

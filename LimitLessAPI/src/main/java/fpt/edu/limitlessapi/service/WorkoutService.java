@@ -10,4 +10,8 @@ public interface WorkoutService {
     List<Workout> getWorkoutsByNameAndLevel(String name,String level) throws WorkoutNotFoundException;
 
     Workout getWorkoutById(UUID workoutId) throws WorkoutNotFoundException;
+
+    List<Workout> getWorkoutsByLevel(String level) throws WorkoutNotFoundException;
+
+    List<Workout> getAll() throws WorkoutNotFoundException;
 }

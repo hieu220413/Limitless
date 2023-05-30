@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text, TouchableOpacity, ScrollView, StatusBar, TextInput } from "react-native";
+import { StyleSheet, View, Text, TouchableOpacity, ScrollView, StatusBar, TextInput, Alert } from "react-native";
 import { Button} from '@rneui/themed';
 import { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -12,6 +12,23 @@ function Height(props) {
     const navigationTitleArray = ['Back', 'Continue'];
     const { route, navigation } = props;
     const [number, onChangeNumber] = useState('');
+    const validateInput = (number) => {
+        if(number < 130 || number > 200 ){
+            Alert.alert('Invalid input', 'height is in range 130cm to 190cm', [
+                {
+                  text: 'Cancel',
+                  onPress: () => {},
+                  style: 'cancel',
+                },
+                {text: 'OK'},
+              ]);
+            return
+        }
+        navigation.navigate('Goals', {
+            ...route.params,
+            height: number,
+        })
+    }
     console.log(route.params)
     return (
         <>
@@ -52,7 +69,7 @@ function Height(props) {
                         />
                         <Button
                             title='Continue'
-                            onPress={()=> navigation.navigate('Goals')}
+                            onPress={()=> validateInput(number)}
                             titleStyle={{
                                 color: "white",
                                 fontSize: 25,

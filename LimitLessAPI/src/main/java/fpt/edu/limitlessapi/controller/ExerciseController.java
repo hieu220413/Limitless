@@ -30,18 +30,18 @@ public class ExerciseController {
         return ResponseEntity.status(HttpStatus.OK).body(exerciseService.getExercisesByName(name,level));
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Exercise> fetchById(@PathVariable("id") UUID uuid) throws ExerciseNotFoundException {
+    @GetMapping("/fetchById")
+    public ResponseEntity<Exercise> fetchById(@RequestParam("id") UUID uuid) throws ExerciseNotFoundException {
         return ResponseEntity.status(HttpStatus.OK).body(exerciseService.getExerciseById(uuid));
     }
 
-    @GetMapping("/{level}")
-    public ResponseEntity<List<Exercise>> fetchByLevel(@PathVariable("level") String level) throws ExerciseNotFoundException {
+    @GetMapping("/fetchByLevel")
+    public ResponseEntity<List<Exercise>> fetchByLevel(@RequestParam("level") String level) throws ExerciseNotFoundException {
         return ResponseEntity.status(HttpStatus.OK).body(exerciseService.getExercisesByLevel(level));
     }
 
-    @GetMapping("/{tag}")
-    public ResponseEntity<List<Exercise>> fetchByTag(@PathVariable("tag") String tag) throws ExerciseNotFoundException {
+    @GetMapping("/fetchByTag")
+    public ResponseEntity<List<Exercise>> fetchByTag(@RequestParam("tag") String tag) throws ExerciseNotFoundException {
         return ResponseEntity.status(HttpStatus.OK).body(exerciseService.getExercisesByTag(tag));
     }
 

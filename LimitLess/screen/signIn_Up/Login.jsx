@@ -35,7 +35,7 @@ const Login = ({ navigation }) => {
   const [passwordInput, setPasswordInput] = useState('')
   const [errorLoginMessage, setErrorLoginMessage] = useState('')
   const signIn = async () => {
-    const loginResponseBody = await fetch('http://10.0.2.2:8080/api/user/login', {
+    const loginResponseBody = await fetch('http://limitless-api.us-east-1.elasticbeanstalk.com/api/user/login', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -46,11 +46,11 @@ const Login = ({ navigation }) => {
         password: passwordInput,
       }),
     }).then(response => response.json()).then(json => json).catch(error => console.log(error))
-
+    console.log(JSON.stringify(loginResponseBody))
     if (!loginResponseBody.error){
-      console.log(JSON.stringify(loginResponseBody))
       await AsyncStorage.setItem('user_info', JSON.stringify(loginResponseBody))
-      navigation.reset({ index: 0, routes: [{ name: 'Gender' }] })
+      loginResponseBody.status == 2 ? navigation.reset({ index: 0, routes: [{ name: 'Main' }] }) : navigation.reset({ index: 0, routes: [{ name: 'Gender' }] })
+      
     } else{
       console.log(JSON.stringify(loginResponseBody))
       setErrorLoginMessage(loginResponseBody.message)

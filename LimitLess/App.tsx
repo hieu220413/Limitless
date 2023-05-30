@@ -24,8 +24,8 @@ import Workout_Detail from './screen/workout/Workout-Detail';
 import ForgotPassword from './screen/forgotPassword/ForgotPassword';
 import VerifyOTP from './screen/forgotPassword/VerifyOTP';
 import NewPassword from './screen/forgotPassword/NewPassword';
-import {LogBox} from 'react-native';
-LogBox.ignoreLogs(['new NativeEventEmitter']); // Ignore log notification by message
+// import { LogBox } from 'react-native';
+// LogBox.ignoreLogs(['new NativeEventEmitter']); // Ignore log notification by message
 import Exercise from './screen/workout/Exercise';
 import Statistic from './screen/statistic/Statistic';
 
@@ -34,14 +34,11 @@ const Stack = createNativeStackNavigator();
 const App = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator
-        screenOptions={{headerShown: false}}
-        initialRouteName="Statistic">
-        <Stack.Screen name="Welcome" component={Welcome} />
-        <Stack.Screen name="Exercise" component={Exercise} />
+      <Stack.Navigator screenOptions={{headerShown: false}}>
         <Stack.Screen name="Intro1" component={IntroductionPage_1} />
         <Stack.Screen name="Intro2" component={IntroductionPage_2} />
         <Stack.Screen name="Intro3" component={IntroductionPage_3} />
+        <Stack.Screen name="Welcome" component={Welcome} />
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Register" component={Register} />
         <Stack.Screen name="Gender" component={Gender} />
@@ -53,6 +50,7 @@ const App = () => {
         <Stack.Screen name="Workouts" component={Workouts} />
         <Stack.Screen name="Main" component={MainPage} />
         <Stack.Screen name="Workout Detail" component={Workout_Detail} />
+        <Stack.Screen name="Exercise" component={Exercise} />
         <Stack.Screen name="Fill Profile" component={FillProfile} />
         <Stack.Screen name="Setting" component={SettingMenu} />
         <Stack.Screen name="Edit Profile" component={EditProfile} />
@@ -62,11 +60,5 @@ const App = () => {
     </NavigationContainer>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
 
 export default App;

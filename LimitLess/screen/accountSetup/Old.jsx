@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text, TouchableOpacity, ScrollView, StatusBar, TextInput } from "react-native";
+import { StyleSheet, View, Text, TouchableOpacity, ScrollView, StatusBar, TextInput, Alert } from "react-native";
 import { Button, ButtonGroup } from '@rneui/themed';
 import { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -12,6 +12,23 @@ function Old(props) {
     const navigationTitleArray = ['Back', 'Continue'];
     const { route, navigation } = props;
     const [number, onChangeNumber] = useState('');
+    const validateInput = (number) => {
+        if(number < 10 || number > 80 ){
+            Alert.alert('Invalid input', 'age is in range 10 to 80', [
+                {
+                  text: 'Cancel',
+                  onPress: () => {},
+                  style: 'cancel',
+                },
+                {text: 'OK'},
+              ]);
+            return
+        }
+        navigation.navigate('Weight', {
+            ...route.params,
+            age: number,
+        })
+    }
     console.log(route.params)
     return (
         <>
@@ -25,6 +42,7 @@ function Old(props) {
                         style={styles.input}
                         onChangeText={onChangeNumber}
                         value={number}
+                        maxLength={2}
                         placeholder="Your Age"
                         keyboardType="numeric"
                     />
@@ -53,7 +71,7 @@ function Old(props) {
                         <Button
                             title='Continue'
                             onPress={
-                                ()=> navigation.navigate('Weight')
+                                ()=> validateInput(number)
                             }
                             titleStyle={{
                                 color: "white",

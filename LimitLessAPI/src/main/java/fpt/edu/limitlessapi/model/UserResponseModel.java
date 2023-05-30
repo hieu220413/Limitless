@@ -25,6 +25,7 @@ public class UserResponseModel {
         this.age = users.getAge();
         this.weight = users.getWeight();
         this.height = users.getHeight();
+        this.level = users.getLevel();
         this.gender = users.getGender();
         this.status = users.getStatus();
     }
@@ -46,6 +47,8 @@ public class UserResponseModel {
     private int weight;
 
     private int height;
+
+    private String level;
 
     private int gender;
 

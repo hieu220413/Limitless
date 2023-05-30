@@ -1,5 +1,7 @@
 package fpt.edu.limitlessapi.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -11,6 +13,9 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "workoutId")
 public class Workout {
 
     @Id
@@ -25,6 +30,8 @@ public class Workout {
     private String description;
 
     private int totalExercise;
+
+    private byte isPremium;
 
     private int status;
 

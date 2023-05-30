@@ -93,7 +93,7 @@ public class PaymentController {
         String vnp_CurrCode = "VND";
         String vnp_IpAddr = "127.0.0.1";
         String vnp_Locale = "vn";
-        String vnp_ReturnUrl = "http://10.0.2.2:8080/api/vnpay/transaction/" + userId + "/result"; //http://success.sdk.merchantbackapp/
+        String vnp_ReturnUrl = "http://limitless-api.us-east-1.elasticbeanstalk.com/api/vnpay/transaction/" + userId + "/result"; //http://success.sdk.merchantbackapp/
         String vnp_OrderInfo = orderInfo;
         int vnp_Amount = amount*100;
         int vnp_TxnRef = new Random().nextInt(9999999);

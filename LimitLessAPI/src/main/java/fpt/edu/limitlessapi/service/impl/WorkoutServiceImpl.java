@@ -32,4 +32,19 @@ public class WorkoutServiceImpl implements WorkoutService {
         return workoutRepository.findById(workoutId)
                 .orElseThrow(() ->  new WorkoutNotFoundException("No workout with id " + workoutId));
     }
+
+    @Override
+    public List<Workout> getWorkoutsByLevel(String level) throws WorkoutNotFoundException {
+        List<Workout> workouts = (List<Workout>) workoutRepository.findByLevelName(level);
+        if(workouts.isEmpty()) {
+            log.warn("No workout with level " + level);
+            throw new WorkoutNotFoundException("No workout with level " + level);
+        }
+        return workouts;
+    }
+
+    @Override
+    public List<Workout> getAll() throws WorkoutNotFoundException {
+        return workoutRepository.findAll();
+    }
 }
