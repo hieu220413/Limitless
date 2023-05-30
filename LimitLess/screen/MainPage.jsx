@@ -27,7 +27,7 @@ const MainPage = (props) => {
             // Do something when the screen is focused
             const checkPremiumAndGetName = async () => {
                 let userId = ''
-                const user_info = await AsynStorage.getItem('user_info')
+                const user_info = await AsyncStorage.getItem('user_info')
                 if (user_info != null) {
                     userId = JSON.parse(user_info).userId
                     setUserFullName(JSON.parse(user_info).fullName)
