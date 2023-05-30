@@ -11,6 +11,8 @@ import Footer from '../component/Footer';
 import Header from '../component/Header';
 import { BlurView } from '@react-native-community/blur';
 import { ReactNativeModal } from 'react-native-modal';
+import AsynStorage from '@react-native-async-storage/async-storage';
+import { useFocusEffect } from '@react-navigation/native';
 
 
 const Stack = createNativeStackNavigator();
@@ -18,7 +20,35 @@ const MainPage = (props) => {
     const [isModalVisible, setIsModalVisible] = React.useState(false);
     const handleModal = () => setIsModalVisible(() => !isModalVisible);
     const { navigation, route } = props
-    var userFullName = 'Anh Khoa';
+    let [userFullName, setUserFullName] = useState('');
+    const [isPremiumUser, setIsPremiumUser] = useState(false)
+    useFocusEffect(
+        React.useCallback(() => {
+            // Do something when the screen is focused
+            const checkPremiumAndGetName = async () => {
+                let userId = ''
+                const user_info = await AsyncStorage.getItem('user_info')
+                if (user_info != null) {
+                    userId = JSON.parse(user_info).userId
+                    setUserFullName(JSON.parse(user_info).fullName)
+                } else {
+                    //redirect to welcomepage
+                }
+                const checkResult = await fetch(`http://limitless-api.us-east-1.elasticbeanstalk.com/api/subscription/checkActiveSubscription?userId=${userId}`).then(response => response.json()).then(json => json)
+                if (checkResult.isPremium) {
+                    setIsPremiumUser(checkResult.isPremium)
+                }
+                
+            }
+            checkPremiumAndGetName()
+
+            return () => {
+                // Do something when the screen is unfocused
+                // Useful for cleanup functions
+            };
+        }, [])
+    );
+    
     const time = ['Morning', 'Afternoon', 'Evening'];
     const DATA = [
         {
