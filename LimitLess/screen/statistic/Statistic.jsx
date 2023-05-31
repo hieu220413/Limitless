@@ -11,12 +11,12 @@ import {
   StatusBar,
   TextInput,
 } from 'react-native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Feather from 'react-native-vector-icons/Feather';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import {useState} from 'react';
-import {Button} from '@rneui/themed';
+import { useState } from 'react';
+import { Button } from '@rneui/themed';
 import Footer from '../../component/Footer';
 import Header from '../../component/Header';
 import CalendarStrip from 'react-native-calendar-strip';
@@ -24,7 +24,7 @@ import moment from 'moment';
 import Pie from 'react-native-pie';
 
 const Statistic = props => {
-  const {navigation, route} = props;
+  const { navigation, route } = props;
   const DATA = [
     {
       id: '1',
@@ -84,14 +84,14 @@ const Statistic = props => {
         <View style={styles.body}>
           <CalendarStrip
             scrollable
-            style={{height: 90, paddingTop: 18, paddingBottom: 10}}
+            style={{ height: 90, paddingTop: 18, paddingBottom: 10 }}
             calendarColor={'white'}
-            highlightDateNumberStyle={{color: '#461CF0'}}
-            highlightDateNameStyle={{color: '#461CF0'}}
-            calendarHeaderStyle={{color: 'black'}}
-            dateNumberStyle={{color: 'black'}}
-            dateNameStyle={{color: 'black'}}
-            iconContainer={{flex: 0.1}}
+            highlightDateNumberStyle={{ color: '#461CF0' }}
+            highlightDateNameStyle={{ color: '#461CF0' }}
+            calendarHeaderStyle={{ color: 'black' }}
+            dateNumberStyle={{ color: 'black' }}
+            dateNameStyle={{ color: 'black' }}
+            iconContainer={{ flex: 0.1 }}
             daySelectionAnimation={{
               type: 'border',
               duration: 200,
@@ -101,7 +101,7 @@ const Statistic = props => {
             }}
           />
           <View style={styles.statisticRow1}>
-            <View style={{width: 180, alignItems: 'center'}}>
+            <View style={{ width: 180, alignItems: 'center' }}>
               <Pie
                 radius={100}
                 innerRadius={80}
@@ -115,14 +115,14 @@ const Statistic = props => {
               />
               <View style={styles.gauge1}>
                 <Text style={styles.gaugeText1}>
-                  950{'\n'} <Text style={{fontSize: 18}}>Cal</Text>
+                  950{'\n'} <Text style={{ fontSize: 18 }}>Cal</Text>
                 </Text>
               </View>
             </View>
           </View>
 
           <View style={styles.statisticRow2}>
-            <View style={{width: 118, alignItems: 'center'}}>
+            <View style={{ width: 118, alignItems: 'center' }}>
               <Pie
                 radius={55}
                 innerRadius={37}
@@ -135,10 +135,10 @@ const Statistic = props => {
                 backgroundColor="#ddd"
               />
               <View style={styles.gauge}>
-                <Text style={styles.gaugeText}>87{'\n'}Workout</Text>
+                <Text style={styles.gaugeText}>87{'\n'}Exercise</Text>
               </View>
             </View>
-            <View style={{width: 118, alignItems: 'center'}}>
+            <View style={{ width: 118, alignItems: 'center' }}>
               <Pie
                 radius={55}
                 innerRadius={37}
@@ -154,7 +154,7 @@ const Statistic = props => {
                 <Text style={styles.gaugeText}>55{'\n'}Minutes</Text>
               </View>
             </View>
-            <View style={{width: 118, alignItems: 'center'}}>
+            <View style={{ width: 118, alignItems: 'center' }}>
               <Pie
                 radius={55}
                 innerRadius={37}
@@ -177,45 +177,50 @@ const Statistic = props => {
               justifyContent: 'space-between',
               paddingTop: 10,
             }}>
-            <Text style={{fontWeight: '700'}}>Finish workout</Text>
-            <Text style={{color: '#461CF0', fontWeight: '600'}}>See all</Text>
+            <Text style={{ fontWeight: '700' }}>Finish exercises</Text>
+            <Text style={{ color: '#461CF0', fontWeight: '600' }}>See all</Text>
           </View>
-          <View
+          <FlatList
+            data={DATA}
+            keyExtractor={item => item.id}
             style={{
               //   backgroundColor: 'red',
-              flexGrow: 1,
               width: '100%',
               marginTop: '2%',
               alignSelf: 'center',
-              justifyContent: 'center',
-            }}>
-            <TouchableOpacity
-              //   onPress={() => navigation.navigate('Workout Detail', [item])}
-              style={{
-                width: '100%',
-                flexGrow: 1,
-                borderRadius: 20,
-                marginTop: 10,
-                marginBottom: 10,
-              }}>
-              <Image
-                // source={require('../../image/workout1.png')}
-                // key={item.id}
-                style={{
-                  width: '95%',
-                  flexGrow: 1,
-                  borderRadius: 30,
-                  alignSelf: 'center',
-                  borderWidth: 1,
-                  resizeMode: 'contain',
-                }}
-              />
-            </TouchableOpacity>
-          </View>
+            }}
+            renderItem={({ item }) => {
+              return (
+                <TouchableOpacity
+                  //   onPress={() => navigation.navigate('Workout Detail', [item])}
+                  style={{
+                    width: '100%',
+                    height: 90,
+                    borderRadius: 20,
+                    marginTop: 10,
+                    marginBottom: 10,
+                  }}>
+                  <Image
+                    source={item.url}
+                    // key={item.id}
+                    style={{
+                      width: '95%',
+                      height: 90,
+                      borderRadius: 30,
+                      alignSelf: 'center',
+                      borderWidth: 1,
+                    }}
+                  />
+                </TouchableOpacity>
+              )
+            }}
+          >
+
+          </FlatList>
         </View>
 
         <View style={styles.foot}>
-          <Footer page='Statistic'/>
+          <Footer page='Statistic' />
         </View>
       </SafeAreaView>
     </>
