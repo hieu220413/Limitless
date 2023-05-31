@@ -172,7 +172,7 @@ const MainPage = (props) => {
                             horizontal
                             showsHorizontalScrollIndicator={false}
                             data={DATA}
-                            keyExtractor={item => item.workoutId}
+                            keyExtractor={item => item.id}
                             renderItem={({ item }) => (
                                 !(item.isPremium == 1) ?
                                     <TouchableOpacity

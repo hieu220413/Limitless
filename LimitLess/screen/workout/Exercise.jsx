@@ -2,7 +2,7 @@ import * as React from 'react';
 import { SafeAreaView, Image, FlatList, StyleSheet, View, Text, TouchableOpacity, ScrollView, StatusBar, TextInput } from "react-native";
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { useState,useEffect,useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useIsFocused } from '@react-navigation/native'
 import Footer from '../../component/Footer';
 import Header from '../../component/Header';
@@ -12,21 +12,32 @@ import video from '../../assets/video/exercise.mp4'
 const Stack = createNativeStackNavigator();
 const Exercise = (props) => {
     const [isFinish, setFinish] = useState(false);
-    const [isPaused,setPause] = useState(false);
+    const [isPaused, setPause] = useState(false);
     const isFocused = useIsFocused();
     const exerciseVideo = useRef();
     const navigation = props.navigation;
+    const route = props.route;
     const unsubscribe = navigation.addListener('blur', () => {
         console.log('Leaving Exercise Screen');
         exerciseVideo.current?.setNativeProps({ paused: true, muted: true })
     });
-
+    const [exercise, setExercise] = useState({});
+    console.log(route.params)
+    const fetchExerciseDetail = async (exerciseId) => {
+        exerciseDetailResponseBody = await fetch(`http://localhost:8080/exercise/fetchById?id=${exerciseId}`)
+            .then(response => response.json())
+            .then(json => json)
+            .catch(error => console.log(error));
+        console.log(JSON.stringify(exerciseDetailResponseBody));
+        setExercise(exerciseDetailResponseBody);
+    }
     useEffect(() => {
-        if(isFocused){
+        fetchExerciseDetail(route.params)
+        if (isFocused) {
             setFinish(false);
             setPause(true);
             exerciseVideo.current?.seek(0);
-        }else{
+        } else {
             setPause(true)
         }
         return unsubscribe;
@@ -38,11 +49,11 @@ const Exercise = (props) => {
                     <Header></Header>
                 </View>
                 <Video
-                    source={video}
-                       // Can be a URL or a local file.
+                    source={{}}
+                    // Can be a URL or a local file.
                     style={styles.image}
                     controls={true}
-                    onEnd={()=> setFinish(true)}
+                    onEnd={() => setFinish(true)}
                     resizeMode={'stretch'}
                     ref={exerciseVideo}
                     muted={true}
@@ -54,9 +65,12 @@ const Exercise = (props) => {
                             fontSize: 25,
                             marginTop: '2%'
                         }}>
-                            Push exercise
+                            {exercise.name}
                         </Text>
-                        {isFinish ? <Ionicons name='checkmark-circle' size={30} style={{color:'#2EC561',marginTop:'1.5%',marginLeft:'4%'}}></Ionicons>:<View></View>}
+                        {isFinish ? <Ionicons name='checkmark-circle' size={30} style={{ color: '#2EC561', marginTop: '1.5%', marginLeft: '4%' }}></Ionicons> : <View></View>}
+                    </View>
+                    <View style={{ flexDirection: 'row', marginBottom: '1%',marginTop:'2%' }}>
+                        <Text style={{ color: 'black',fontStyle:'italic' }}>{exercise.description}</Text>
                     </View>
                     <View
                         style={{
@@ -65,22 +79,22 @@ const Exercise = (props) => {
                             marginTop: '2%',
                             alignSelf: 'center'
                         }}>
-                        <Text>Difficulty levels</Text>
-                        <View style={{ flexDirection: 'row', marginVertical: '3%' }}>
-                            <View style={{ backgroundColor: 'black', borderRadius: 5, marginRight: '4%' }}><Text style={{ color: 'white', padding: '3%' }}>Intermediate</Text></View>
-                            <View style={{ backgroundColor: 'black', borderRadius: 5 }}><Text style={{ color: 'white', padding: '3%' }}>Advanced</Text></View>
-                        </View>
+
                         <Text>Time</Text>
-                        <View style={{ flexDirection: 'row', marginVertical: '3%' }}>
-                            <View style={{ backgroundColor: 'black', borderRadius: 5, marginRight: '4%' }}><Text style={{ color: 'white', padding: '3%' }}>6 minutes</Text></View>
+                        <View style={{ flexDirection: 'row', marginVertical: '2%' }}>
+                            <View style={{ backgroundColor: '#459CF0', borderRadius: 5, marginRight: '4%' }}><Text style={{ color: 'white', padding: '3%' }}>{exercise.duration} minutes</Text></View>
                         </View>
                         <Text>Reps</Text>
-                        <View style={{ flexDirection: 'row', marginVertical: '3%' }}>
-                            <View style={{ backgroundColor: 'black', borderRadius: 5, marginRight: '4%' }}><Text style={{ color: 'white', padding: '3%' }}>7</Text></View>
+                        <View style={{ flexDirection: 'row', marginVertical: '2%' }}>
+                            <View style={{ backgroundColor: '#459CF0', borderRadius: 5, marginRight: '4%' }}><Text style={{ color: 'white', padding: '3%' }}>{exercise.rets}</Text></View>
                         </View>
                         <Text>Sets</Text>
-                        <View style={{ flexDirection: 'row', marginVertical: '3%' }}>
-                            <View style={{ backgroundColor: 'black', borderRadius: 5, marginRight: '4%' }}><Text style={{ color: 'white', padding: '3%' }}>2</Text></View>
+                        <View style={{ flexDirection: 'row', marginVertical: '2%' }}>
+                            <View style={{ backgroundColor: '#459CF0', borderRadius: 5, marginRight: '4%' }}><Text style={{ color: 'white', padding: '3%' }}>{exercise.sets}</Text></View>
+                        </View>
+                        <Text>Calories Burn</Text>
+                        <View style={{ flexDirection: 'row', marginVertical: '2%' }}>
+                            <View style={{ backgroundColor: '#459CF0', borderRadius: 5, marginRight: '4%' }}><Text style={{ color: 'white', padding: '3%' }}>{exercise.caloriesBurn}</Text></View>
                         </View>
                     </View>
                 </View>

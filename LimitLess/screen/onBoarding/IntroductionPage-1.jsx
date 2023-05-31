@@ -42,17 +42,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#8365D6',
   },
   icon: {
-    position: 'absolute',
     color: 'rgba(255,255,255,1)',
     fontSize: 200,
-    padding: 117,
-    top: '30%',
+    top: '20%',
     transform: [{rotate: '-30deg'}],
     alignSelf:'center'
   },
   indicator: {
-    padding: 100,
-    bottom: '-250%'
+    marginTop:'70%'
   },
 });
 export default IntroductionPage_1;
