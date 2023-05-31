@@ -31,7 +31,10 @@ public class Workout {
 
     private int totalExercise;
 
+    private int price;
+
     private byte isPremium;
+
 
     private int status;
 
