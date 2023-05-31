@@ -127,13 +127,13 @@ const Statistic = props => {
             </TouchableOpacity>
           </View>
         </View>
-        <ScrollView showsVerticalScrollIndicator={false} style={styles.body}>
+        <View style={styles.body}>
           <CalendarStrip
             scrollable
             onDateSelected={loadStatistics}
             selectedDate={selectedDate.current}
             minDate={oldestDate}
-            style={{ height: 90, paddingTop: 18, paddingBottom: 10 }}
+            style={{ height: 110, paddingTop: 18, paddingBottom: 10 }}
             calendarColor={'white'}
             highlightDateNumberStyle={{ color: '#461CF0' }}
             highlightDateNameStyle={{ color: '#461CF0' }}
@@ -275,7 +275,7 @@ const Statistic = props => {
           >
 
           </FlatList>
-        </ScrollView>
+        </View>
 
         <View style={styles.foot}>
           <Footer page='Statistic' />
