@@ -177,17 +177,6 @@ const MainPage = (props) => {
                         }}>
                             Feature Workout
                         </Text>
-                        <TouchableOpacity style={{ flex: 1 }}>
-                            <Text style={{
-                                fontWeight: 600,
-                                fontSize: 20,
-                                flex: 1,
-                                textAlign: 'right',
-                                color: '#461CF0'
-                            }}>
-                                See all
-                            </Text>
-                        </TouchableOpacity>
                     </View>
                     <View style={{ height: 145,flexWrap:'wrap'}}>
                         <FlatList
@@ -275,7 +264,7 @@ const MainPage = (props) => {
                             )}
                         />
                     </View>
-                    <View style={{ flexDirection: 'row' }}>
+                    <View style={{ flexDirection: 'row',marginTop:'2%' }}>
                         <Text style={{
                             fontWeight: 600,
                             fontSize: 20

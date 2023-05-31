@@ -81,16 +81,15 @@ const Statistic = props => {
             </TouchableOpacity>
           </View>
         </View>
-        <View style={styles.body}>
+        <ScrollView showsVerticalScrollIndicator={false} style={styles.body}>
           <CalendarStrip
             scrollable
-            style={{ height: 90, paddingTop: 18, paddingBottom: 10 }}
-            calendarColor={'white'}
+            style={{ height: 110, paddingTop: 18, paddingBottom: 10,marginTop:'3%' }}
             highlightDateNumberStyle={{ color: '#461CF0' }}
             highlightDateNameStyle={{ color: '#461CF0' }}
-            calendarHeaderStyle={{ color: 'black' }}
-            dateNumberStyle={{ color: 'black' }}
-            dateNameStyle={{ color: 'black' }}
+            calendarHeaderStyle={{ color: 'black',fontSize:20 }}
+            dateNumberStyle={{ color: 'black',fontSize:20 }}
+            dateNameStyle={{ color: 'black',fontSize:10 }}
             iconContainer={{ flex: 0.1 }}
             daySelectionAnimation={{
               type: 'border',
@@ -122,7 +121,7 @@ const Statistic = props => {
           </View>
 
           <View style={styles.statisticRow2}>
-            <View style={{ width: 118, alignItems: 'center' }}>
+            <View style={{ width: 110, alignItems: 'center' }}>
               <Pie
                 radius={55}
                 innerRadius={37}
@@ -138,7 +137,7 @@ const Statistic = props => {
                 <Text style={styles.gaugeText}>87{'\n'}Exercise</Text>
               </View>
             </View>
-            <View style={{ width: 118, alignItems: 'center' }}>
+            <View style={{ width: 110, alignItems: 'center' }}>
               <Pie
                 radius={55}
                 innerRadius={37}
@@ -154,7 +153,7 @@ const Statistic = props => {
                 <Text style={styles.gaugeText}>55{'\n'}Minutes</Text>
               </View>
             </View>
-            <View style={{ width: 118, alignItems: 'center' }}>
+            <View style={{ width: 110, alignItems: 'center' }}>
               <Pie
                 radius={55}
                 innerRadius={37}
@@ -183,6 +182,7 @@ const Statistic = props => {
           <FlatList
             data={DATA}
             keyExtractor={item => item.id}
+            scrollEnabled={false}
             style={{
               //   backgroundColor: 'red',
               width: '100%',
@@ -217,7 +217,7 @@ const Statistic = props => {
           >
 
           </FlatList>
-        </View>
+        </ScrollView>
 
         <View style={styles.foot}>
           <Footer page='Statistic' />
