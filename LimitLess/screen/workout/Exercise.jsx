@@ -27,6 +27,7 @@ const Exercise = (props) => {
             .then(response => response.json())
             .then(json => json)
             .catch(error => console.log(error));
+            console.log(JSON.stringify(exerciseDetailResponseBody))  
         setExercise(exerciseDetailResponseBody);
     }
     useEffect(() => {
@@ -103,7 +104,7 @@ const Exercise = (props) => {
                         </View>
                         <Text>Reps</Text>
                         <View style={{ flexDirection: 'row', marginVertical: '2%' }}>
-                            <View style={{ backgroundColor: '#459CF0', borderRadius: 5, marginRight: '4%' }}><Text style={{ color: 'white', padding: '3%' }}>{exercise.rets}</Text></View>
+                            <View style={{ backgroundColor: '#459CF0', borderRadius: 5, marginRight: '4%' }}><Text style={{ color: 'white', padding: '3%' }}>{exercise.reps}</Text></View>
                         </View>
                         <Text>Sets</Text>
                         <View style={{ flexDirection: 'row', marginVertical: '2%' }}>

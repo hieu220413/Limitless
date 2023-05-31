@@ -1,11 +1,10 @@
-import * as React from 'react';
+import React, {useState, useEffect} from 'react';
 import { SafeAreaView, Image, FlatList, StyleSheet, View, Text, TouchableOpacity, ScrollView, StatusBar, TextInput } from "react-native";
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icon from 'react-native-vector-icons/AntDesign';
-import { useState } from "react";
 import { Button } from '@rneui/themed';
 import Footer from '../component/Footer';
 import Header from '../component/Header';
@@ -45,7 +44,9 @@ const MainPage = (props) => {
             .then(response => response.json())
             .then(json => json)
             .catch(error => console.log(error))
+        console.log(JSON.stringify(workoutsResponseBody))    
         setLevelPicked(level)
+        setWorkouts(workoutsResponseBody)
     }
     useFocusEffect(
         React.useCallback(() => {
@@ -58,9 +59,6 @@ const MainPage = (props) => {
                     userId = JSON.parse(user_info).userId
                     user_level= JSON.parse(user_info).level
                     setUserFullName(JSON.parse(user_info).fullName)
-                    setLevels(levelsDict)
-                    setLevels(prev => ({ ...prev, [user_level]: true }))
-                    setLevelPicked(user_level)
                 } else {
                     //redirect to welcomepage
                 }
@@ -69,7 +67,11 @@ const MainPage = (props) => {
                     setIsPremiumUser(checkResult.isPremium)
                     console.log(isPremiumUser)
                 }
-                fetchWorkouts(user_level)
+                if(Object.keys(workouts).length == 0){
+                    setLevels(levelsDict)
+                    setLevels(prev => ({ ...prev, [user_level]: true }))
+                    fetchWorkouts(user_level)
+                }
             }
             checkPremiumAndGetName()
             return () => {
@@ -78,7 +80,6 @@ const MainPage = (props) => {
             };
         }, [])
     );
-
     const time = ['Morning', 'Afternoon', 'Evening'];
     const DATA = [
         {

@@ -64,12 +64,13 @@ const Workouts = (props) => {
     const [exercises, setExercises] = useState({});
     const [workoutImage,setWorkoutImage] = useState('');
     const fetchWorkoutDetail = async (workoutId) => {
-        workoutDetailResponseBody = await fetch(`http://limitless-api.us-east-1.elasticbeanstalk.com/${workoutId}`)
+        workoutDetailResponseBody = await fetch(`http://limitless-api.us-east-1.elasticbeanstalk.com/workout/${workoutId}`)
             .then(response => response.json())
             .then(json => json)
             .catch(error => console
                 .log(error))
         setExercises(workoutDetailResponseBody.exercises)
+        console.log(JSON.stringify(workoutDetailResponseBody.exercises))  
         setWorkoutImage(workoutDetailResponseBody.thumbnail)
     }
     useFocusEffect(
