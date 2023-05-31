@@ -1,11 +1,10 @@
-import * as React from 'react';
+import React, {useState, useEffect} from 'react';
 import { SafeAreaView, Image, FlatList, StyleSheet, View, Text, TouchableOpacity, ScrollView, StatusBar, TextInput } from "react-native";
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icon from 'react-native-vector-icons/AntDesign';
-import { useState } from "react";
 import { Button } from '@rneui/themed';
 import Footer from '../component/Footer';
 import Header from '../component/Header';
@@ -20,16 +19,51 @@ const MainPage = (props) => {
     const [isModalVisible, setIsModalVisible] = React.useState(false);
     const handleModal = () => setIsModalVisible(() => !isModalVisible);
     const { navigation, route } = props
-    let [userFullName, setUserFullName] = useState('');
-    const [isPremiumUser, setIsPremiumUser] = useState(false)
+    const [userFullName, setUserFullName] = useState('');
+    const [isPremiumUser, setIsPremiumUser] = useState(false);
+    const [levelPicked,setLevelPicked] = useState('');
+    const [workouts, setWorkouts] = useState({});
+    const [featureWorkouts, setfeatureWorkouts] = useState({});
+    var featureWorkout = [];
+    const ExerciseImages = {
+        "barbell-curl.jpg": require('../assets/exe-thumbnail/barbell-curl.jpg'),
+        "barbell-rows.jpg": require('../assets/exe-thumbnail/barbell-rows.jpg'),
+        "bench-press.jpg": require('../assets/exe-thumbnail/bench-press.jpg'),
+        "calves-raise.jpg": require('../assets/exe-thumbnail/calves-raise.jpg'),
+        "db-press.jpg": require('../assets/exe-thumbnail/db-press.jpg'),
+        "close-grip-bench-press.jpg": require('../assets/exe-thumbnail/close-grip-bench-press.jpg'),
+        "hammer-curl.jpg": require('../assets/exe-thumbnail/hammer-curl.jpg'),
+        "lat-pulldown.jpg": require('../assets/exe-thumbnail/lat-pulldown.jpg'),
+        "leg-curl.jpg": require('../assets/exe-thumbnail/leg-curl.jpg'),
+        "leg-extension.jpg": require('../assets/exe-thumbnail/leg-extension.jpg'),
+        "leg-press.jpg": require('../assets/exe-thumbnail/leg-press.jpg'),
+        "push-workout.jpg": require('../assets/exe-thumbnail/push-workout.jpg'),
+        "squat.jpg": require('../assets/exe-thumbnail/squat.jpg'),
+        "triceps-extension.jpg": require('../assets/exe-thumbnail/triceps-extension.jpg')
+    }
+    const fetchWorkouts = async (level) => {
+        workoutsResponseBody = await fetch(`http://limitless-api.us-east-1.elasticbeanstalk.com/workout/fetchByLevel?level=${level}`)
+            .then(response => response.json())
+            .then(json => json)
+            .catch(error => console.log(error))
+        console.log(JSON.stringify(workoutsResponseBody))    
+        setLevelPicked(level)
+        setWorkouts(workoutsResponseBody)
+        if(Object.keys(featureWorkouts).length == 0){
+            setfeatureWorkouts(workoutsResponseBody)
+        }
+    }
+    let user_level = ''
     useFocusEffect(
         React.useCallback(() => {
             // Do something when the screen is focused
             const checkPremiumAndGetName = async () => {
                 let userId = ''
+                let user_level = ''
                 const user_info = await AsyncStorage.getItem('user_info')
                 if (user_info != null) {
                     userId = JSON.parse(user_info).userId
+                    user_level= JSON.parse(user_info).level
                     setUserFullName(JSON.parse(user_info).fullName)
                 } else {
                     //redirect to welcomepage
@@ -37,18 +71,21 @@ const MainPage = (props) => {
                 const checkResult = await fetch(`http://limitless-api.us-east-1.elasticbeanstalk.com/api/subscription/checkActiveSubscription?userId=${userId}`).then(response => response.json()).then(json => json)
                 if (checkResult.isPremium) {
                     setIsPremiumUser(checkResult.isPremium)
+                    console.log(isPremiumUser)
                 }
-                
+                if(Object.keys(workouts).length == 0){
+                    setLevels(levelsDict)
+                    setLevels(prev => ({ ...prev, [user_level]: true }))
+                    fetchWorkouts(user_level)
+                }
             }
             checkPremiumAndGetName()
-
             return () => {
                 // Do something when the screen is unfocused
                 // Useful for cleanup functions
             };
         }, [])
     );
-    
     const time = ['Morning', 'Afternoon', 'Evening'];
     const DATA = [
         {
@@ -56,7 +93,7 @@ const MainPage = (props) => {
             url: require('../image/workout1.jpg'),
             name: 'Arm Workout',
             level: 'Beginner',
-            time: 10,
+            totalExercise: 10,
             isPremium: false
         },
         {
@@ -64,7 +101,7 @@ const MainPage = (props) => {
             url: require('../image/workout2.jpg'),
             name: 'Chest Workout',
             level: 'Beginner',
-            time: 12,
+            totalExercise: 12,
             isPremium: false
         },
         {
@@ -72,7 +109,7 @@ const MainPage = (props) => {
             url: require('../image/workout3.jpg'),
             name: 'Leg Workout',
             level: 'Beginner',
-            time: 20,
+            totalExercise: 20,
             isPremium: false
         },
         {
@@ -80,7 +117,7 @@ const MainPage = (props) => {
             url: require('../image/workout4.jpg'),
             name: 'Push Workout',
             level: 'Beginner',
-            time: 6,
+            totalExercise: 6,
             isPremium: true
         },
         {
@@ -99,6 +136,7 @@ const MainPage = (props) => {
         'Advanced': false
     }
     const [levels, setLevels] = useState(levelsDict);
+
     return (
         <>
             <SafeAreaView style={styles.container}>
@@ -114,7 +152,6 @@ const MainPage = (props) => {
                     </View>
                 </View>
                 <ScrollView style={styles.body} showsVerticalScrollIndicator={false}>
-
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                         <Text style={{
                             fontWeight: 700,
@@ -140,29 +177,18 @@ const MainPage = (props) => {
                         }}>
                             Feature Workout
                         </Text>
-                        <TouchableOpacity style={{ flex: 1 }}>
-                            <Text style={{
-                                fontWeight: 600,
-                                fontSize: 20,
-                                flex: 1,
-                                textAlign: 'right',
-                                color: '#461CF0'
-                            }}>
-                                See all
-                            </Text>
-                        </TouchableOpacity>
                     </View>
-                    <View style={{ height: '15%' }}>
+                    <View style={{ height: 145,flexWrap:'wrap'}}>
                         <FlatList
                             style={styles.featureWorkout}
                             horizontal
                             showsHorizontalScrollIndicator={false}
-                            data={DATA}
-                            keyExtractor={item => item.id}
+                            data={featureWorkouts}
+                            keyExtractor={item => item.workoutId}
                             renderItem={({ item }) => (
-                                !item.isPremium ?
+                                !(item.isPremium == 1) || isPremiumUser ?
                                     <TouchableOpacity
-                                        onPress={() => navigation.navigate('Workout Detail', [item.id])}
+                                        onPress={() => navigation.navigate('Workout Detail', [item.workoutId])}
                                         style={{
                                             width: 120,
                                             height: 120,
@@ -173,8 +199,8 @@ const MainPage = (props) => {
                                             blurRadius: 1
                                         }}>
                                         <Image
-                                            source={item.url}
-                                            key={item.id}
+                                            source={ExerciseImages[item.thumbnail]}
+                                            key={item.workoutId}
                                             style={{
                                                 width: 120,
                                                 height: 120,
@@ -186,10 +212,10 @@ const MainPage = (props) => {
                                         <View style={{
                                             position: 'absolute',
                                             marginLeft: '6%',
-                                            marginTop: '67%'
+                                            marginTop: '50%'
                                         }}>
                                             <Text style={{ fontSize: 15, fontWeight: 600, color: 'white' }}>{item.name}</Text>
-                                            <Text style={{ fontSize: 10, color: 'white' }}>{item.time} minutes | {item.level}</Text>
+                                            <Text style={{ fontSize: 10, color: 'white', fontWeight: 500 }}>{item.totalExercise} exercises</Text>
                                         </View>
                                     </TouchableOpacity>
                                     :
@@ -204,8 +230,8 @@ const MainPage = (props) => {
                                             blurRadius: 1
                                         }}>
                                         <Image
-                                            source={item.url}
-                                            key={item.id}
+                                            source={ExerciseImages[item.thumbnail]}
+                                            key={item.workoutId}
                                             style={{
                                                 width: 120,
                                                 height: 120,
@@ -238,7 +264,7 @@ const MainPage = (props) => {
                             )}
                         />
                     </View>
-                    <View style={{ flexDirection: 'row' }}>
+                    <View style={{ flexDirection: 'row',marginTop:'2%' }}>
                         <Text style={{
                             fontWeight: 600,
                             fontSize: 20
@@ -263,10 +289,10 @@ const MainPage = (props) => {
                                 key={title}
                                 title={title}
                                 onPress={() => {
+                                    fetchWorkouts(title)
                                     setLevels(levelsDict)
                                     setLevels(prev => ({ ...prev, [title]: true }))
-                                    levelPicked = title
-                                    console.log(levelPicked)
+                                    console.log(levelPicked) 
                                 }}
                                 titleStyle={!levels[title] ? styles.titleBtn : styles.titleBtnPressed}
                                 buttonStyle={!levels[title] ? styles.button : styles.buttonPressed}
@@ -277,7 +303,7 @@ const MainPage = (props) => {
                                 }}
                             />))}
                     </View>
-                    <SafeAreaView style={{
+                    <View style={{
                         flexDirection: 'column',
                         width: '100%',
                         height: '100%',
@@ -289,12 +315,12 @@ const MainPage = (props) => {
                             style={styles.exercise}
                             showsVerticalScrollIndicator={false}
                             scrollEnabled={false}
-                            data={DATA}
-                            keyExtractor={item => item.id}
+                            data={workouts}
+                            keyExtractor={item => item.workoutId}
                             renderItem={({ item }) => (
-                                !item.isPremium ?
+                                !(item.isPremium == 1) || isPremiumUser ?
                                     <TouchableOpacity
-                                        onPress={() => navigation.navigate('Workout Detail', [item.id])}
+                                        onPress={() => navigation.navigate('Workout Detail', [item.workoutId])}
                                         style={{
                                             width: '100%',
                                             height: 120,
@@ -302,8 +328,8 @@ const MainPage = (props) => {
                                             marginTop: '3%'
                                         }}>
                                         <Image
-                                            source={item.url}
-                                            key={item.id}
+                                            source={ExerciseImages[item.thumbnail]}
+                                            key={item.workoutId}
                                             style={{
                                                 width: '95%',
                                                 height: 120,
@@ -315,12 +341,13 @@ const MainPage = (props) => {
                                         <View style={{
                                             position: 'absolute',
                                             marginLeft: '8%',
-                                            marginTop: '17%'
+                                            marginTop: '16%'
                                         }}>
-                                            <Text style={{ fontSize: 20, fontWeight: 600, color: 'white' }}>{item.name}</Text>
-                                            <Text style={{ color: 'white' }}>{item.time} minutes | {item.level}</Text>
+                                            <Text style={{ fontSize: 25, fontWeight: 600, color: 'white' }}>{item.name}</Text>
+                                            <Text style={{ fontSize: 18,color: 'white' }}>{item.totalExercise} exercise | {levelPicked}</Text>
                                         </View>
-                                    </TouchableOpacity> :
+                                    </TouchableOpacity> 
+                                    :
                                     <TouchableOpacity
                                         onPress={handleModal}
                                         style={{
@@ -330,8 +357,8 @@ const MainPage = (props) => {
                                             marginTop: '3%'
                                         }}>
                                         <Image
-                                            source={item.url}
-                                            key={item.id}
+                                            source={ExerciseImages[item.thumbnail]}
+                                            key={item.workoutId}
                                             style={{
                                                 width: '95%',
                                                 height: 120,
@@ -363,7 +390,7 @@ const MainPage = (props) => {
                                     </TouchableOpacity>
                             )}
                         />
-                    </SafeAreaView>
+                    </View>
                 </ScrollView>
                 <View style={styles.foot}>
                     <Footer page='Home' />
@@ -418,7 +445,7 @@ const styles = StyleSheet.create({
         flex: 1
     },
     featureWorkout: {
-        marginTop: "2%",
+        margin: "2%",
         width: '100%'
     },
     button: {

@@ -127,7 +127,7 @@ const Statistic = props => {
             </TouchableOpacity>
           </View>
         </View>
-        <View style={styles.body}>
+        <ScrollView showsVerticalScrollIndicator={false} style={styles.body}>
           <CalendarStrip
             scrollable
             onDateSelected={loadStatistics}
@@ -137,9 +137,9 @@ const Statistic = props => {
             calendarColor={'white'}
             highlightDateNumberStyle={{ color: '#461CF0' }}
             highlightDateNameStyle={{ color: '#461CF0' }}
-            calendarHeaderStyle={{ color: 'black' }}
-            dateNumberStyle={{ color: 'black' }}
-            dateNameStyle={{ color: 'black' }}
+            calendarHeaderStyle={{ color: 'black',fontSize:20 }}
+            dateNumberStyle={{ color: 'black',fontSize:20 }}
+            dateNameStyle={{ color: 'black',fontSize:10 }}
             iconContainer={{ flex: 0.1 }}
             daySelectionAnimation={{
               type: 'border',
@@ -172,7 +172,7 @@ const Statistic = props => {
           </View>
 
           <View style={styles.statisticRow2}>
-            <View style={{ width: 118, alignItems: 'center' }}>
+            <View style={{ width: 110, alignItems: 'center' }}>
               <Pie
                 radius={55}
                 innerRadius={37}
@@ -188,7 +188,7 @@ const Statistic = props => {
                 <Text style={styles.gaugeText}>{statistic ? statistic.finishedExercises.length : 0}{'\n'}Exercise</Text>
               </View>
             </View>
-            <View style={{ width: 118, alignItems: 'center' }}>
+            <View style={{ width: 110, alignItems: 'center' }}>
               <Pie
                 radius={55}
                 innerRadius={37}
@@ -275,7 +275,7 @@ const Statistic = props => {
           >
 
           </FlatList>
-        </View>
+        </ScrollView>
 
         <View style={styles.foot}>
           <Footer page='Statistic' />
