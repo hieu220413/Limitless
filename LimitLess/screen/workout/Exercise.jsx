@@ -22,13 +22,11 @@ const Exercise = (props) => {
         exerciseVideo.current?.setNativeProps({ paused: true, muted: true })
     });
     const [exercise, setExercise] = useState({});
-    console.log(route.params)
     const fetchExerciseDetail = async (exerciseId) => {
-        exerciseDetailResponseBody = await fetch(`http://localhost:8080/exercise/fetchById?id=${exerciseId}`)
+        exerciseDetailResponseBody = await fetch(`http://limitless-api.us-east-1.elasticbeanstalk.com/exercise/fetchById?id=${exerciseId}`)
             .then(response => response.json())
             .then(json => json)
             .catch(error => console.log(error));
-        console.log(JSON.stringify(exerciseDetailResponseBody));
         setExercise(exerciseDetailResponseBody);
     }
     useEffect(() => {
@@ -42,6 +40,25 @@ const Exercise = (props) => {
         }
         return unsubscribe;
     }, [isFocused])
+
+    const ExerciseVideo = {
+        "barbell-curl.mp4": require('../../assets/video/barbell-curl.mp4'),
+        "barbell-rows.mp4": require('../../assets/video/barbell-rows.mp4'),
+        "bench-press.mp4": require('../../assets/video/bench-press.mp4'),
+        "calves-raise.mp4": require('../../assets/video/calves-raise.mp4'),
+        "chest-fly.mp4": require('../../assets/video/chest-fly.mp4'),
+        "exercise.mp4": require('../../assets/video/exercise.mp4'),
+        "hammer-curl.mp4": require('../../assets/video/hammer-curl.mp4'),
+        "inclined-barbell-close-grip-bench-press.mp4": require('../../assets/video/inclined-barbell-close-grip-bench-press.mp4'),
+        "inclined-dumbell-press.mp4": require('../../assets/video/inclined-dumbell-press.mp4'),
+        "lat-pulldown.mp4": require('../../assets/video/lat-pulldown.mp4'),
+        "leg-curl.mp4": require('../../assets/video/leg-curl.mp4'),
+        "leg-extension.mp4": require('../../assets/video/leg-extension.mp4'),
+        "leg-press.mp4": require('../../assets/video/leg-press.mp4'),
+        "one-arm-lat-pulldown.mp4": require('../../assets/video/one-arm-lat-pulldown.mp4'),
+        "squat.mp4": require('../../assets/video/squat.mp4'),
+        "triceps-extension.mp4": require('../../assets/video/triceps-extension.mp4')
+    }
     return (
         <>
             <SafeAreaView style={styles.container}>
@@ -49,7 +66,7 @@ const Exercise = (props) => {
                     <Header></Header>
                 </View>
                 <Video
-                    source={{}}
+                    source={ExerciseVideo[exercise.video]}
                     // Can be a URL or a local file.
                     style={styles.image}
                     controls={true}
@@ -69,8 +86,8 @@ const Exercise = (props) => {
                         </Text>
                         {isFinish ? <Ionicons name='checkmark-circle' size={30} style={{ color: '#2EC561', marginTop: '1.5%', marginLeft: '4%' }}></Ionicons> : <View></View>}
                     </View>
-                    <View style={{ flexDirection: 'row', marginBottom: '1%',marginTop:'2%' }}>
-                        <Text style={{ color: 'black',fontStyle:'italic' }}>{exercise.description}</Text>
+                    <View style={{ flexDirection: 'row', marginBottom: '1%', marginTop: '2%' }}>
+                        <Text style={{ color: 'black', fontStyle: 'italic' }}>{exercise.description}</Text>
                     </View>
                     <View
                         style={{

@@ -62,14 +62,15 @@ const Workouts = (props) => {
     const workoutId = route.params
     console.log(workoutId)
     const [exercises, setExercises] = useState({});
+    const [workoutImage,setWorkoutImage] = useState('');
     const fetchWorkoutDetail = async (workoutId) => {
-        workoutDetailResponseBody = await fetch(`http://localhost:8080/workout/${workoutId}`)
+        workoutDetailResponseBody = await fetch(`http://limitless-api.us-east-1.elasticbeanstalk.com/${workoutId}`)
             .then(response => response.json())
             .then(json => json)
             .catch(error => console
                 .log(error))
-        console.log(JSON.stringify(workoutDetailResponseBody.exercises))
         setExercises(workoutDetailResponseBody.exercises)
+        setWorkoutImage(workoutDetailResponseBody.thumbnail)
     }
     useFocusEffect(
         React.useCallback(() => {
@@ -84,7 +85,7 @@ const Workouts = (props) => {
                 </View>
                 <Image
                     source={
-                        DATA[0].url
+                        ExerciseImages[workoutImage]
                     }
                     key={workoutId}
                     style={styles.image}
@@ -170,7 +171,7 @@ const Workouts = (props) => {
                                         marginTop:'2%'
                                     }}>
                                         <Text style={{ fontSize: 20, fontWeight: 400 }}>{item.name}</Text>
-                                        <Text style={{ fontSize: 15, fontWeight: 200 }}>{item.sets} sets of {item.duration} reps</Text>
+                                        <Text style={{ fontSize: 15, fontWeight: 200 }}>{item.sets} sets of {item.reps} reps</Text>
                                     </View>
                                 </TouchableOpacity>
                             )}

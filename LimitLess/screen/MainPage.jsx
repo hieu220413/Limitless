@@ -24,13 +24,27 @@ const MainPage = (props) => {
     const [isPremiumUser, setIsPremiumUser] = useState(false);
     const [levelPicked,setLevelPicked] = useState('');
     const [workouts, setWorkouts] = useState({});
+    const ExerciseImages = {
+        "barbell-curl.jpg": require('../assets/exe-thumbnail/barbell-curl.jpg'),
+        "barbell-rows.jpg": require('../assets/exe-thumbnail/barbell-rows.jpg'),
+        "bench-press.jpg": require('../assets/exe-thumbnail/bench-press.jpg'),
+        "calves-raise.jpg": require('../assets/exe-thumbnail/calves-raise.jpg'),
+        "db-press.jpg": require('../assets/exe-thumbnail/db-press.jpg'),
+        "close-grip-bench-press.jpg": require('../assets/exe-thumbnail/close-grip-bench-press.jpg'),
+        "hammer-curl.jpg": require('../assets/exe-thumbnail/hammer-curl.jpg'),
+        "lat-pulldown.jpg": require('../assets/exe-thumbnail/lat-pulldown.jpg'),
+        "leg-curl.jpg": require('../assets/exe-thumbnail/leg-curl.jpg'),
+        "leg-extension.jpg": require('../assets/exe-thumbnail/leg-extension.jpg'),
+        "leg-press.jpg": require('../assets/exe-thumbnail/leg-press.jpg'),
+        "push-workout.jpg": require('../assets/exe-thumbnail/push-workout.jpg'),
+        "squat.jpg": require('../assets/exe-thumbnail/squat.jpg'),
+        "triceps-extension.jpg": require('../assets/exe-thumbnail/triceps-extension.jpg')
+    }
     const fetchWorkouts = async (level) => {
         workoutsResponseBody = await fetch(`http://limitless-api.us-east-1.elasticbeanstalk.com/workout/fetchByLevel?level=${level}`)
             .then(response => response.json())
             .then(json => json)
             .catch(error => console.log(error))
-        console.log(JSON.stringify(workoutsResponseBody))
-        setWorkouts(workoutsResponseBody)
         setLevelPicked(level)
     }
     useFocusEffect(
@@ -53,6 +67,7 @@ const MainPage = (props) => {
                 const checkResult = await fetch(`http://limitless-api.us-east-1.elasticbeanstalk.com/api/subscription/checkActiveSubscription?userId=${userId}`).then(response => response.json()).then(json => json)
                 if (checkResult.isPremium) {
                     setIsPremiumUser(checkResult.isPremium)
+                    console.log(isPremiumUser)
                 }
                 fetchWorkouts(user_level)
             }
@@ -307,7 +322,7 @@ const MainPage = (props) => {
                             data={workouts}
                             keyExtractor={item => item.workoutId}
                             renderItem={({ item }) => (
-                                !(item.isPremium == 1) ?
+                                !(item.isPremium == 1) || isPremiumUser ?
                                     <TouchableOpacity
                                         onPress={() => navigation.navigate('Workout Detail', [item.workoutId])}
                                         style={{
@@ -317,7 +332,7 @@ const MainPage = (props) => {
                                             marginTop: '3%'
                                         }}>
                                         <Image
-                                            source={DATA[0].url}
+                                            source={ExerciseImages[item.thumbnail]}
                                             key={item.workoutId}
                                             style={{
                                                 width: '95%',
@@ -346,7 +361,7 @@ const MainPage = (props) => {
                                             marginTop: '3%'
                                         }}>
                                         <Image
-                                            source={DATA[0].url}
+                                            source={ExerciseImages[item.thumbnail]}
                                             key={item.workoutId}
                                             style={{
                                                 width: '95%',
