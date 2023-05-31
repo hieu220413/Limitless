@@ -22,6 +22,8 @@ import Header from '../../component/Header';
 import CalendarStrip from 'react-native-calendar-strip';
 import moment from 'moment';
 import Pie from 'react-native-pie';
+import { useFocusEffect } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Statistic = props => {
   const { navigation, route } = props;
@@ -69,6 +71,50 @@ const Statistic = props => {
     },
   ];
   let datesBlacklist = [moment().add(1, 'days')]; // 1 day disabled
+  const [oldestDate, setOldestDate] = useState(moment())
+  const [statistic, setStatistic] = useState(undefined)
+  const [finishedExercises, setFinishedExercises] = useState([])
+  const selectedDate = React.useRef(moment())
+
+  const loadStatistics = async (date = undefined) => {
+    if (date) {
+      console.log('newDate: '+date)
+      selectedDate.current =  date
+    }
+    const user_info = await AsyncStorage.getItem('user_info')
+    if (user_info != null) {
+      const userId = JSON.parse(user_info).userId
+      console.log('selectedDate: ' + selectedDate.current)
+      console.log('selectedDate after format: ' + selectedDate.current.format('YYYY-MM-DD'))
+      const result = await fetch(`http://10.0.2.2:8080/api/statistic/getByDate?userId=${userId}&date=${selectedDate.current.format('YYYY-MM-DD')}`)
+        .then(response => response.json()).then(json => json) 
+        .catch(error => console.log(error))
+      if (result && !result.error) {
+        setOldestDate(moment(result.oldestDate, 'YYYY-MM-DD').toDate())
+        setStatistic(result.statisticResponseBody)
+        setFinishedExercises([])
+        if (result.statisticResponseBody) {
+          setFinishedExercises(result.statisticResponseBody.finishedExercises)
+        }
+      }
+      console.log(oldestDate)
+      console.log(JSON.stringify(statistic))
+    } else {
+      //redirect to welcomepage
+    }
+
+  }
+  useFocusEffect(
+    React.useCallback(() => {
+
+      loadStatistics()
+
+      return () => {
+        // Do something when the screen is unfocused
+        // Useful for cleanup functions
+      };
+    }, [])
+  )
 
   return (
     <>
@@ -84,7 +130,11 @@ const Statistic = props => {
         <ScrollView showsVerticalScrollIndicator={false} style={styles.body}>
           <CalendarStrip
             scrollable
-            style={{ height: 110, paddingTop: 18, paddingBottom: 10,marginTop:'3%' }}
+            onDateSelected={loadStatistics}
+            selectedDate={selectedDate.current}
+            minDate={oldestDate}
+            style={{ height: 90, paddingTop: 18, paddingBottom: 10 }}
+            calendarColor={'white'}
             highlightDateNumberStyle={{ color: '#461CF0' }}
             highlightDateNameStyle={{ color: '#461CF0' }}
             calendarHeaderStyle={{ color: 'black',fontSize:20 }}
@@ -106,7 +156,7 @@ const Statistic = props => {
                 innerRadius={80}
                 sections={[
                   {
-                    percentage: 75,
+                    percentage:  Math.ceil(((statistic ? statistic.burnedCalories : 0)/1600) * 100) ,
                     color: '#461CF0',
                   },
                 ]}
@@ -114,8 +164,9 @@ const Statistic = props => {
               />
               <View style={styles.gauge1}>
                 <Text style={styles.gaugeText1}>
-                  950{'\n'} <Text style={{ fontSize: 18 }}>Cal</Text>
+                  {statistic ? statistic.burnedCalories : 0}
                 </Text>
+                <Text style={[styles.gaugeText1, { fontSize: 18 }]}>Cal</Text>
               </View>
             </View>
           </View>
@@ -127,14 +178,14 @@ const Statistic = props => {
                 innerRadius={37}
                 sections={[
                   {
-                    percentage: 90,
+                    percentage: Math.ceil(((statistic ? statistic.finishedExercises.length : 0)/30) * 100)   ,
                     color: '#EBD618',
                   },
                 ]}
                 backgroundColor="#ddd"
               />
               <View style={styles.gauge}>
-                <Text style={styles.gaugeText}>87{'\n'}Exercise</Text>
+                <Text style={styles.gaugeText}>{statistic ? statistic.finishedExercises.length : 0}{'\n'}Exercise</Text>
               </View>
             </View>
             <View style={{ width: 110, alignItems: 'center' }}>
@@ -143,17 +194,17 @@ const Statistic = props => {
                 innerRadius={37}
                 sections={[
                   {
-                    percentage: 55,
+                    percentage: Math.ceil(((statistic ? statistic.minutes : 0)/60) * 100),
                     color: '#F84C4C',
                   },
                 ]}
                 backgroundColor="#ddd"
               />
               <View style={styles.gauge}>
-                <Text style={styles.gaugeText}>55{'\n'}Minutes</Text>
+                <Text style={styles.gaugeText}>{statistic ? statistic.minutes : 0}{'\n'}Minutes</Text>
               </View>
             </View>
-            <View style={{ width: 110, alignItems: 'center' }}>
+            {/* <View style={{ width: 118, alignItems: 'center' }}>
               <Pie
                 radius={55}
                 innerRadius={37}
@@ -168,7 +219,7 @@ const Statistic = props => {
               <View style={styles.gauge}>
                 <Text style={styles.gaugeText}>80{'\n'}bpm</Text>
               </View>
-            </View>
+            </View> */}
           </View>
           <View
             style={{
@@ -180,9 +231,8 @@ const Statistic = props => {
             <Text style={{ color: '#461CF0', fontWeight: '600' }}>See all</Text>
           </View>
           <FlatList
-            data={DATA}
-            keyExtractor={item => item.id}
-            scrollEnabled={false}
+            data={finishedExercises}
+            keyExtractor={item => item.statisticId}
             style={{
               //   backgroundColor: 'red',
               width: '100%',
@@ -201,16 +251,24 @@ const Statistic = props => {
                     marginBottom: 10,
                   }}>
                   <Image
-                    source={item.url}
+                    source={require('../../image/workout5.jpg')}
                     // key={item.id}
                     style={{
                       width: '95%',
-                      height: 90,
+                      height: 100,
                       borderRadius: 30,
                       alignSelf: 'center',
                       borderWidth: 1,
                     }}
                   />
+                  <View style={{
+                    position: 'absolute',
+                    left: 30,
+                    bottom: 0,
+                  }}>
+                    <Text style={{ fontSize: 18, fontWeight: 600, color: 'white' }}>{item.name}</Text>
+                    <Text style={{ color: 'white' }}>{item.duration} minutes | {item.sets} sets  | {item.reps} reps | {item.caloriesBurn} calories burn</Text>
+                  </View>
                 </TouchableOpacity>
               )
             }}

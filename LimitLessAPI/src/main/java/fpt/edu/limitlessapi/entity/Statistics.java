@@ -1,6 +1,7 @@
 package fpt.edu.limitlessapi.entity;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.*;
@@ -15,9 +16,6 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "statisticId")
 public class Statistics {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -29,6 +27,7 @@ public class Statistics {
     private int minutes;
 
     private LocalDate workoutDate;
+
 
     @ManyToMany(mappedBy = "statistics")
     Collection<Exercise> finishedExercises;
