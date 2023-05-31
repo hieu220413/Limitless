@@ -27,43 +27,59 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Statistic = props => {
   const { navigation, route } = props;
-  const DATA = [
-    {
-      id: '1',
-      url: require('../../image/workout1.jpg'),
-      name: 'Arm Workout',
-      level: 'Beginner',
-      time: 10,
-    },
-    {
-      id: '2',
-      url: require('../../image/workout2.jpg'),
-      name: 'Chest Workout',
-      level: 'Beginner',
-      time: 12,
-    },
-    {
-      id: '3',
-      url: require('../../image/workout3.jpg'),
-      name: 'Leg Workout',
-      level: 'Beginner',
-      time: 20,
-    },
-    {
-      id: '4',
-      url: require('../../image/workout4.jpg'),
-      name: 'Push Workout',
-      level: 'Beginner',
-      time: 6,
-    },
-    {
-      id: '5',
-      url: require('../../image/workout5.jpg'),
-      name: 'Squat Workout',
-      level: 'Beginner',
-      time: 8,
-    },
-  ];
+  // const DATA = [
+  //   {
+  //     id: '1',
+  //     url: require('../../image/workout1.jpg'),
+  //     name: 'Arm Workout',
+  //     level: 'Beginner',
+  //     time: 10,
+  //   },
+  //   {
+  //     id: '2',
+  //     url: require('../../image/workout2.jpg'),
+  //     name: 'Chest Workout',
+  //     level: 'Beginner',
+  //     time: 12,
+  //   },
+  //   {
+  //     id: '3',
+  //     url: require('../../image/workout3.jpg'),
+  //     name: 'Leg Workout',
+  //     level: 'Beginner',
+  //     time: 20,
+  //   },
+  //   {
+  //     id: '4',
+  //     url: require('../../image/workout4.jpg'),
+  //     name: 'Push Workout',
+  //     level: 'Beginner',
+  //     time: 6,
+  //   },
+  //   {
+  //     id: '5',
+  //     url: require('../../image/workout5.jpg'),
+  //     name: 'Squat Workout',
+  //     level: 'Beginner',
+  //     time: 8,
+  //   },
+  // ];
+  const ExerciseImages = {
+    "barbell-curl.jpg": require('../../assets/exe-thumbnail/barbell-curl.jpg'),
+    "barbell-rows.jpg": require('../../assets/exe-thumbnail/barbell-rows.jpg'),
+    "bench-press.jpg": require('../../assets/exe-thumbnail/bench-press.jpg'),
+    "calves-raise.jpg": require('../../assets/exe-thumbnail/calves-raise.jpg'),
+    "db-press.jpg": require('../../assets/exe-thumbnail/db-press.jpg'),
+    "close-grip-bench-press.jpg": require('../../assets/exe-thumbnail/close-grip-bench-press.jpg'),
+    "hammer-curl.jpg": require('../../assets/exe-thumbnail/hammer-curl.jpg'),
+    "lat-pulldown.jpg": require('../../assets/exe-thumbnail/lat-pulldown.jpg'),
+    "leg-curl.jpg": require('../../assets/exe-thumbnail/leg-curl.jpg'),
+    "leg-extension.jpg": require('../../assets/exe-thumbnail/leg-extension.jpg'),
+    "leg-press.jpg": require('../../assets/exe-thumbnail/leg-press.jpg'),
+    "push-workout.jpg": require('../../assets/exe-thumbnail/push-workout.jpg'),
+    "squat.jpg": require('../../assets/exe-thumbnail/squat.jpg'),
+    "triceps-extension.jpg": require('../../assets/exe-thumbnail/triceps-extension.jpg')
+}
   let datesWhitelist = [
     {
       start: moment(),
@@ -251,7 +267,7 @@ const Statistic = props => {
                     marginBottom: 10,
                   }}>
                   <Image
-                    source={require('../../image/workout5.jpg')}
+                    source={ExerciseImages[item.thumbnail]}
                     // key={item.id}
                     style={{
                       width: '95%',
