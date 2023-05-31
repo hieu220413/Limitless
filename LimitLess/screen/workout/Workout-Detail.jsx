@@ -8,7 +8,7 @@ import { useState } from "react";
 import { Button } from '@rneui/themed';
 import Footer from '../../component/Footer';
 import Header from '../../component/Header';
-
+import { useFocusEffect } from '@react-navigation/native';
 
 const Stack = createNativeStackNavigator();
 const Workouts = (props) => {
@@ -44,6 +44,24 @@ const Workouts = (props) => {
         'Advanced': false
     }
     const [levels, setLevels] = useState(levelsDict);
+    const { navigation, route } = props
+    const workoutId = route.params
+    console.log(workoutId)
+    const [exercises, setExercises] = useState({});
+    const fetchWorkoutDetail = async (workoutId) => {
+        workoutDetailResponseBody = await fetch(`http://localhost:8080/workout/${workoutId}`)
+            .then(response => response.json())
+            .then(json => json)
+            .catch(error => console
+                .log(error))
+        console.log(JSON.stringify(workoutDetailResponseBody.exercises))
+        setExercises(workoutDetailResponseBody.exercises)
+    }
+    useFocusEffect(
+        React.useCallback(() => {
+            fetchWorkoutDetail(workoutId);
+        }, [])
+    );
     return (
         <>
             <SafeAreaView style={styles.container}>
@@ -54,7 +72,7 @@ const Workouts = (props) => {
                     source={
                         DATA[0].url
                     }
-                    key={DATA[0].id}
+                    key={workoutId}
                     style={styles.image}
                 />
                 <View style={styles.body} >
@@ -104,39 +122,40 @@ const Workouts = (props) => {
                         }}>
                         <FlatList
                             showsVerticalScrollIndicator={false}
-                            data={DATA}
-                            keyExtractor={item => item.id}
+                            data={exercises}
+                            keyExtractor={item => item.exerciseId}
                             renderItem={({ item }) => (
-                                <TouchableOpacity 
-                                onPress={()=> props.navigation.navigate('Exercise')}
-                                style={{
-                                    width: 340,
-                                    height: 120,
-                                    borderRadius: 20,
-                                    marginTop: 10,
-                                    flexDirection: 'row'
-                                }}>
+                                url = require(`../../${item.thumbnail}`),console.log(url),
+                                <TouchableOpacity
+                                    onPress={() => props.navigation.navigate('Exercise')}
+                                    style={{
+                                        width: 340,
+                                        height: 120,
+                                        borderRadius: 20,
+                                        marginTop: 10,
+                                        flexDirection: 'row',
+                                        justifyContent: 'center',
+                                        alignItems: 'center'
+                                    }}>
                                     <Image
-                                        source={
-                                            item.url
-                                        }
-                                        key={item.id}
+                                        source={url}
+                                        key={item.exerciseId}
                                         style={{
                                             width: 160,
                                             height: 100,
                                             borderRadius: 15,
                                             borderWidth: 0.5,
-                                            alignSelf: 'flex-start'
+                                            alignSelf: 'flex-start',
+                                            marginLeft:'2%'
                                         }}
 
                                     />
                                     <View style={{
-                                        marginLeft: '7%',
-                                        marginTop: '7%'
-
+                                        marginLeft: '5%',
+                                        width: '50%'
                                     }}>
                                         <Text style={{ fontSize: 20, fontWeight: 400 }}>{item.name}</Text>
-                                        <Text style={{ fontSize: 15, fontWeight: 200 }}>{item.sets} sets of {item.reps} reps</Text>
+                                        <Text style={{ fontSize: 15, fontWeight: 200 }}>{item.sets} sets of {item.duration} reps</Text>
                                     </View>
                                 </TouchableOpacity>
                             )}

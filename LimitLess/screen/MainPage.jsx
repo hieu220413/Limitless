@@ -11,7 +11,7 @@ import Footer from '../component/Footer';
 import Header from '../component/Header';
 import { BlurView } from '@react-native-community/blur';
 import { ReactNativeModal } from 'react-native-modal';
-import AsynStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFocusEffect } from '@react-navigation/native';
 
 
@@ -20,17 +20,33 @@ const MainPage = (props) => {
     const [isModalVisible, setIsModalVisible] = React.useState(false);
     const handleModal = () => setIsModalVisible(() => !isModalVisible);
     const { navigation, route } = props
-    let [userFullName, setUserFullName] = useState('');
-    const [isPremiumUser, setIsPremiumUser] = useState(false)
+    const [userFullName, setUserFullName] = useState('');
+    const [isPremiumUser, setIsPremiumUser] = useState(false);
+    const [levelPicked,setLevelPicked] = useState('');
+    const [workouts, setWorkouts] = useState({});
+    const fetchWorkouts = async (level) => {
+        workoutsResponseBody = await fetch(`http://limitless-api.us-east-1.elasticbeanstalk.com/workout/fetchByLevel?level=${level}`)
+            .then(response => response.json())
+            .then(json => json)
+            .catch(error => console.log(error))
+        console.log(JSON.stringify(workoutsResponseBody))
+        setWorkouts(workoutsResponseBody)
+        setLevelPicked(level)
+    }
     useFocusEffect(
         React.useCallback(() => {
             // Do something when the screen is focused
             const checkPremiumAndGetName = async () => {
                 let userId = ''
-                const user_info = await AsynStorage.getItem('user_info')
+                let user_level = ''
+                const user_info = await AsyncStorage.getItem('user_info')
                 if (user_info != null) {
                     userId = JSON.parse(user_info).userId
+                    user_level= JSON.parse(user_info).level
                     setUserFullName(JSON.parse(user_info).fullName)
+                    setLevels(levelsDict)
+                    setLevels(prev => ({ ...prev, [user_level]: true }))
+                    setLevelPicked(user_level)
                 } else {
                     //redirect to welcomepage
                 }
@@ -38,17 +54,16 @@ const MainPage = (props) => {
                 if (checkResult.isPremium) {
                     setIsPremiumUser(checkResult.isPremium)
                 }
-                
+                fetchWorkouts(user_level)
             }
             checkPremiumAndGetName()
-
             return () => {
                 // Do something when the screen is unfocused
                 // Useful for cleanup functions
             };
         }, [])
     );
-    
+
     const time = ['Morning', 'Afternoon', 'Evening'];
     const DATA = [
         {
@@ -56,7 +71,7 @@ const MainPage = (props) => {
             url: require('../image/workout1.jpg'),
             name: 'Arm Workout',
             level: 'Beginner',
-            time: 10,
+            totalExercise: 10,
             isPremium: false
         },
         {
@@ -64,7 +79,7 @@ const MainPage = (props) => {
             url: require('../image/workout2.jpg'),
             name: 'Chest Workout',
             level: 'Beginner',
-            time: 12,
+            totalExercise: 12,
             isPremium: false
         },
         {
@@ -72,7 +87,7 @@ const MainPage = (props) => {
             url: require('../image/workout3.jpg'),
             name: 'Leg Workout',
             level: 'Beginner',
-            time: 20,
+            totalExercise: 20,
             isPremium: false
         },
         {
@@ -80,7 +95,7 @@ const MainPage = (props) => {
             url: require('../image/workout4.jpg'),
             name: 'Push Workout',
             level: 'Beginner',
-            time: 6,
+            totalExercise: 6,
             isPremium: true
         },
         {
@@ -114,7 +129,6 @@ const MainPage = (props) => {
                     </View>
                 </View>
                 <ScrollView style={styles.body} showsVerticalScrollIndicator={false}>
-
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                         <Text style={{
                             fontWeight: 700,
@@ -152,15 +166,15 @@ const MainPage = (props) => {
                             </Text>
                         </TouchableOpacity>
                     </View>
-                    <View style={{ height: '15%' }}>
+                    <View style={{ height: 145,flexWrap:'wrap'}}>
                         <FlatList
                             style={styles.featureWorkout}
                             horizontal
                             showsHorizontalScrollIndicator={false}
                             data={DATA}
-                            keyExtractor={item => item.id}
+                            keyExtractor={item => item.workoutId}
                             renderItem={({ item }) => (
-                                !item.isPremium ?
+                                !(item.isPremium == 1) ?
                                     <TouchableOpacity
                                         onPress={() => navigation.navigate('Workout Detail', [item.id])}
                                         style={{
@@ -186,10 +200,11 @@ const MainPage = (props) => {
                                         <View style={{
                                             position: 'absolute',
                                             marginLeft: '6%',
-                                            marginTop: '67%'
+                                            marginTop: '60%'
                                         }}>
                                             <Text style={{ fontSize: 15, fontWeight: 600, color: 'white' }}>{item.name}</Text>
-                                            <Text style={{ fontSize: 10, color: 'white' }}>{item.time} minutes | {item.level}</Text>
+                                            <Text style={{ fontSize: 10, color: 'white', fontWeight: 500 }}>{item.totalExercise} exercises</Text>
+                                            <Text style={{ fontSize: 10, color: 'white', fontWeight: 500 }}>{item.level}</Text>
                                         </View>
                                     </TouchableOpacity>
                                     :
@@ -263,10 +278,10 @@ const MainPage = (props) => {
                                 key={title}
                                 title={title}
                                 onPress={() => {
+                                    fetchWorkouts(title)
                                     setLevels(levelsDict)
                                     setLevels(prev => ({ ...prev, [title]: true }))
-                                    levelPicked = title
-                                    console.log(levelPicked)
+                                    console.log(levelPicked) 
                                 }}
                                 titleStyle={!levels[title] ? styles.titleBtn : styles.titleBtnPressed}
                                 buttonStyle={!levels[title] ? styles.button : styles.buttonPressed}
@@ -277,7 +292,7 @@ const MainPage = (props) => {
                                 }}
                             />))}
                     </View>
-                    <SafeAreaView style={{
+                    <View style={{
                         flexDirection: 'column',
                         width: '100%',
                         height: '100%',
@@ -289,12 +304,12 @@ const MainPage = (props) => {
                             style={styles.exercise}
                             showsVerticalScrollIndicator={false}
                             scrollEnabled={false}
-                            data={DATA}
-                            keyExtractor={item => item.id}
+                            data={workouts}
+                            keyExtractor={item => item.workoutId}
                             renderItem={({ item }) => (
-                                !item.isPremium ?
+                                !(item.isPremium == 1) ?
                                     <TouchableOpacity
-                                        onPress={() => navigation.navigate('Workout Detail', [item.id])}
+                                        onPress={() => navigation.navigate('Workout Detail', [item.workoutId])}
                                         style={{
                                             width: '100%',
                                             height: 120,
@@ -302,8 +317,8 @@ const MainPage = (props) => {
                                             marginTop: '3%'
                                         }}>
                                         <Image
-                                            source={item.url}
-                                            key={item.id}
+                                            source={DATA[0].url}
+                                            key={item.workoutId}
                                             style={{
                                                 width: '95%',
                                                 height: 120,
@@ -315,12 +330,13 @@ const MainPage = (props) => {
                                         <View style={{
                                             position: 'absolute',
                                             marginLeft: '8%',
-                                            marginTop: '17%'
+                                            marginTop: '16%'
                                         }}>
-                                            <Text style={{ fontSize: 20, fontWeight: 600, color: 'white' }}>{item.name}</Text>
-                                            <Text style={{ color: 'white' }}>{item.time} minutes | {item.level}</Text>
+                                            <Text style={{ fontSize: 25, fontWeight: 600, color: 'white' }}>{item.name}</Text>
+                                            <Text style={{ fontSize: 18,color: 'white' }}>{item.totalExercise} exercise | {levelPicked}</Text>
                                         </View>
-                                    </TouchableOpacity> :
+                                    </TouchableOpacity> 
+                                    :
                                     <TouchableOpacity
                                         onPress={handleModal}
                                         style={{
@@ -330,8 +346,8 @@ const MainPage = (props) => {
                                             marginTop: '3%'
                                         }}>
                                         <Image
-                                            source={item.url}
-                                            key={item.id}
+                                            source={DATA[0].url}
+                                            key={item.workoutId}
                                             style={{
                                                 width: '95%',
                                                 height: 120,
@@ -363,7 +379,7 @@ const MainPage = (props) => {
                                     </TouchableOpacity>
                             )}
                         />
-                    </SafeAreaView>
+                    </View>
                 </ScrollView>
                 <View style={styles.foot}>
                     <Footer page='Home' />
@@ -418,7 +434,7 @@ const styles = StyleSheet.create({
         flex: 1
     },
     featureWorkout: {
-        marginTop: "2%",
+        margin: "2%",
         width: '100%'
     },
     button: {

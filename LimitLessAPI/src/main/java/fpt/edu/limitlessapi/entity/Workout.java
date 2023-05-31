@@ -1,6 +1,7 @@
 package fpt.edu.limitlessapi.entity;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.*;
@@ -13,9 +14,6 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "workoutId")
 public class Workout {
 
     @Id
@@ -39,11 +37,13 @@ public class Workout {
     @JoinColumn(name = "level_id")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
+    @JsonIgnore
     private Level level;
 
     @ManyToMany(mappedBy = "workouts")
     Collection<Exercise> exercises;
 
     @ManyToMany(mappedBy = "workouts")
+    @JsonIgnore
     Collection<Users> users;
 }
