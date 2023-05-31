@@ -21,7 +21,7 @@ const Welcome = ({navigation}) => {
                 <TouchableHighlight underlayColor="white" onPress={() => { }}>
                     <View style={[styles.buttonLoginWithStyle, { flexDirection: 'row', backgroundColor: '#fb2d2d' }]}>
                         <Icon name='google' size={40} color="#fff"></Icon>
-                        <Text style={{ fontSize: 23, color: '#fff', fontWeight: 'bold' }}>Continue with Apple</Text>
+                        <Text style={{ fontSize: 23, color: '#fff', fontWeight: 'bold' }}>Continue with Google</Text>
                     </View>
                 </TouchableHighlight>
                 <TouchableHighlight underlayColor="white" onPress={() => { }}>

@@ -34,6 +34,8 @@ public class Exercise {
 
     private int sets;
 
+    private int reps;
+
     private int duration;
 
     @Enumerated(EnumType.ORDINAL)

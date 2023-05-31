@@ -28,7 +28,7 @@ import NewPassword from './screen/forgotPassword/NewPassword';
 // LogBox.ignoreLogs(['new NativeEventEmitter']); // Ignore log notification by message
 import Exercise from './screen/workout/Exercise';
 import Statistic from './screen/statistic/Statistic';
-
+import MomoQR from './screen/paymentQR/MomoQR';
 const Stack = createNativeStackNavigator();
 
 const App = () => {
@@ -55,6 +55,7 @@ const App = () => {
         <Stack.Screen name="Setting" component={SettingMenu} />
         <Stack.Screen name="Edit Profile" component={EditProfile} />
         <Stack.Screen name="Premium" component={PremiumSubscribe} />
+        <Stack.Screen name="MomoQR" component={MomoQR} />
         <Stack.Screen name="Statistic" component={Statistic} />
       </Stack.Navigator>
     </NavigationContainer>
