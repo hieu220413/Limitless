@@ -1,19 +1,33 @@
 import * as React from 'react';
 import { SafeAreaView, Image, FlatList, StyleSheet, View, Text, TouchableOpacity, ScrollView, StatusBar, TextInput } from "react-native";
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import EvilIcons from 'react-native-vector-icons/EvilIcons';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useState } from "react";
 import { Button } from '@rneui/themed';
 import Footer from '../../component/Footer';
 import Header from '../../component/Header';
+import { useFocusEffect } from '@react-navigation/native';
 
 
 const Stack = createNativeStackNavigator();
 const Workouts = (props) => {
     var userFullName = 'Anh Khoa';
     const time = ['Morning', 'Afternoon', 'Evening'];
+    const ExerciseImages = {
+        "barbell-curl.jpg": require('../../assets/exe-thumbnail/barbell-curl.jpg'),
+        "barbell-rows.jpg": require('../../assets/exe-thumbnail/barbell-rows.jpg'),
+        "bench-press.jpg": require('../../assets/exe-thumbnail/bench-press.jpg'),
+        "calves-raise.jpg": require('../../assets/exe-thumbnail/calves-raise.jpg'),
+        "db-press.jpg": require('../../assets/exe-thumbnail/db-press.jpg'),
+        "close-grip-bench-press.jpg": require('../../assets/exe-thumbnail/close-grip-bench-press.jpg'),
+        "hammer-curl.jpg": require('../../assets/exe-thumbnail/hammer-curl.jpg'),
+        "lat-pulldown.jpg": require('../../assets/exe-thumbnail/lat-pulldown.jpg'),
+        "leg-curl.jpg": require('../../assets/exe-thumbnail/leg-curl.jpg'),
+        "leg-extension.jpg": require('../../assets/exe-thumbnail/leg-extension.jpg'),
+        "leg-press.jpg": require('../../assets/exe-thumbnail/leg-press.jpg'),
+        "push-workout.jpg": require('../../assets/exe-thumbnail/push-workout.jpg'),
+        "squat.jpg": require('../../assets/exe-thumbnail/squat.jpg'),
+        "triceps-extension.jpg": require('../../assets/exe-thumbnail/triceps-extension.jpg')
+    }
     const DATA = [
         {
             id: '1',
@@ -44,6 +58,25 @@ const Workouts = (props) => {
         'Advanced': false
     }
     const [levels, setLevels] = useState(levelsDict);
+    const { navigation, route } = props
+    const workoutId = route.params
+    console.log(workoutId)
+    const [exercises, setExercises] = useState({});
+    const [workoutImage,setWorkoutImage] = useState('');
+    const fetchWorkoutDetail = async (workoutId) => {
+        workoutDetailResponseBody = await fetch(`http://limitless-api.us-east-1.elasticbeanstalk.com/${workoutId}`)
+            .then(response => response.json())
+            .then(json => json)
+            .catch(error => console
+                .log(error))
+        setExercises(workoutDetailResponseBody.exercises)
+        setWorkoutImage(workoutDetailResponseBody.thumbnail)
+    }
+    useFocusEffect(
+        React.useCallback(() => {
+            fetchWorkoutDetail(workoutId);
+        }, [])
+    );
     return (
         <>
             <SafeAreaView style={styles.container}>
@@ -52,9 +85,9 @@ const Workouts = (props) => {
                 </View>
                 <Image
                     source={
-                        DATA[0].url
+                        ExerciseImages[workoutImage]
                     }
-                    key={DATA[0].id}
+                    key={workoutId}
                     style={styles.image}
                 />
                 <View style={styles.body} >
@@ -104,36 +137,38 @@ const Workouts = (props) => {
                         }}>
                         <FlatList
                             showsVerticalScrollIndicator={false}
-                            data={DATA}
-                            keyExtractor={item => item.id}
+                            data={exercises}
+                            keyExtractor={item => item.exerciseId}
                             renderItem={({ item }) => (
-                                <TouchableOpacity 
-                                onPress={()=> props.navigation.navigate('Exercise')}
-                                style={{
-                                    width: 340,
-                                    height: 120,
-                                    borderRadius: 20,
-                                    marginTop: 10,
-                                    flexDirection: 'row'
-                                }}>
+                               console.log(item.thumbnail),
+                                <TouchableOpacity
+                                    onPress={() => props.navigation.navigate('Exercise',item.exerciseId)}
+                                    style={{
+                                        width: 340,
+                                        height: 120,
+                                        borderRadius: 20,
+                                        marginTop: 10,
+                                        flexDirection: 'row',
+                                        justifyContent: 'center',
+                                        
+                                    }}>
                                     <Image
-                                        source={
-                                            item.url
-                                        }
-                                        key={item.id}
+                                        source={ExerciseImages[item.thumbnail]}
+                                        key={item.exerciseId}
                                         style={{
                                             width: 160,
                                             height: 100,
                                             borderRadius: 15,
                                             borderWidth: 0.5,
-                                            alignSelf: 'flex-start'
+                                            alignSelf: 'flex-start',
+                                            marginLeft:'2%'
                                         }}
 
                                     />
                                     <View style={{
-                                        marginLeft: '7%',
-                                        marginTop: '7%'
-
+                                        marginLeft: '5%',
+                                        width: '50%',
+                                        marginTop:'2%'
                                     }}>
                                         <Text style={{ fontSize: 20, fontWeight: 400 }}>{item.name}</Text>
                                         <Text style={{ fontSize: 15, fontWeight: 200 }}>{item.sets} sets of {item.reps} reps</Text>
