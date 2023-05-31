@@ -7,7 +7,6 @@ import { useIsFocused } from '@react-navigation/native'
 import Footer from '../../component/Footer';
 import Header from '../../component/Header';
 import Video from 'react-native-video';
-import video from '../../assets/video/exercise.mp4'
 
 const Stack = createNativeStackNavigator();
 const Exercise = (props) => {
@@ -19,7 +18,9 @@ const Exercise = (props) => {
     const route = props.route;
     const unsubscribe = navigation.addListener('blur', () => {
         console.log('Leaving Exercise Screen');
+        setPause(true)
         exerciseVideo.current?.setNativeProps({ paused: true, muted: true })
+        exerciseVideo.current?.seek(0);
     });
     const [exercise, setExercise] = useState({});
     const fetchExerciseDetail = async (exerciseId) => {
@@ -34,10 +35,6 @@ const Exercise = (props) => {
         fetchExerciseDetail(route.params)
         if (isFocused) {
             setFinish(false);
-            setPause(true);
-            exerciseVideo.current?.seek(0);
-        } else {
-            setPause(true)
         }
         return unsubscribe;
     }, [isFocused])
@@ -60,6 +57,7 @@ const Exercise = (props) => {
         "squat.mp4": require('../../assets/video/squat.mp4'),
         "triceps-extension.mp4": require('../../assets/video/triceps-extension.mp4')
     }
+    
     return (
         <>
             <SafeAreaView style={styles.container}>
@@ -68,7 +66,6 @@ const Exercise = (props) => {
                 </View>
                 <Video
                     source={ExerciseVideo[exercise.video]}
-                    // Can be a URL or a local file.
                     style={styles.image}
                     controls={true}
                     onEnd={() => setFinish(true)}

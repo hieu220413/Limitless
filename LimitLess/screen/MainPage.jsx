@@ -23,6 +23,8 @@ const MainPage = (props) => {
     const [isPremiumUser, setIsPremiumUser] = useState(false);
     const [levelPicked,setLevelPicked] = useState('');
     const [workouts, setWorkouts] = useState({});
+    const [featureWorkouts, setfeatureWorkouts] = useState({});
+    var featureWorkout = [];
     const ExerciseImages = {
         "barbell-curl.jpg": require('../assets/exe-thumbnail/barbell-curl.jpg'),
         "barbell-rows.jpg": require('../assets/exe-thumbnail/barbell-rows.jpg'),
@@ -47,7 +49,11 @@ const MainPage = (props) => {
         console.log(JSON.stringify(workoutsResponseBody))    
         setLevelPicked(level)
         setWorkouts(workoutsResponseBody)
+        if(Object.keys(featureWorkouts).length == 0){
+            setfeatureWorkouts(workoutsResponseBody)
+        }
     }
+    let user_level = ''
     useFocusEffect(
         React.useCallback(() => {
             // Do something when the screen is focused
@@ -130,6 +136,7 @@ const MainPage = (props) => {
         'Advanced': false
     }
     const [levels, setLevels] = useState(levelsDict);
+
     return (
         <>
             <SafeAreaView style={styles.container}>
@@ -187,12 +194,12 @@ const MainPage = (props) => {
                             style={styles.featureWorkout}
                             horizontal
                             showsHorizontalScrollIndicator={false}
-                            data={DATA}
-                            keyExtractor={item => item.id}
+                            data={featureWorkouts}
+                            keyExtractor={item => item.workoutId}
                             renderItem={({ item }) => (
-                                !(item.isPremium == 1) ?
+                                !(item.isPremium == 1) || isPremiumUser ?
                                     <TouchableOpacity
-                                        onPress={() => navigation.navigate('Workout Detail', [item.id])}
+                                        onPress={() => navigation.navigate('Workout Detail', [item.workoutId])}
                                         style={{
                                             width: 120,
                                             height: 120,
@@ -203,8 +210,8 @@ const MainPage = (props) => {
                                             blurRadius: 1
                                         }}>
                                         <Image
-                                            source={item.url}
-                                            key={item.id}
+                                            source={ExerciseImages[item.thumbnail]}
+                                            key={item.workoutId}
                                             style={{
                                                 width: 120,
                                                 height: 120,
@@ -216,11 +223,10 @@ const MainPage = (props) => {
                                         <View style={{
                                             position: 'absolute',
                                             marginLeft: '6%',
-                                            marginTop: '60%'
+                                            marginTop: '50%'
                                         }}>
                                             <Text style={{ fontSize: 15, fontWeight: 600, color: 'white' }}>{item.name}</Text>
                                             <Text style={{ fontSize: 10, color: 'white', fontWeight: 500 }}>{item.totalExercise} exercises</Text>
-                                            <Text style={{ fontSize: 10, color: 'white', fontWeight: 500 }}>{item.level}</Text>
                                         </View>
                                     </TouchableOpacity>
                                     :
@@ -235,8 +241,8 @@ const MainPage = (props) => {
                                             blurRadius: 1
                                         }}>
                                         <Image
-                                            source={item.url}
-                                            key={item.id}
+                                            source={ExerciseImages[item.thumbnail]}
+                                            key={item.workoutId}
                                             style={{
                                                 width: 120,
                                                 height: 120,
