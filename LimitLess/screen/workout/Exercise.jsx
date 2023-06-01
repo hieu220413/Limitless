@@ -7,6 +7,7 @@ import { useIsFocused } from '@react-navigation/native'
 import Footer from '../../component/Footer';
 import Header from '../../component/Header';
 import Video from 'react-native-video';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Stack = createNativeStackNavigator();
 const Exercise = (props) => {
@@ -28,9 +29,28 @@ const Exercise = (props) => {
             .then(response => response.json())
             .then(json => json)
             .catch(error => console.log(error));
-            console.log(JSON.stringify(exerciseDetailResponseBody))  
+        console.log(JSON.stringify(exerciseDetailResponseBody))
         setExercise(exerciseDetailResponseBody);
     }
+
+    const updateToStatistic = async () => {
+        const user_info = await AsyncStorage.getItem('user_info')
+        if (user_info) {
+            const userId = JSON.parse(user_info).userId
+            const result = await fetch(`http://limitless-api.us-east-1.elasticbeanstalk.com/api/statistic/updateToday?userId=${userId}&exerciseId=${route.params}`, {
+                method: 'PUT',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: {}
+            }).then(response => response.text())
+            console.log(result)
+
+        }
+        setFinish(true)
+    }
+
     useEffect(() => {
         fetchExerciseDetail(route.params)
         if (isFocused) {
@@ -57,7 +77,7 @@ const Exercise = (props) => {
         "squat.mp4": require('../../assets/video/squat.mp4'),
         "triceps-extension.mp4": require('../../assets/video/triceps-extension.mp4')
     }
-    
+
     return (
         <>
             <SafeAreaView style={styles.container}>
@@ -68,7 +88,7 @@ const Exercise = (props) => {
                     source={ExerciseVideo[exercise.video]}
                     style={styles.image}
                     controls={true}
-                    onEnd={() => setFinish(true)}
+                    onEnd={() => updateToStatistic()}
                     resizeMode={'stretch'}
                     ref={exerciseVideo}
                     muted={true}

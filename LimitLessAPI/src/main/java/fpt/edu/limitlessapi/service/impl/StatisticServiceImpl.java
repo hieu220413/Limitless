@@ -53,16 +53,18 @@ public class StatisticServiceImpl implements StatisticService {
             int newStatBurnCalories = statistics.get().getBurnedCalories() + exercise.get().getCaloriesBurn();
             statistics.get().setMinutes(newStatMinutes);
             statistics.get().setBurnedCalories(newStatBurnCalories);
+            exercise.get().getStatistics().add(statistics.get());
             statistics.get().getFinishedExercises().add(exercise.get());
             statisticsRepository.save(statistics.get());
         }else{
             Statistics newStatistic = Statistics.builder()
                     .user(user.get())
-                    .finishedExercises(List.of(exercise.get()))
                     .minutes(exercise.get().getDuration())
                     .burnedCalories(exercise.get().getCaloriesBurn())
                     .workoutDate(LocalDate.now())
                     .build();
+            exercise.get().getStatistics().add(newStatistic);
+            newStatistic.setFinishedExercises(List.of(exercise.get()));
             statisticsRepository.save(newStatistic);
         }
 
