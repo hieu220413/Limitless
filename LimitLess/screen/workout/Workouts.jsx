@@ -86,6 +86,7 @@ const Workouts = (props) => {
             return () => {
                 // Do something when the screen is unfocused
                 // Useful for cleanup functions
+                setIsPremiumUser(false)
             };
         }, [])
     );
@@ -128,21 +129,73 @@ const Workouts = (props) => {
                             data={DATA}
                             keyExtractor={item => item.id}
                             renderItem={({ item }) => (
-                                <TouchableOpacity 
-                                onPress={()=> navigation.navigate('Workout Detail',[item])}
-                                style={{
-                                    width: '100%',
-                                    height: 120,
-                                    borderRadius: 20,
-                                    marginTop: 10
-                                }}>
-                                    <Image
-                                        source={item.url}
-                                        key={item.id}
+                                !(item.isPremium == 1) || isPremiumUser ?
+                                    <TouchableOpacity
+                                        onPress={() => navigation.navigate('Workout Detail', [item.workoutId])}
+                                        activeOpacity={0.8}
                                         style={{
-                                            width: '95%',
-                                            height: '100%',
-                                            borderRadius: 30,
+                                            width: '100%',
+                                            height: 120,
+                                            borderRadius: 20,
+                                            marginTop: '3%'
+                                        }}>
+                                        <Image
+                                            source={ExerciseImages[item.thumbnail]}
+                                            key={item.workoutId}
+                                            style={{
+                                                width: '95%',
+                                                height: 120,
+                                                borderRadius: 30,
+                                                alignSelf: 'center',
+                                                borderWidth: 1
+                                            }}
+                                        />
+                                        <View style={{
+                                            position: 'absolute',
+                                            marginLeft: '8%',
+                                            marginTop: '16%'
+                                        }}>
+                                            <Text style={{ fontSize: 25, fontWeight: 600, color: 'white' }}>{item.name}</Text>
+                                            <Text style={{ fontSize: 18, color: 'white' }}>{item.totalExercise} exercise | {levelPicked}</Text>
+                                        </View>
+                                    </TouchableOpacity>
+                                    :
+                                    <TouchableOpacity
+                                        onPress={handleModal}
+                                        activeOpacity={0.8}
+                                        style={{
+                                            width: '100%',
+                                            height: 120,
+                                            borderRadius: 20,
+                                            marginTop: '3%'
+                                        }}>
+                                        <Image
+                                            source={ExerciseImages[item.thumbnail]}
+                                            key={item.workoutId}
+                                            style={{
+                                                width: '95%',
+                                                height: 120,
+                                                borderRadius: 30,
+                                                alignSelf: 'center',
+                                                borderWidth: 1
+                                            }}
+                                        />
+                                        <BlurView
+                                            style={{
+                                                width: '100%',
+                                                height: "100%",
+                                                borderRadius: 30,
+                                                alignSelf: 'center',
+                                                borderWidth: 1,
+                                                position: 'absolute'
+                                            }}
+                                            overlayColor="transparent"
+                                            blurType="light"
+                                            blurAmount={3}
+                                            blurRadius={5}
+                                        />
+                                        <View style={{
+                                            position: 'absolute',
                                             alignSelf: 'center',
                                             borderWidth: 1
                                         }}

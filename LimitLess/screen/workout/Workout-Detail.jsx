@@ -107,15 +107,19 @@ const Workouts = (props) => {
                             data={DATA}
                             keyExtractor={item => item.id}
                             renderItem={({ item }) => (
-                                <TouchableOpacity 
-                                onPress={()=> props.navigation.navigate('Exercise')}
-                                style={{
-                                    width: 340,
-                                    height: 120,
-                                    borderRadius: 20,
-                                    marginTop: 10,
-                                    flexDirection: 'row'
-                                }}>
+                               console.log(item.thumbnail),
+                                <TouchableOpacity
+                                    onPress={() => props.navigation.navigate('Exercise',item.exerciseId)}
+                                    activeOpacity={0.8}
+                                    style={{
+                                        width: 340,
+                                        height: 120,
+                                        borderRadius: 20,
+                                        marginTop: 10,
+                                        flexDirection: 'row',
+                                        justifyContent: 'center',
+                                        
+                                    }}>
                                     <Image
                                         source={
                                             item.url

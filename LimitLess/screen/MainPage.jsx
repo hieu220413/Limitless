@@ -15,8 +15,42 @@ import { useFocusEffect } from '@react-navigation/native';
 const Stack = createNativeStackNavigator();
 const MainPage = (props) => {
     const { navigation, route } = props
-    let [userFullName, setUserFullName] = useState('');
-    const [isPremiumUser, setIsPremiumUser] = useState(false)
+    const [userFullName, setUserFullName] = useState('');
+    const [isPremiumUser, setIsPremiumUser] = useState(false);
+    const [levelPicked,setLevelPicked] = useState('');
+    const [workouts, setWorkouts] = useState({});
+    const [featureWorkouts, setfeatureWorkouts] = useState({});
+    console.log(isPremiumUser)
+
+    var featureWorkout = [];
+    const ExerciseImages = {
+        "barbell-curl.jpg": require('../assets/exe-thumbnail/barbell-curl.jpg'),
+        "barbell-rows.jpg": require('../assets/exe-thumbnail/barbell-rows.jpg'),
+        "bench-press.jpg": require('../assets/exe-thumbnail/bench-press.jpg'),
+        "calves-raise.jpg": require('../assets/exe-thumbnail/calves-raise.jpg'),
+        "db-press.jpg": require('../assets/exe-thumbnail/db-press.jpg'),
+        "close-grip-bench-press.jpg": require('../assets/exe-thumbnail/close-grip-bench-press.jpg'),
+        "hammer-curl.jpg": require('../assets/exe-thumbnail/hammer-curl.jpg'),
+        "lat-pulldown.jpg": require('../assets/exe-thumbnail/lat-pulldown.jpg'),
+        "leg-curl.jpg": require('../assets/exe-thumbnail/leg-curl.jpg'),
+        "leg-extension.jpg": require('../assets/exe-thumbnail/leg-extension.jpg'),
+        "leg-press.jpg": require('../assets/exe-thumbnail/leg-press.jpg'),
+        "push-workout.jpg": require('../assets/exe-thumbnail/push-workout.jpg'),
+        "squat.jpg": require('../assets/exe-thumbnail/squat.jpg'),
+        "triceps-extension.jpg": require('../assets/exe-thumbnail/triceps-extension.jpg')
+    }
+    const fetchWorkouts = async (level) => {
+        workoutsResponseBody = await fetch(`http://limitless-api.us-east-1.elasticbeanstalk.com/workout/fetchByLevel?level=${level}`)
+            .then(response => response.json())
+            .then(json => json)
+            .catch(error => console.log(error))
+        setLevelPicked(level)
+        setWorkouts(workoutsResponseBody)
+        if(Object.keys(featureWorkouts).length == 0){
+            setfeatureWorkouts(workoutsResponseBody)
+        }
+    }
+    let user_level = ''
     useFocusEffect(
         React.useCallback(() => {
             // Do something when the screen is focused
@@ -30,6 +64,7 @@ const MainPage = (props) => {
                     //redirect to welcomepage
                 }
                 const checkResult = await fetch(`http://limitless-api.us-east-1.elasticbeanstalk.com/api/subscription/checkActiveSubscription?userId=${userId}`).then(response => response.json()).then(json => json)
+                console.log(checkResult)
                 if (checkResult.isPremium) {
                     setIsPremiumUser(checkResult.isPremium)
                 }
@@ -40,6 +75,7 @@ const MainPage = (props) => {
             return () => {
                 // Do something when the screen is unfocused
                 // Useful for cleanup functions
+                setIsPremiumUser(false)
             };
         }, [])
     );
@@ -149,36 +185,82 @@ const MainPage = (props) => {
                             data={DATA}
                             keyExtractor={item => item.id}
                             renderItem={({ item }) => (
-                                <TouchableOpacity
-                                    onPress={() => navigation.navigate('Workout Detail', [item.id])}
-                                    style={{
-                                        width: 120,
-                                        height: 120,
-                                        borderRadius: 10,
-                                        borderWidth: 0.5,
-                                        borderColor: 'black',
-                                        margin: 5
-                                    }}>
-                                    <Image
-                                        source={item.url}
-                                        key={item.id}
+                                !(item.isPremium == 1) || isPremiumUser ?
+                                    <TouchableOpacity
+                                        onPress={() => navigation.navigate('Workout Detail', [item.workoutId])}
+                                        activeOpacity={0.8}
                                         style={{
                                             width: 120,
                                             height: 120,
                                             borderRadius: 10,
-                                            padding: 10
-                                        }}
+                                            borderColor: 'black',
+                                            margin: 5,
+                                            blurRadius: 1
+                                        }}>
+                                        <Image
+                                            source={ExerciseImages[item.thumbnail]}
+                                            key={item.workoutId}
+                                            style={{
+                                                width: 120,
+                                                height: 120,
+                                                borderRadius: 10,
+                                                padding: 10
+                                            }}
+                                        />
+                                        <View style={{
+                                            position: 'absolute',
+                                            marginLeft: '6%',
+                                            marginTop: '50%'
+                                        }}>
+                                            <Text style={{ fontSize: 15, fontWeight: 600, color: 'white' }}>{item.name}</Text>
+                                            <Text style={{ fontSize: 10, color: 'white', fontWeight: 500 }}>{item.totalExercise} exercises</Text>
+                                        </View>
+                                    </TouchableOpacity>
+                                    :
+                                    <TouchableOpacity
+                                        onPress={handleModal}
+                                        activeOpacity={0.8}
+                                        style={{
+                                            width: 120,
+                                            height: 120,
+                                            borderRadius: 10,
+                                            borderColor: 'black',
+                                            margin: 5,
+                                            blurRadius: 1
+                                        }}>
+                                        <Image
+                                            source={ExerciseImages[item.thumbnail]}
+                                            key={item.workoutId}
+                                            style={{
+                                                width: 120,
+                                                height: 120,
+                                                borderRadius: 10,
+                                                padding: 10
+                                            }}
+                                        />
+                                        <BlurView
+                                            style={{
+                                                width: '100%',
+                                                height: "100%",
+                                                borderRadius: 10,
+                                                borderColor: 'black',
+                                                blurRadius: 1,
+                                                position: 'absolute'
+                                            }}
+                                            overlayColor="transparent"
+                                            blurType="light"
+                                            blurAmount={3}
+                                            blurRadius={5}
+                                        />
 
-                                    />
-                                    <View style={{
-                                        position: 'absolute',
-                                        marginLeft: '6%',
-                                        marginTop: '67%'
-                                    }}>
-                                        <Text style={{ fontSize: 15, fontWeight: 600, color: 'white' }}>{item.name}</Text>
-                                        <Text style={{ fontSize: 10, color: 'white' }}>{item.time} minutes | {item.level}</Text>
-                                    </View>
-                                </TouchableOpacity>
+                                        <View style={{
+                                            position: 'absolute',
+                                            alignSelf: 'center',
+                                            marginVertical: '37%'
+                                        }}>
+                                            <EvilIcons name='lock' size={40} style={{ color: 'white' }}  ></EvilIcons>
+                                        </View>
+                                    </TouchableOpacity>
                             )}
                         />
                     </View>
@@ -236,21 +318,73 @@ const MainPage = (props) => {
                             data={DATA}
                             keyExtractor={item => item.id}
                             renderItem={({ item }) => (
-                                <TouchableOpacity
-                                    onPress={() => navigation.navigate('Workout Detail', [item.id])}
-                                    style={{
-                                        width: '100%',
-                                        height: 120,
-                                        borderRadius: 20,
-                                        marginTop: '3%'
-                                    }}>
-                                    <Image
-                                        source={item.url}
-                                        key={item.id}
+                                !(item.isPremium == 1) || isPremiumUser ?
+                                    <TouchableOpacity
+                                        onPress={() => navigation.navigate('Workout Detail', [item.workoutId])}
+                                        activeOpacity={0.8}
                                         style={{
                                             width: '95%',
                                             height: 120,
-                                            borderRadius: 30,
+                                            borderRadius: 20,
+                                            marginTop: '3%'
+                                        }}>
+                                        <Image
+                                            source={ExerciseImages[item.thumbnail]}
+                                            key={item.workoutId}
+                                            style={{
+                                                width: '95%',
+                                                height: 120,
+                                                borderRadius: 30,
+                                                alignSelf: 'center',
+                                                borderWidth: 1
+                                            }}
+                                        />
+                                        <View style={{
+                                            position: 'absolute',
+                                            marginLeft: '8%',
+                                            marginTop: '16%'
+                                        }}>
+                                            <Text style={{ fontSize: 25, fontWeight: 600, color: 'white' }}>{item.name}</Text>
+                                            <Text style={{ fontSize: 18,color: 'white' }}>{item.totalExercise} exercise | {levelPicked}</Text>
+                                        </View>
+                                    </TouchableOpacity> 
+                                    :
+                                    <TouchableOpacity
+                                        onPress={handleModal}
+                                        activeOpacity={0.8}
+                                        style={{
+                                            width: '100%',
+                                            height: 120,
+                                            borderRadius: 20,
+                                            marginTop: '3%'
+                                        }}>
+                                        <Image
+                                            source={ExerciseImages[item.thumbnail]}
+                                            key={item.workoutId}
+                                            style={{
+                                                width: '95%',
+                                                height: 120,
+                                                borderRadius: 30,
+                                                alignSelf: 'center',
+                                                borderWidth: 1
+                                            }}
+                                        />
+                                        <BlurView
+                                            style={{
+                                                width: '100%',
+                                                height: "100%",
+                                                borderRadius: 30,
+                                                alignSelf: 'center',
+                                                borderWidth: 1,
+                                                position: 'absolute'
+                                            }}
+                                            overlayColor="transparent"
+                                            blurType="light"
+                                            blurAmount={3}
+                                            blurRadius={5}
+                                        />
+                                        <View style={{
+                                            position: 'absolute',
                                             alignSelf: 'center',
                                             borderWidth: 1
                                         }}
