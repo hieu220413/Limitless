@@ -2,7 +2,7 @@ import * as React from 'react';
 import { SafeAreaView, Image, FlatList, StyleSheet, View, Text, TouchableOpacity, ScrollView, StatusBar, TextInput, Alert } from "react-native";
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { useState,useEffect,useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useIsFocused } from '@react-navigation/native'
 import Footer from '../../component/Footer';
 import Header from '../../component/Header';
@@ -13,13 +13,16 @@ import moment from 'moment';
 const Stack = createNativeStackNavigator();
 const Exercise = (props) => {
     const [isFinish, setFinish] = useState(false);
-    const [isPaused,setPause] = useState(false);
+    const [isPaused, setPause] = useState(false);
     const isFocused = useIsFocused();
     const exerciseVideo = useRef();
     const navigation = props.navigation;
+    const route = props.route;
     const unsubscribe = navigation.addListener('blur', () => {
         console.log('Leaving Exercise Screen');
+        setPause(true)
         exerciseVideo.current?.setNativeProps({ paused: true, muted: true })
+        exerciseVideo.current?.seek(0);
     });
     const [exercise, setExercise] = useState({});
     const fetchExerciseDetail = async (exerciseId) => {
@@ -82,15 +85,32 @@ const Exercise = (props) => {
     }
 
     useEffect(() => {
-        if(isFocused){
+        fetchExerciseDetail(route.params)
+        if (isFocused) {
             setFinish(false);
-            setPause(true);
-            exerciseVideo.current?.seek(0);
-        }else{
-            setPause(true)
         }
         return unsubscribe;
     }, [isFocused])
+
+    const ExerciseVideo = {
+        "barbell-curl.mp4": require('../../assets/video/barbell-curl.mp4'),
+        "barbell-rows.mp4": require('../../assets/video/barbell-rows.mp4'),
+        "bench-press.mp4": require('../../assets/video/bench-press.mp4'),
+        "calves-raise.mp4": require('../../assets/video/calves-raise.mp4'),
+        "chest-fly.mp4": require('../../assets/video/chest-fly.mp4'),
+        "exercise.mp4": require('../../assets/video/exercise.mp4'),
+        "hammer-curl.mp4": require('../../assets/video/hammer-curl.mp4'),
+        "inclined-barbell-close-grip-bench-press.mp4": require('../../assets/video/inclined-barbell-close-grip-bench-press.mp4'),
+        "inclined-dumbell-press.mp4": require('../../assets/video/inclined-dumbell-press.mp4'),
+        "lat-pulldown.mp4": require('../../assets/video/lat-pulldown.mp4'),
+        "leg-curl.mp4": require('../../assets/video/leg-curl.mp4'),
+        "leg-extension.mp4": require('../../assets/video/leg-extension.mp4'),
+        "leg-press.mp4": require('../../assets/video/leg-press.mp4'),
+        "one-arm-lat-pulldown.mp4": require('../../assets/video/one-arm-lat-pulldown.mp4'),
+        "squat.mp4": require('../../assets/video/squat.mp4'),
+        "triceps-extension.mp4": require('../../assets/video/triceps-extension.mp4')
+    }
+
     return (
         <>
             <SafeAreaView style={styles.container}>
@@ -98,11 +118,10 @@ const Exercise = (props) => {
                     <Header></Header>
                 </View>
                 <Video
-                    source={video}
-                       // Can be a URL or a local file.
+                    source={ExerciseVideo[exercise.video]}
                     style={styles.image}
                     controls={true}
-                    onEnd={()=> setFinish(true)}
+                    onEnd={() => updateToStatistic()}
                     resizeMode={'stretch'}
                     ref={exerciseVideo}
                     muted={true}
@@ -114,9 +133,12 @@ const Exercise = (props) => {
                             fontSize: 25,
                             marginTop: '2%'
                         }}>
-                            Push exercise
+                            {exercise.name}
                         </Text>
-                        {isFinish ? <Ionicons name='checkmark-circle' size={30} style={{color:'#2EC561',marginTop:'1.5%',marginLeft:'4%'}}></Ionicons>:<View></View>}
+                        {isFinish ? <Ionicons name='checkmark-circle' size={30} style={{ color: '#2EC561', marginTop: '1.5%', marginLeft: '4%' }}></Ionicons> : <View></View>}
+                    </View>
+                    <View style={{ flexDirection: 'row', marginBottom: '1%', marginTop: '2%' }}>
+                        <Text style={{ color: 'black', fontStyle: 'italic' }}>{exercise.description}</Text>
                     </View>
                     <View
                         style={{
@@ -125,22 +147,22 @@ const Exercise = (props) => {
                             marginTop: '2%',
                             alignSelf: 'center'
                         }}>
-                        <Text>Difficulty levels</Text>
-                        <View style={{ flexDirection: 'row', marginVertical: '3%' }}>
-                            <View style={{ backgroundColor: 'black', borderRadius: 5, marginRight: '4%' }}><Text style={{ color: 'white', padding: '3%' }}>Intermediate</Text></View>
-                            <View style={{ backgroundColor: 'black', borderRadius: 5 }}><Text style={{ color: 'white', padding: '3%' }}>Advanced</Text></View>
-                        </View>
+
                         <Text>Time</Text>
-                        <View style={{ flexDirection: 'row', marginVertical: '3%' }}>
-                            <View style={{ backgroundColor: 'black', borderRadius: 5, marginRight: '4%' }}><Text style={{ color: 'white', padding: '3%' }}>6 minutes</Text></View>
+                        <View style={{ flexDirection: 'row', marginVertical: '2%' }}>
+                            <View style={{ backgroundColor: '#459CF0', borderRadius: 5, marginRight: '4%' }}><Text style={{ color: 'white', padding: '3%' }}>{exercise.duration} minutes</Text></View>
                         </View>
                         <Text>Reps</Text>
-                        <View style={{ flexDirection: 'row', marginVertical: '3%' }}>
-                            <View style={{ backgroundColor: 'black', borderRadius: 5, marginRight: '4%' }}><Text style={{ color: 'white', padding: '3%' }}>7</Text></View>
+                        <View style={{ flexDirection: 'row', marginVertical: '2%' }}>
+                            <View style={{ backgroundColor: '#459CF0', borderRadius: 5, marginRight: '4%' }}><Text style={{ color: 'white', padding: '3%' }}>{exercise.reps}</Text></View>
                         </View>
                         <Text>Sets</Text>
-                        <View style={{ flexDirection: 'row', marginVertical: '3%' }}>
-                            <View style={{ backgroundColor: 'black', borderRadius: 5, marginRight: '4%' }}><Text style={{ color: 'white', padding: '3%' }}>2</Text></View>
+                        <View style={{ flexDirection: 'row', marginVertical: '2%' }}>
+                            <View style={{ backgroundColor: '#459CF0', borderRadius: 5, marginRight: '4%' }}><Text style={{ color: 'white', padding: '3%' }}>{exercise.sets}</Text></View>
+                        </View>
+                        <Text>Calories Burn</Text>
+                        <View style={{ flexDirection: 'row', marginVertical: '2%' }}>
+                            <View style={{ backgroundColor: '#459CF0', borderRadius: 5, marginRight: '4%' }}><Text style={{ color: 'white', padding: '3%' }}>{exercise.caloriesBurn}</Text></View>
                         </View>
                     </View>
                 </View>

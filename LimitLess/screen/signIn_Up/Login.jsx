@@ -62,11 +62,11 @@ const Login = ({ navigation }) => {
         <Text style={styles.titleStyle}>Login to your Account</Text>
         <View style={styles.formFieldGroupStyle}>
           <View>
-            <TextInput style={styles.textInputStyle} placeholder='Username' onChangeText={newText => setUsernameInput(newText)} defaultValue={usernameInput} />
+            <TextInput autoCapitalize='none' style={styles.textInputStyle} placeholder='Username' onChangeText={newText => setUsernameInput(newText)} defaultValue={usernameInput} />
             {errorLoginMessage.length != 0 && <Text style={styles.errorInputStyle}>{errorLoginMessage}</Text>}
           </View>
           <View>
-            <TextInput style={styles.textInputStyle} secureTextEntry={true} placeholder='Password' onChangeText={newText => setPasswordInput(newText)} defaultValue={passwordInput} />
+            <TextInput autoCapitalize='none' style={styles.textInputStyle} secureTextEntry={true} placeholder='Password' onChangeText={newText => setPasswordInput(newText)} defaultValue={passwordInput} />
             {errorLoginMessage.length != 0 && <Text style={styles.errorInputStyle}>{errorLoginMessage}</Text>}
           </View>
           <View style={{ flexDirection: 'row', alignItems: 'center', columnGap: 4 }}>

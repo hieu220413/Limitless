@@ -15,9 +15,6 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "exerciseId")
 public class Exercise {
 
     @Id
@@ -36,6 +33,8 @@ public class Exercise {
     private int viewCount;
 
     private int sets;
+
+    private int reps;
 
     private int duration;
 

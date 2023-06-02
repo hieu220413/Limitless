@@ -28,17 +28,17 @@ import NewPassword from './screen/forgotPassword/NewPassword';
 // LogBox.ignoreLogs(['new NativeEventEmitter']); // Ignore log notification by message
 import Exercise from './screen/workout/Exercise';
 import Statistic from './screen/statistic/Statistic';
-
+import MomoQR from './screen/paymentQR/MomoQR';
 const Stack = createNativeStackNavigator();
 
 const App = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{headerShown: false}}>
-        <Stack.Screen name="Intro1" component={IntroductionPage_1} />
-        <Stack.Screen name="Intro2" component={IntroductionPage_2} />
-        <Stack.Screen name="Intro3" component={IntroductionPage_3} />
-        <Stack.Screen name="Welcome" component={Welcome} />
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen name='Intro1' component={IntroductionPage_1} />
+        <Stack.Screen name='Intro2' component={IntroductionPage_2} />
+        <Stack.Screen name='Intro3' component={IntroductionPage_3} />
+        <Stack.Screen name='Welcome' component={Welcome} />
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Register" component={Register} />
         <Stack.Screen name="Gender" component={Gender} />
@@ -55,6 +55,7 @@ const App = () => {
         <Stack.Screen name="Setting" component={SettingMenu} />
         <Stack.Screen name="Edit Profile" component={EditProfile} />
         <Stack.Screen name="Premium" component={PremiumSubscribe} />
+        <Stack.Screen name="MomoQR" component={MomoQR} />
         <Stack.Screen name="Statistic" component={Statistic} />
       </Stack.Navigator>
     </NavigationContainer>

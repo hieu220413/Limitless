@@ -4,6 +4,7 @@ import fpt.edu.limitlessapi.exception.AuthFailException;
 import fpt.edu.limitlessapi.exception.ExerciseNotFoundException;
 import fpt.edu.limitlessapi.exception.UserNotFoundException;
 import fpt.edu.limitlessapi.model.ApiError;
+import fpt.edu.limitlessapi.model.StatisticResponseBody;
 import fpt.edu.limitlessapi.service.StatisticService;
 import jakarta.validation.Valid;
 import org.apache.coyote.Response;
@@ -13,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -30,4 +32,9 @@ public class StatisticController {
         message.put("message", "update statistic successfully");
         return ResponseEntity.status(HttpStatus.OK).body(message);
     };
+
+    @RequestMapping(value = "/getByDate", method = RequestMethod.GET)
+    public ResponseEntity<HashMap> getStatisticByDate(@RequestParam String userId, @RequestParam LocalDate date){
+        return ResponseEntity.status(HttpStatus.OK).body(statisticService.getStatisticByDate(userId, date));
+    }
 }
