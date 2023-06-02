@@ -69,6 +69,7 @@ const MainPage = (props) => {
                     //redirect to welcomepage
                 }
                 const checkResult = await fetch(`http://limitless-api.us-east-1.elasticbeanstalk.com/api/subscription/checkActiveSubscription?userId=${userId}`).then(response => response.json()).then(json => json)
+                console.log(checkResult)
                 if (checkResult.isPremium) {
                     setIsPremiumUser(checkResult.isPremium)
                     console.log(isPremiumUser)
@@ -83,6 +84,7 @@ const MainPage = (props) => {
             return () => {
                 // Do something when the screen is unfocused
                 // Useful for cleanup functions
+                setIsPremiumUser(false)
             };
         }, [])
     );
@@ -189,11 +191,11 @@ const MainPage = (props) => {
                                 !(item.isPremium == 1) || isPremiumUser ?
                                     <TouchableOpacity
                                         onPress={() => navigation.navigate('Workout Detail', [item.workoutId])}
+                                        activeOpacity={0.8}
                                         style={{
                                             width: 120,
                                             height: 120,
                                             borderRadius: 10,
-                                            borderWidth: 0.5,
                                             borderColor: 'black',
                                             margin: 5,
                                             blurRadius: 1
@@ -207,7 +209,6 @@ const MainPage = (props) => {
                                                 borderRadius: 10,
                                                 padding: 10
                                             }}
-
                                         />
                                         <View style={{
                                             position: 'absolute',
@@ -221,6 +222,7 @@ const MainPage = (props) => {
                                     :
                                     <TouchableOpacity
                                         onPress={handleModal}
+                                        activeOpacity={0.8}
                                         style={{
                                             width: 120,
                                             height: 120,
@@ -241,13 +243,14 @@ const MainPage = (props) => {
                                         />
                                         <BlurView
                                             style={{
-                                                width: 120,
-                                                height: 120,
+                                                width: '100%',
+                                                height: "100%",
                                                 borderRadius: 10,
                                                 borderColor: 'black',
                                                 blurRadius: 1,
                                                 position: 'absolute'
                                             }}
+                                            overlayColor="transparent"
                                             blurType="light"
                                             blurAmount={3}
                                             blurRadius={5}
@@ -321,6 +324,7 @@ const MainPage = (props) => {
                                 !(item.isPremium == 1) || isPremiumUser ?
                                     <TouchableOpacity
                                         onPress={() => navigation.navigate('Workout Detail', [item.workoutId])}
+                                        activeOpacity={0.8}
                                         style={{
                                             width: '100%',
                                             height: 120,
@@ -350,6 +354,7 @@ const MainPage = (props) => {
                                     :
                                     <TouchableOpacity
                                         onPress={handleModal}
+                                        activeOpacity={0.8}
                                         style={{
                                             width: '100%',
                                             height: 120,
@@ -369,13 +374,14 @@ const MainPage = (props) => {
                                         />
                                         <BlurView
                                             style={{
-                                                width: '95%',
-                                                height: 120,
+                                                width: '100%',
+                                                height: "100%",
                                                 borderRadius: 30,
                                                 alignSelf: 'center',
                                                 borderWidth: 1,
                                                 position: 'absolute'
                                             }}
+                                            overlayColor="transparent"
                                             blurType="light"
                                             blurAmount={3}
                                             blurRadius={5}

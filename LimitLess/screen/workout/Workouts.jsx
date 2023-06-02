@@ -120,6 +120,7 @@ const Workouts = (props) => {
             return () => {
                 // Do something when the screen is unfocused
                 // Useful for cleanup functions
+                setIsPremiumUser(false)
             };
         }, [])
     );
@@ -161,9 +162,10 @@ const Workouts = (props) => {
                             data={workouts}
                             keyExtractor={item => item.id}
                             renderItem={({ item }) => (
-                                !(item.isPremium == 1) ?
+                                !(item.isPremium == 1) || isPremiumUser ?
                                     <TouchableOpacity
                                         onPress={() => navigation.navigate('Workout Detail', [item.workoutId])}
+                                        activeOpacity={0.8}
                                         style={{
                                             width: '100%',
                                             height: 120,
@@ -193,6 +195,7 @@ const Workouts = (props) => {
                                     :
                                     <TouchableOpacity
                                         onPress={handleModal}
+                                        activeOpacity={0.8}
                                         style={{
                                             width: '100%',
                                             height: 120,
@@ -212,13 +215,14 @@ const Workouts = (props) => {
                                         />
                                         <BlurView
                                             style={{
-                                                width: '95%',
-                                                height: 120,
+                                                width: '100%',
+                                                height: "100%",
                                                 borderRadius: 30,
                                                 alignSelf: 'center',
                                                 borderWidth: 1,
                                                 position: 'absolute'
                                             }}
+                                            overlayColor="transparent"
                                             blurType="light"
                                             blurAmount={3}
                                             blurRadius={5}
