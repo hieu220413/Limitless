@@ -49,7 +49,7 @@ const MainPage = (props) => {
         console.log(JSON.stringify(workoutsResponseBody))
         console.log('is Array: ' + Array.isArray(workoutsResponseBody))
         if(Array.isArray(workoutsResponseBody)){
-            workoutsResponseBody.reverse()    
+            workoutsResponseBody.sort((item1, item2) => item2.isPremium - item1.isPremium)    
         }
         setLevelPicked(level)
         setWorkouts(workoutsResponseBody)
