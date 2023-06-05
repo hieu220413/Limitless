@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { SafeAreaView, Image, FlatList, StyleSheet, View, Text, TouchableOpacity, ScrollView, StatusBar, TextInput } from "react-native";
+import { SafeAreaView, Image, FlatList, StyleSheet, View, Text, TouchableOpacity, ScrollView, StatusBar, TextInput, Alert } from "react-native";
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useState, useEffect, useRef } from "react";
@@ -7,6 +7,8 @@ import { useIsFocused } from '@react-navigation/native'
 import Footer from '../../component/Footer';
 import Header from '../../component/Header';
 import Video from 'react-native-video';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import moment from 'moment';
 
 const Stack = createNativeStackNavigator();
 const Exercise = (props) => {
@@ -24,13 +26,64 @@ const Exercise = (props) => {
     });
     const [exercise, setExercise] = useState({});
     const fetchExerciseDetail = async (exerciseId) => {
-        exerciseDetailResponseBody = await fetch(`http://limitless-api.us-east-1.elasticbeanstalk.com/exercise/fetchById?id=${exerciseId}`)
+        const exerciseDetailResponseBody = await fetch(`http://limitless-api.us-east-1.elasticbeanstalk.com/exercise/fetchById?id=${exerciseId}`)
             .then(response => response.json())
             .then(json => json)
             .catch(error => console.log(error));
-            console.log(JSON.stringify(exerciseDetailResponseBody))  
+        console.log(JSON.stringify(exerciseDetailResponseBody))
         setExercise(exerciseDetailResponseBody);
     }
+
+    const updateToStatistic = async () => {
+        const user_info = await AsyncStorage.getItem('user_info')
+        let savedPracticedExe = []
+        const exerciseId = route.params
+        if (user_info) {
+            const userId = JSON.parse(user_info).userId
+            const statisticInfoResult = await fetch(`http://limitless-api.us-east-1.elasticbeanstalk.com/api/statistic/getByDate?userId=${userId}&date=${moment().format('YYYY-MM-DD')}`)
+                .then(response => response.json()).then(json => json)
+                .catch(error => console.log(error))
+            if (statisticInfoResult && !statisticInfoResult.error) {
+                savedPracticedExe = statisticInfoResult.statisticResponseBody ? statisticInfoResult.statisticResponseBody.finishedExercises : []
+            }
+            if (savedPracticedExe.findIndex((exe) => exe.exerciseId == exerciseId) != -1) {
+                Alert.alert('Confirmation', 'This exercise have been saved in today statistic. Do you want to save it again ?', [
+                    {
+                        text: 'Cancel',
+                        onPress: () => { },
+                        style: 'cancel',
+                    },
+                    {
+                        text: 'OK',
+                        onPress: async () => {
+                            const result = await fetch(`http://limitless-api.us-east-1.elasticbeanstalk.com/api/statistic/updateToday?userId=${userId}&exerciseId=${route.params}`, {
+                                method: 'PUT',
+                                headers: {
+                                    Accept: 'application/json',
+                                    'Content-Type': 'application/json',
+                                },
+                                body: {}
+                            }).then(response => response.text())
+                            console.log(result)
+                        },
+                    },
+                ]);
+                setFinish(true)
+                return
+            }
+            const result = await fetch(`http://limitless-api.us-east-1.elasticbeanstalk.com/api/statistic/updateToday?userId=${userId}&exerciseId=${route.params}`, {
+                method: 'PUT',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: {}
+            }).then(response => response.text())
+            console.log(result)
+        }
+        setFinish(true)
+    }
+
     useEffect(() => {
         fetchExerciseDetail(route.params)
         if (isFocused) {
@@ -57,7 +110,7 @@ const Exercise = (props) => {
         "squat.mp4": require('../../assets/video/squat.mp4'),
         "triceps-extension.mp4": require('../../assets/video/triceps-extension.mp4')
     }
-    
+
     return (
         <>
             <SafeAreaView style={styles.container}>
@@ -68,7 +121,7 @@ const Exercise = (props) => {
                     source={ExerciseVideo[exercise.video]}
                     style={styles.image}
                     controls={true}
-                    onEnd={() => setFinish(true)}
+                    onEnd={() => updateToStatistic()}
                     resizeMode={'stretch'}
                     ref={exerciseVideo}
                     muted={true}

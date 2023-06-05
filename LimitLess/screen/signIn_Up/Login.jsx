@@ -53,7 +53,7 @@ const Login = ({ navigation }) => {
       
     } else{
       console.log(JSON.stringify(loginResponseBody))
-      setErrorLoginMessage(loginResponseBody.message)
+      setErrorLoginMessage('wrong password or username')
     }
 }
   return (

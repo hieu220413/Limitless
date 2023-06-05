@@ -102,9 +102,11 @@ const Statistic = props => {
       const userId = JSON.parse(user_info).userId
       console.log('selectedDate: ' + selectedDate.current)
       console.log('selectedDate after format: ' + selectedDate.current.format('YYYY-MM-DD'))
-      const result = await fetch(`http://10.0.2.2:8080/api/statistic/getByDate?userId=${userId}&date=${selectedDate.current.format('YYYY-MM-DD')}`)
+      const result = await fetch(`http://limitless-api.us-east-1.elasticbeanstalk.com/api/statistic/getByDate?userId=${userId}&date=${selectedDate.current.format('YYYY-MM-DD')}`)
         .then(response => response.json()).then(json => json) 
         .catch(error => console.log(error))
+      console.log(JSON.stringify(result))
+      setStatistic(undefined)
       if (result && !result.error) {
         setOldestDate(moment(result.oldestDate, 'YYYY-MM-DD').toDate())
         setStatistic(result.statisticResponseBody)
@@ -172,7 +174,7 @@ const Statistic = props => {
                 innerRadius={80}
                 sections={[
                   {
-                    percentage:  Math.ceil(((statistic ? statistic.burnedCalories : 0)/1600) * 100) ,
+                    percentage:  Math.ceil(((statistic ? statistic.burnedCalories : 0)/3500) * 100) ,
                     color: '#461CF0',
                   },
                 ]}
@@ -194,7 +196,7 @@ const Statistic = props => {
                 innerRadius={37}
                 sections={[
                   {
-                    percentage: Math.ceil(((statistic ? statistic.finishedExercises.length : 0)/30) * 100)   ,
+                    percentage: Math.ceil(((statistic ? statistic.finishedExercises.length : 0)/10) * 100)   ,
                     color: '#EBD618',
                   },
                 ]}
@@ -210,7 +212,7 @@ const Statistic = props => {
                 innerRadius={37}
                 sections={[
                   {
-                    percentage: Math.ceil(((statistic ? statistic.minutes : 0)/60) * 100),
+                    percentage: Math.ceil(((statistic ? statistic.minutes : 0)/80) * 100),
                     color: '#F84C4C',
                   },
                 ]}

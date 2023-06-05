@@ -144,6 +144,7 @@ const Workouts = (props) => {
                                console.log(item.thumbnail),
                                 <TouchableOpacity
                                     onPress={() => props.navigation.navigate('Exercise',item.exerciseId)}
+                                    activeOpacity={0.8}
                                     style={{
                                         width: 340,
                                         height: 120,
