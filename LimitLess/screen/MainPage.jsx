@@ -46,7 +46,11 @@ const MainPage = (props) => {
             .then(response => response.json())
             .then(json => json)
             .catch(error => console.log(error))
-        console.log(JSON.stringify(workoutsResponseBody))    
+        console.log(JSON.stringify(workoutsResponseBody))
+        console.log('is Array: ' + Array.isArray(workoutsResponseBody))
+        if(Array.isArray(workoutsResponseBody)){
+            workoutsResponseBody.reverse()    
+        }
         setLevelPicked(level)
         setWorkouts(workoutsResponseBody)
         if(Object.keys(featureWorkouts).length == 0){
@@ -188,7 +192,7 @@ const MainPage = (props) => {
                             data={featureWorkouts}
                             keyExtractor={item => item.workoutId}
                             renderItem={({ item }) => (
-                                !(item.isPremium == 1) || isPremiumUser ?
+                                !(item.isPremium == 0) || isPremiumUser ?
                                     <TouchableOpacity
                                         onPress={() => navigation.navigate('Workout Detail', [item.workoutId])}
                                         activeOpacity={0.8}
@@ -321,7 +325,7 @@ const MainPage = (props) => {
                             data={workouts}
                             keyExtractor={item => item.workoutId}
                             renderItem={({ item }) => (
-                                !(item.isPremium == 1) || isPremiumUser ?
+                                !(item.isPremium == 0) || isPremiumUser ?
                                     <TouchableOpacity
                                         onPress={() => navigation.navigate('Workout Detail', [item.workoutId])}
                                         activeOpacity={0.8}

@@ -88,6 +88,10 @@ const Workouts = (props) => {
             .then(response => response.json())
             .then(json => json)
             .catch(error => console.log(error))
+        console.log('is Array: ' + Array.isArray(workoutsResponseBody))
+        if (Array.isArray(workoutsResponseBody)) {
+            workoutsResponseBody.reverse()
+        }
         setWorkouts(workoutsResponseBody)
         setLevelPicked(level)
     }
@@ -162,7 +166,7 @@ const Workouts = (props) => {
                             data={workouts}
                             keyExtractor={item => item.id}
                             renderItem={({ item }) => (
-                                !(item.isPremium == 1) || isPremiumUser ?
+                                !(item.isPremium == 0) || isPremiumUser ?
                                     <TouchableOpacity
                                         onPress={() => navigation.navigate('Workout Detail', [item.workoutId])}
                                         activeOpacity={0.8}
@@ -244,20 +248,20 @@ const Workouts = (props) => {
                 </View>
             </SafeAreaView>
             <ReactNativeModal isVisible={isModalVisible} onBackdropPress={handleModal}>
-                    <View style={{ backgroundColor: 'white', borderWidth: 0.5, borderRadius: 20, height: '20%', maxHeight: 200, minHeight: 150, position:'relative' }}>
-                        <TouchableOpacity style={styles.ugradePremiumStyle} activeOpacity={0.8} onPress={() => { navigation.navigate('Premium'), setIsModalVisible(() => !isModalVisible) }}>
-                            <View style={{ flexDirection: 'row', columnGap: 15, alignItems: 'center'}}>
-                                <Text style={{ paddingVertical: 3, paddingHorizontal: 15, color: 'white', backgroundColor: '#FAE20B', fontSize: 20, fontWeight: 'bold', borderRadius: 20 }}>PRO</Text>
-                                <Text style={{ flexGrow: 1, color: 'white', textAlign: 'center', fontSize: 19, fontWeight: 'bold' }}>Upgrade to Premium</Text>
-                                <Icon name='rightcircle' size={25} color="#fff"></Icon>
-                            </View>
-                            <Text style={{ color: 'white', fontSize: 16, fontWeight: 'bold' }}>Enjoy workout access without ads and restrictions</Text>
-                        </TouchableOpacity>
-                        {/* <TouchableOpacity onPress={handleModal} style={{ position: 'absolute', alignSelf: 'flex-end' }}>
+                <View style={{ backgroundColor: 'white', borderWidth: 0.5, borderRadius: 20, height: '20%', maxHeight: 200, minHeight: 150, position: 'relative' }}>
+                    <TouchableOpacity style={styles.ugradePremiumStyle} activeOpacity={0.8} onPress={() => { navigation.navigate('Premium'), setIsModalVisible(() => !isModalVisible) }}>
+                        <View style={{ flexDirection: 'row', columnGap: 15, alignItems: 'center' }}>
+                            <Text style={{ paddingVertical: 3, paddingHorizontal: 15, color: 'white', backgroundColor: '#FAE20B', fontSize: 20, fontWeight: 'bold', borderRadius: 20 }}>PRO</Text>
+                            <Text style={{ flexGrow: 1, color: 'white', textAlign: 'center', fontSize: 19, fontWeight: 'bold' }}>Upgrade to Premium</Text>
+                            <Icon name='rightcircle' size={25} color="#fff"></Icon>
+                        </View>
+                        <Text style={{ color: 'white', fontSize: 16, fontWeight: 'bold' }}>Enjoy workout access without ads and restrictions</Text>
+                    </TouchableOpacity>
+                    {/* <TouchableOpacity onPress={handleModal} style={{ position: 'absolute', alignSelf: 'flex-end' }}>
                             <Ionicons name='ios-close-outline' size={46} style={{ color: 'white' }}  ></Ionicons>
                         </TouchableOpacity> */}
-                    </View>
-                </ReactNativeModal>
+                </View>
+            </ReactNativeModal>
         </>
     );
 };
