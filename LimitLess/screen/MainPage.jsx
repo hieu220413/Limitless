@@ -401,19 +401,19 @@ const MainPage = (props) => {
                 <View style={styles.foot}>
                     <Footer page='Home' />
                 </View>
-                <ReactNativeModal isVisible={isModalVisible}>
-                    <View style={{ backgroundColor: 'white', borderWidth: 0.5, borderRadius: 20, height: '40%' }}>
+                <ReactNativeModal isVisible={isModalVisible} onBackdropPress={handleModal}>
+                    <View style={{ backgroundColor: 'white', borderWidth: 0.5, borderRadius: 20, height: '20%', maxHeight: 200, minHeight: 150, position:'relative' }}>
                         <TouchableOpacity style={styles.ugradePremiumStyle} activeOpacity={0.8} onPress={() => { navigation.navigate('Premium'), setIsModalVisible(() => !isModalVisible) }}>
-                            <View style={{ flexDirection: 'row', columnGap: 15, alignItems: 'center', marginTop: '20%' }}>
+                            <View style={{ flexDirection: 'row', columnGap: 15, alignItems: 'center'}}>
                                 <Text style={{ paddingVertical: 3, paddingHorizontal: 15, color: 'white', backgroundColor: '#FAE20B', fontSize: 20, fontWeight: 'bold', borderRadius: 20 }}>PRO</Text>
                                 <Text style={{ flexGrow: 1, color: 'white', textAlign: 'center', fontSize: 19, fontWeight: 'bold' }}>Upgrade to Premium</Text>
                                 <Icon name='rightcircle' size={25} color="#fff"></Icon>
                             </View>
                             <Text style={{ color: 'white', fontSize: 16, fontWeight: 'bold' }}>Enjoy workout access without ads and restrictions</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={handleModal} style={{ position: 'absolute', alignSelf: 'flex-end' }}>
+                        {/* <TouchableOpacity onPress={handleModal} style={{ position: 'absolute', alignSelf: 'flex-end' }}>
                             <Ionicons name='ios-close-outline' size={46} style={{ color: 'white' }}  ></Ionicons>
-                        </TouchableOpacity>
+                        </TouchableOpacity> */}
                     </View>
                 </ReactNativeModal>
             </SafeAreaView>
@@ -485,7 +485,7 @@ const styles = StyleSheet.create({
         rowGap: 15,
         padding: '10%',
         borderRadius: 20,
-        flex: 1
+        flex: 1,
     },
 })
 export default MainPage;
