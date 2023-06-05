@@ -174,7 +174,7 @@ const Statistic = props => {
                 innerRadius={80}
                 sections={[
                   {
-                    percentage:  Math.ceil(((statistic ? statistic.burnedCalories : 0)/1600) * 100) ,
+                    percentage:  Math.ceil(((statistic ? statistic.burnedCalories : 0)/3500) * 100) ,
                     color: '#461CF0',
                   },
                 ]}
@@ -196,7 +196,7 @@ const Statistic = props => {
                 innerRadius={37}
                 sections={[
                   {
-                    percentage: Math.ceil(((statistic ? statistic.finishedExercises.length : 0)/30) * 100)   ,
+                    percentage: Math.ceil(((statistic ? statistic.finishedExercises.length : 0)/10) * 100)   ,
                     color: '#EBD618',
                   },
                 ]}
@@ -212,7 +212,7 @@ const Statistic = props => {
                 innerRadius={37}
                 sections={[
                   {
-                    percentage: Math.ceil(((statistic ? statistic.minutes : 0)/60) * 100),
+                    percentage: Math.ceil(((statistic ? statistic.minutes : 0)/80) * 100),
                     color: '#F84C4C',
                   },
                 ]}
