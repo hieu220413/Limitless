@@ -11,7 +11,7 @@ import java.util.UUID;
 public interface UserRepository extends JpaRepository<Users, UUID> {
      Users findByUsername(String username);
 
-     @Query(value = "SELECT * FROM users WHERE username=:username AND ( status = 0 OR status = 2)",nativeQuery = true)
+     @Query(value = "SELECT * FROM users WHERE ( username=:username OR phone=:username ) AND ( status = 0 OR status = 2)",nativeQuery = true)
      Users findByUsernameAndActive(String username);
 
      @Query(value = "SELECT * FROM users WHERE email=:email AND ( status = 0 OR status = 2)",nativeQuery = true)

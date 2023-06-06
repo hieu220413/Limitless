@@ -6,6 +6,8 @@ INSERT INTO `limitless`.`users` (`user_id`, `age`, `dob`, `email`, `full_name`, 
 INSERT INTO `limitless`.`users` (`user_id`, `age`, `dob`, `email`, `full_name`, `gender`, `height`, `level`, `password`, `phone`, `status`, `username`, `weight`) VALUES (UUID_TO_BIN('4e79b77b-f7dd-11ed-bcc5-a85e45c41921'),'20', '2002-07-21', 'dangnguyenhiep@gmail.com', 'Dang Nguyen Hiep', '0', '170', 'Intermediate', '$2a$12$.F5FMOgYQA3e4E3YmkE8yeYw0dNVgSAgIdsx.V8oH6Z.QGYi7VuiC', '0907878342', '2', 'dangnguyenhiep', '60');
 INSERT INTO `limitless`.`users` (`user_id`, `age`, `dob`, `email`, `full_name`, `gender`, `height`, `level`, `password`, `phone`, `status`, `username`, `weight`) VALUES (UUID_TO_BIN('4e79c727-f7dd-11ed-bcc5-a85e45c41921'),'20', '2002-07-27', 'nguyendaiduong@gmail.com', 'Nguyen Dai Duong', '0', '170', 'Advanced','$2a$12$xiVnWoKE5hw1nc9CHUuMd.JsdxSe.REp.8T7UinSyiKdzM2pvJJdW', '0904635263', '2', 'nguyendaiduong', '60');
 
+-- Subscription records
+INSERT INTO `limitless`.`subscription` (`subscription_id`, `end_date`, `price`, `start_date`, `users_id`) VALUES (UUID_TO_BIN('e5bf41fc-0cf2-43f8-a244-21105bd693f9'), '2023-07-06 10:21:00.000000', '200000', '2023-06-06 10:21:00.000000', UUID_TO_BIN('4e7960aa-f7dd-11ed-bcc5-a85e45c41921'));
 
 
 -- level records
