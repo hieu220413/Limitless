@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "/static/css/main.d6c90861.css",
+    "main.js": "/static/js/main.3088be39.js",
+    "static/media/hero_image.png": "/static/media/hero_image.e19ac0c6b1009c7280f5.png",
+    "static/media/image1.png": "/static/media/image1.1091417d32e491f0bbb6.png",
+    "static/media/Hiep.jpeg": "/static/media/Hiep.10c00a6e59a947f2492f.jpeg",
+    "static/media/image2.png": "/static/media/image2.82da8b2725df896d8a8e.png",
+    "static/media/image3.png": "/static/media/image3.69484cb0ee7687a8c28b.png",
+    "static/media/image4.png": "/static/media/image4.2c0d30b9ce1579eb1109.png",
+    "static/media/Khoa.jpeg": "/static/media/Khoa.2bdbd68f0d39af056981.jpeg",
+    "static/media/Quang.jpeg": "/static/media/Quang.365eec14c3b5d08c70ab.jpeg",
+    "static/media/Hieu.jpeg": "/static/media/Hieu.337b3385a0d1dc270001.jpeg",
+    "static/media/appstore.png": "/static/media/appstore.85701b32029ee82dc3c4.png",
+    "static/media/logo1.png": "/static/media/logo1.59529e12255f288f8e08.png",
+    "static/media/hero_image_back.png": "/static/media/hero_image_back.9f54bfba33048f4ca688.png",
+    "index.html": "/index.html",
+    "main.d6c90861.css.map": "/static/css/main.d6c90861.css.map",
+    "main.3088be39.js.map": "/static/js/main.3088be39.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.d6c90861.css",
+    "static/js/main.3088be39.js"
+  ]
+}
