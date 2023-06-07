@@ -35,7 +35,7 @@ const Login = ({ navigation }) => {
   const [passwordInput, setPasswordInput] = useState('')
   const [errorLoginMessage, setErrorLoginMessage] = useState('')
   const signIn = async () => {
-    const loginResponseBody = await fetch('http://limitless-api.us-east-1.elasticbeanstalk.com/api/user/login', {
+    const loginResponseBody = await fetch('http://limitlessapi.us-east-1.elasticbeanstalk.com/api/user/login', {
       method: 'POST',
       headers: {
         Accept: 'application/json',

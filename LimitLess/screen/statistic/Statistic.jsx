@@ -102,7 +102,7 @@ const Statistic = props => {
       const userId = JSON.parse(user_info).userId
       console.log('selectedDate: ' + selectedDate.current)
       console.log('selectedDate after format: ' + selectedDate.current.format('YYYY-MM-DD'))
-      const result = await fetch(`http://limitless-api.us-east-1.elasticbeanstalk.com/api/statistic/getByDate?userId=${userId}&date=${selectedDate.current.format('YYYY-MM-DD')}`)
+      const result = await fetch(`http://limitlessapi.us-east-1.elasticbeanstalk.com/api/statistic/getByDate?userId=${userId}&date=${selectedDate.current.format('YYYY-MM-DD')}`)
         .then(response => response.json()).then(json => json) 
         .catch(error => console.log(error))
       console.log(JSON.stringify(result))

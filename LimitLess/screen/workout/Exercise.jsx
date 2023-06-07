@@ -26,7 +26,7 @@ const Exercise = (props) => {
     });
     const [exercise, setExercise] = useState({});
     const fetchExerciseDetail = async (exerciseId) => {
-        const exerciseDetailResponseBody = await fetch(`http://limitless-api.us-east-1.elasticbeanstalk.com/exercise/fetchById?id=${exerciseId}`)
+        const exerciseDetailResponseBody = await fetch(`http://limitlessapi.us-east-1.elasticbeanstalk.com/exercise/fetchById?id=${exerciseId}`)
             .then(response => response.json())
             .then(json => json)
             .catch(error => console.log(error));
@@ -40,7 +40,7 @@ const Exercise = (props) => {
         const exerciseId = route.params
         if (user_info) {
             const userId = JSON.parse(user_info).userId
-            const statisticInfoResult = await fetch(`http://limitless-api.us-east-1.elasticbeanstalk.com/api/statistic/getByDate?userId=${userId}&date=${moment().format('YYYY-MM-DD')}`)
+            const statisticInfoResult = await fetch(`http://limitlessapi.us-east-1.elasticbeanstalk.com/api/statistic/getByDate?userId=${userId}&date=${moment().format('YYYY-MM-DD')}`)
                 .then(response => response.json()).then(json => json)
                 .catch(error => console.log(error))
             if (statisticInfoResult && !statisticInfoResult.error) {
@@ -56,7 +56,7 @@ const Exercise = (props) => {
                     {
                         text: 'OK',
                         onPress: async () => {
-                            const result = await fetch(`http://limitless-api.us-east-1.elasticbeanstalk.com/api/statistic/updateToday?userId=${userId}&exerciseId=${route.params}`, {
+                            const result = await fetch(`http://limitlessapi.us-east-1.elasticbeanstalk.com/api/statistic/updateToday?userId=${userId}&exerciseId=${route.params}`, {
                                 method: 'PUT',
                                 headers: {
                                     Accept: 'application/json',
@@ -71,7 +71,7 @@ const Exercise = (props) => {
                 setFinish(true)
                 return
             }
-            const result = await fetch(`http://limitless-api.us-east-1.elasticbeanstalk.com/api/statistic/updateToday?userId=${userId}&exerciseId=${route.params}`, {
+            const result = await fetch(`http://limitlessapi.us-east-1.elasticbeanstalk.com/api/statistic/updateToday?userId=${userId}&exerciseId=${route.params}`, {
                 method: 'PUT',
                 headers: {
                     Accept: 'application/json',
