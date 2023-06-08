@@ -42,7 +42,7 @@ const MainPage = (props) => {
         "triceps-extension.jpg": require('../assets/exe-thumbnail/triceps-extension.jpg')
     }
     const fetchWorkouts = async (level) => {
-        workoutsResponseBody = await fetch(`http://limitless-api.us-east-1.elasticbeanstalk.com/workout/fetchByLevel?level=${level}`)
+        workoutsResponseBody = await fetch(`http://limitlessapi.us-east-1.elasticbeanstalk.com/workout/fetchByLevel?level=${level}`)
             .then(response => response.json())
             .then(json => json)
             .catch(error => console.log(error))
@@ -72,7 +72,7 @@ const MainPage = (props) => {
                 } else {
                     //redirect to welcomepage
                 }
-                const checkResult = await fetch(`http://limitless-api.us-east-1.elasticbeanstalk.com/api/subscription/checkActiveSubscription?userId=${userId}`).then(response => response.json()).then(json => json)
+                const checkResult = await fetch(`http://limitlessapi.us-east-1.elasticbeanstalk.com/api/subscription/checkActiveSubscription?userId=${userId}`).then(response => response.json()).then(json => json)
                 console.log(checkResult)
                 if (checkResult.isPremium) {
                     setIsPremiumUser(checkResult.isPremium)
