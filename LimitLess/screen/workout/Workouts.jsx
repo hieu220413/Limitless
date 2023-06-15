@@ -1,11 +1,8 @@
-import * as React from 'react';
+import React, {useState, useEffect} from 'react';
 import { SafeAreaView, Image, FlatList, StyleSheet, View, Text, TouchableOpacity, ScrollView, StatusBar, TextInput } from "react-native";
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
-import { useState } from "react";
 import { Button } from '@rneui/themed';
-import Footer from '../../component/Footer';
 import Header from '../../component/Header';
 import { useFocusEffect } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -54,6 +51,8 @@ const Workouts = (props) => {
         }
         setWorkouts(workoutsResponseBody)
         setLevelPicked(level)
+        setLevels(levelsDict)
+        setLevels(prev => ({ ...prev, [level]: true }))
     }
     useFocusEffect(
         React.useCallback(() => {
@@ -75,12 +74,6 @@ const Workouts = (props) => {
                     console.log(checkResult.isPremium)
                     setIsPremiumUser(checkResult.isPremium)
                 }
-                console.log(Object.values(workouts).length)
-                if(workouts.length == 0){
-                    setLevels(levelsDict)
-                    setLevels(prev => ({ ...prev, [user_level]: true }))
-                    fetchWorkouts(user_level)
-                }
             }
             checkPremium()
             return () => {
@@ -90,6 +83,14 @@ const Workouts = (props) => {
             };
         }, [])
     );
+    useEffect(()=>{
+        const loadWorkout = async () => {
+        const user_info = await AsyncStorage.getItem('user_info')
+        let user_level= JSON.parse(user_info).level
+        fetchWorkouts(user_level)
+        };
+        loadWorkout()
+    }, [])
     return (
         <>
             <SafeAreaView style={styles.container}>

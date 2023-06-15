@@ -20,6 +20,7 @@ const MainPage = (props) => {
     const handleModal = () => setIsModalVisible(() => !isModalVisible);
     const { navigation, route } = props
     const [userFullName, setUserFullName] = useState('');
+    const [loaded,isLoaded] = useState(false);
     const [isPremiumUser, setIsPremiumUser] = useState(false);
     const [levelPicked,setLevelPicked] = useState('');
     const [workouts, setWorkouts] = useState({});
@@ -53,6 +54,8 @@ const MainPage = (props) => {
         }
         setLevelPicked(level)
         setWorkouts(workoutsResponseBody)
+        setLevels(levelsDict)
+        setLevels(prev => ({ ...prev, [level]: true }))
         if(Object.keys(featureWorkouts).length == 0){
             setfeatureWorkouts(workoutsResponseBody)
         }
@@ -66,7 +69,6 @@ const MainPage = (props) => {
                 const user_info = await AsyncStorage.getItem('user_info')
                 if (user_info != null) {
                     userId = JSON.parse(user_info).userId
-                    user_level= JSON.parse(user_info).level
                     setUserFullName(JSON.parse(user_info).fullName)
                 } else {
                     //redirect to welcomepage
@@ -77,13 +79,9 @@ const MainPage = (props) => {
                     setIsPremiumUser(checkResult.isPremium)
                     console.log(isPremiumUser)
                 }
-                if(workouts.length == 0){
-                    setLevels(levelsDict)
-                    setLevels(prev => ({ ...prev, [user_level]: true }))
-                    fetchWorkouts(user_level)
-                }
             }
             checkPremiumAndGetName()
+            console.log(loaded)
             return () => {
                 // Do something when the screen is unfocused
                 // Useful for cleanup functions
@@ -91,15 +89,22 @@ const MainPage = (props) => {
             };
         }, [])
     );
+    useEffect(()=>{
+        const loadWorkout = async () => {
+        const user_info = await AsyncStorage.getItem('user_info')
+        let user_level= JSON.parse(user_info).level
+        fetchWorkouts(user_level)
+        };
+        loadWorkout()
+    }, [])
+    console.log(loaded)
     const time = ['Morning', 'Afternoon', 'Evening'];
-    // 'https://drive.google.com/uc?export=view&id=1RnbR8vgeJ4KIvHdC59KjPEEsO1iKlh-A'
     const levelsDict = {
         'Beginner': false,
         'Intermediate': false,
         'Advanced': false
     }
     const [levels, setLevels] = useState(levelsDict);
-
     return (
         <>
             <SafeAreaView style={styles.container}>
