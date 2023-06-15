@@ -145,7 +145,7 @@ const Statistic = props => {
             </TouchableOpacity>
           </View>
         </View>
-        <View style={styles.body}>
+        <ScrollView style={styles.body}>
           <CalendarStrip
             scrollable
             onDateSelected={loadStatistics}
@@ -243,12 +243,12 @@ const Statistic = props => {
             style={{
               flexDirection: 'row',
               justifyContent: 'space-between',
-              paddingTop: 10,
+              paddingTop: 20
             }}>
             <Text style={{ fontWeight: '700' }}>Finish exercises</Text>
-            <Text style={{ color: '#461CF0', fontWeight: '600' }}>See all</Text>
           </View>
           <FlatList
+            scrollEnabled={false}
             data={finishedExercises}
             keyExtractor={item => item.statisticId}
             style={{
@@ -293,11 +293,7 @@ const Statistic = props => {
           >
 
           </FlatList>
-        </View>
-
-        <View style={styles.foot}>
-          <Footer page='Statistic' />
-        </View>
+        </ScrollView>
       </SafeAreaView>
     </>
   );
@@ -318,6 +314,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   body: {
+    marginTop:10,
     flex: 0.86,
     // backgroundColor: 'pink',
   },

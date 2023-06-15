@@ -1,17 +1,11 @@
 import * as React from 'react';
 import { SafeAreaView, Image, FlatList, StyleSheet, View, Text, TouchableOpacity, ScrollView, StatusBar, TextInput } from "react-native";
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useState } from "react";
 import { Button } from '@rneui/themed';
-import Footer from '../../component/Footer';
 import Header from '../../component/Header';
 import { useFocusEffect } from '@react-navigation/native';
 
-
-const Stack = createNativeStackNavigator();
-const Workouts = (props) => {
-    var userFullName = 'Anh Khoa';
-    const time = ['Morning', 'Afternoon', 'Evening'];
+const WorkoutsDetail = (props) => {
     const ExerciseImages = {
         "barbell-curl.jpg": require('../../assets/exe-thumbnail/barbell-curl.jpg'),
         "barbell-rows.jpg": require('../../assets/exe-thumbnail/barbell-rows.jpg'),
@@ -28,54 +22,28 @@ const Workouts = (props) => {
         "squat.jpg": require('../../assets/exe-thumbnail/squat.jpg'),
         "triceps-extension.jpg": require('../../assets/exe-thumbnail/triceps-extension.jpg')
     }
-    const DATA = [
-        {
-            id: '1',
-            url: require('../../image/workout1.jpg'),
-            name: 'Bench Press',
-            reps: 5,
-            sets: 2
-        },
-        {
-            id: '2',
-            url: require('../../image/workout3.jpg'),
-            name: 'Dumbbell Press',
-            reps: 3,
-            sets: 3
-        },
-        {
-            id: '3',
-            url: require('../../image/workout4.jpg'),
-            name: 'Cable Fly',
-            reps: 5,
-            sets: 4
-        }
-    ];
-
-    const levelsDict = {
-        'Beginner': false,
-        'Intermediate': false,
-        'Advanced': false
-    }
-    const [levels, setLevels] = useState(levelsDict);
     const { navigation, route } = props
-    const workoutId = route.params
-    console.log(workoutId)
+    const workoutId = route.params.workoutId;
+    const levelWorkout = route.params.levelPicked;
+    console.log(route.params.workoutId)
     const [exercises, setExercises] = useState({});
     const [workoutImage,setWorkoutImage] = useState('');
+    const [workout,setWorkout] = useState({});
     const fetchWorkoutDetail = async (workoutId) => {
         workoutDetailResponseBody = await fetch(`http://limitlessapi.us-east-1.elasticbeanstalk.com/workout/${workoutId}`)
             .then(response => response.json())
             .then(json => json)
-            .catch(error => console
-                .log(error))
+            .catch(error => console.log(error))
         setExercises(workoutDetailResponseBody.exercises)
         console.log(JSON.stringify(workoutDetailResponseBody.exercises))  
+        console.log(JSON.stringify(workoutDetailResponseBody))  
         setWorkoutImage(workoutDetailResponseBody.thumbnail)
+        setWorkout(workoutDetailResponseBody)
     }
     useFocusEffect(
         React.useCallback(() => {
             fetchWorkoutDetail(workoutId);
+            console.log(workout)  
         }, [])
     );
     return (
@@ -95,7 +63,7 @@ const Workouts = (props) => {
                     <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
                         <Button
                             key='Level'
-                            title='Beginner'
+                            title={levelWorkout}
                             titleStyle={styles.titleBtn}
                             buttonStyle={styles.button}
                             containerStyle={{
@@ -106,7 +74,7 @@ const Workouts = (props) => {
                         />
                         <Button
                             key='exercises'
-                            title='3 exercises'
+                            title={workout.totalExercise+' exercises'}
                             titleStyle={styles.titleBtn}
                             buttonStyle={styles.button}
                             containerStyle={{
@@ -141,7 +109,6 @@ const Workouts = (props) => {
                             data={exercises}
                             keyExtractor={item => item.exerciseId}
                             renderItem={({ item }) => (
-                               console.log(item.thumbnail),
                                 <TouchableOpacity
                                     onPress={() => props.navigation.navigate('Exercise',item.exerciseId)}
                                     activeOpacity={0.8}
@@ -180,9 +147,6 @@ const Workouts = (props) => {
                         />
                     </View>
                 </View>
-                <View style={styles.foot}>
-                    <Footer />
-                </View>
             </SafeAreaView>
         </>
     );
@@ -207,12 +171,9 @@ const styles = StyleSheet.create({
         marginTop: '2%'
     },
     body: {
-        flex: 6,
+        flex: 5,
         marginLeft: '4%',
         marginRight: '4%'
-    },
-    foot: {
-        flex: 0.6
     },
     button: {
         backgroundColor: '#e3e6e9',
@@ -225,4 +186,4 @@ const styles = StyleSheet.create({
         fontSize: 14
     }
 })
-export default Workouts;
+export default WorkoutsDetail;

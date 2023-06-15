@@ -57,7 +57,6 @@ const MainPage = (props) => {
             setfeatureWorkouts(workoutsResponseBody)
         }
     }
-    let user_level = ''
     useFocusEffect(
         React.useCallback(() => {
             // Do something when the screen is focused
@@ -78,7 +77,7 @@ const MainPage = (props) => {
                     setIsPremiumUser(checkResult.isPremium)
                     console.log(isPremiumUser)
                 }
-                if(Object.keys(workouts).length == 0){
+                if(workouts.length == 0){
                     setLevels(levelsDict)
                     setLevels(prev => ({ ...prev, [user_level]: true }))
                     fetchWorkouts(user_level)
@@ -93,48 +92,6 @@ const MainPage = (props) => {
         }, [])
     );
     const time = ['Morning', 'Afternoon', 'Evening'];
-    const DATA = [
-        {
-            id: '1',
-            url: require('../image/workout1.jpg'),
-            name: 'Arm Workout',
-            level: 'Beginner',
-            totalExercise: 10,
-            isPremium: false
-        },
-        {
-            id: '2',
-            url: require('../image/workout2.jpg'),
-            name: 'Chest Workout',
-            level: 'Beginner',
-            totalExercise: 12,
-            isPremium: false
-        },
-        {
-            id: '3',
-            url: require('../image/workout3.jpg'),
-            name: 'Leg Workout',
-            level: 'Beginner',
-            totalExercise: 20,
-            isPremium: false
-        },
-        {
-            id: '4',
-            url: require('../image/workout4.jpg'),
-            name: 'Push Workout',
-            level: 'Beginner',
-            totalExercise: 6,
-            isPremium: true
-        },
-        {
-            id: '5',
-            url: require('../image/workout5.jpg'),
-            name: 'Squat Workout',
-            level: 'Beginner',
-            time: 8,
-            isPremium: true
-        },
-    ];
     // 'https://drive.google.com/uc?export=view&id=1RnbR8vgeJ4KIvHdC59KjPEEsO1iKlh-A'
     const levelsDict = {
         'Beginner': false,
@@ -194,7 +151,7 @@ const MainPage = (props) => {
                             renderItem={({ item }) => (
                                 !(item.isPremium == 0) || isPremiumUser ?
                                     <TouchableOpacity
-                                        onPress={() => navigation.navigate('Workout Detail', [item.workoutId])}
+                                        onPress={() => navigation.navigate('Workout Detail',  {workoutId: item.workoutId, levelPicked: levelPicked })}
                                         activeOpacity={0.8}
                                         style={{
                                             width: 120,
@@ -327,7 +284,7 @@ const MainPage = (props) => {
                             renderItem={({ item }) => (
                                 !(item.isPremium == 0) || isPremiumUser ?
                                     <TouchableOpacity
-                                        onPress={() => navigation.navigate('Workout Detail', [item.workoutId])}
+                                        onPress={() => navigation.navigate('Workout Detail',  {workoutId: item.workoutId, levelPicked: levelPicked })}
                                         activeOpacity={0.8}
                                         style={{
                                             width: '100%',
@@ -378,7 +335,7 @@ const MainPage = (props) => {
                                         />
                                         <BlurView
                                             style={{
-                                                width: '100%',
+                                                width: '95%',
                                                 height: "100%",
                                                 borderRadius: 30,
                                                 alignSelf: 'center',
@@ -402,9 +359,6 @@ const MainPage = (props) => {
                         />
                     </View>
                 </ScrollView>
-                <View style={styles.foot}>
-                    <Footer page='Home' />
-                </View>
                 <ReactNativeModal isVisible={isModalVisible} onBackdropPress={handleModal}>
                     <View style={{ backgroundColor: 'white', borderWidth: 0.5, borderRadius: 20, height: '20%', maxHeight: 200, minHeight: 150, position:'relative' }}>
                         <TouchableOpacity style={styles.ugradePremiumStyle} activeOpacity={0.8} onPress={() => { navigation.navigate('Premium'), setIsModalVisible(() => !isModalVisible) }}>

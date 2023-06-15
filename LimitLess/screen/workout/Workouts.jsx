@@ -17,47 +17,7 @@ const Stack = createNativeStackNavigator();
 const Workouts = (props) => {
     const [isModalVisible, setIsModalVisible] = React.useState(false);
     const handleModal = () => setIsModalVisible(() => !isModalVisible);
-    var userFullName = 'Anh Khoa';
     const { navigation, route } = props
-    const time = ['Morning', 'Afternoon', 'Evening'];
-    const DATA = [
-        {
-            id: '1',
-            url: require('../../image/workout1.jpg'),
-            name: 'Arm Workout',
-            level: 'Beginner',
-            time: 10
-        },
-        {
-            id: '2',
-            url: require('../../image/workout2.jpg'),
-            name: 'Chest Workout',
-            level: 'Beginner',
-            time: 12
-        },
-        {
-            id: '3',
-            url: require('../../image/workout3.jpg'),
-            name: 'Leg Workout',
-            level: 'Beginner',
-            time: 20
-        },
-        {
-            id: '4',
-            url: require('../../image/workout4.jpg'),
-            name: 'Push Workout',
-            level: 'Beginner',
-            time: 6
-        },
-        {
-            id: '5',
-            url: require('../../image/workout5.jpg'),
-            name: 'Squat Workout',
-            level: 'Beginner',
-            time: 8
-        },
-    ];
-
     const levelsDict = {
         'Beginner': false,
         'Intermediate': false,
@@ -89,10 +49,9 @@ const Workouts = (props) => {
             .then(json => json)
             .catch(error => console.log(error))
         console.log('is Array: ' + Array.isArray(workoutsResponseBody))
-        if(Array.isArray(workoutsResponseBody)){
-            workoutsResponseBody.sort((item1, item2) => item2.isPremium - item1.isPremium)    
+        if (Array.isArray(workoutsResponseBody)) {
+            workoutsResponseBody.sort((item1, item2) => item2.isPremium - item1.isPremium)
         }
-
         setWorkouts(workoutsResponseBody)
         setLevelPicked(level)
     }
@@ -108,10 +67,6 @@ const Workouts = (props) => {
                     user_level = JSON.parse(user_info).level
                     console.log(user_info)
                     console.log(user_level)
-                    setLevels(levelsDict)
-                    setLevels(prev => ({ ...prev, [user_level]: true }))
-                    setLevelPicked(user_level)
-                    fetchWorkouts(user_level)
                 } else {
                     //redirect to welcomepage
                 }
@@ -119,6 +74,12 @@ const Workouts = (props) => {
                 if (checkResult.isPremium) {
                     console.log(checkResult.isPremium)
                     setIsPremiumUser(checkResult.isPremium)
+                }
+                console.log(Object.values(workouts).length)
+                if(workouts.length == 0){
+                    setLevels(levelsDict)
+                    setLevels(prev => ({ ...prev, [user_level]: true }))
+                    fetchWorkouts(user_level)
                 }
             }
             checkPremium()
@@ -165,11 +126,12 @@ const Workouts = (props) => {
                             style={{ width: '100%', alignSelf: 'center' }}
                             showsVerticalScrollIndicator={false}
                             data={workouts}
-                            keyExtractor={item => item.id}
+                            keyExtractor={(item, index) => index.toString()}
                             renderItem={({ item }) => (
                                 !(item.isPremium == 0) || isPremiumUser ?
                                     <TouchableOpacity
-                                        onPress={() => navigation.navigate('Workout Detail', [item.workoutId])}
+                                        key={item.workoutId}
+                                        onPress={() => navigation.navigate('Workout Detail', {workoutId: item.workoutId, levelPicked: levelPicked })}
                                         activeOpacity={0.8}
                                         style={{
                                             width: '100%',
@@ -179,7 +141,7 @@ const Workouts = (props) => {
                                         }}>
                                         <Image
                                             source={ExerciseImages[item.thumbnail]}
-                                            key={item.workoutId}
+                                            key={item.workoutId + 'image'}
                                             style={{
                                                 width: '95%',
                                                 height: 120,
@@ -188,17 +150,19 @@ const Workouts = (props) => {
                                                 borderWidth: 1
                                             }}
                                         />
-                                        <View style={{
-                                            position: 'absolute',
-                                            marginLeft: '8%',
-                                            marginTop: '16%'
-                                        }}>
+                                        <View key={item.workoutId + 'text'}
+                                            style={{
+                                                position: 'absolute',
+                                                marginLeft: '8%',
+                                                marginTop: '16%'
+                                            }}>
                                             <Text style={{ fontSize: 25, fontWeight: 600, color: 'white' }}>{item.name}</Text>
                                             <Text style={{ fontSize: 18, color: 'white' }}>{item.totalExercise} exercise | {levelPicked}</Text>
                                         </View>
                                     </TouchableOpacity>
                                     :
                                     <TouchableOpacity
+                                        key={item.workoutId}
                                         onPress={handleModal}
                                         activeOpacity={0.8}
                                         style={{
@@ -209,7 +173,7 @@ const Workouts = (props) => {
                                         }}>
                                         <Image
                                             source={ExerciseImages[item.thumbnail]}
-                                            key={item.workoutId}
+                                            key={item.workoutId + 'image'}
                                             style={{
                                                 width: '95%',
                                                 height: 120,
@@ -219,8 +183,9 @@ const Workouts = (props) => {
                                             }}
                                         />
                                         <BlurView
+                                            key={item.workoutId + 'blur'}
                                             style={{
-                                                width: '100%',
+                                                width: '95%',
                                                 height: "100%",
                                                 borderRadius: 30,
                                                 alignSelf: 'center',
@@ -232,20 +197,18 @@ const Workouts = (props) => {
                                             blurAmount={3}
                                             blurRadius={5}
                                         />
-                                        <View style={{
-                                            position: 'absolute',
-                                            alignSelf: 'center',
-                                            marginTop: '12%'
-                                        }}>
+                                        <View key={item.workoutId + 'text'}
+                                            style={{
+                                                position: 'absolute',
+                                                alignSelf: 'center',
+                                                marginTop: '12%'
+                                            }}>
                                             <EvilIcons name='lock' size={46} style={{ color: 'white' }}  ></EvilIcons>
                                         </View>
                                     </TouchableOpacity>
                             )}
                         />
                     </View>
-                </View>
-                <View style={styles.foot}>
-                    <Footer page='Workouts' />
                 </View>
             </SafeAreaView>
             <ReactNativeModal isVisible={isModalVisible} onBackdropPress={handleModal}>

@@ -91,9 +91,6 @@ const SettingMenu = ({ navigation }) => {
                     <Text style={[styles.optionTextLabelStyle, { color: 'red' }]}>Logout</Text>
                 </TouchableOpacity>
             </View>
-            <View style={{ bottom: -20 }}>
-                <Footer page='Setting' />
-            </View>
         </SafeAreaView>
     )
 }
