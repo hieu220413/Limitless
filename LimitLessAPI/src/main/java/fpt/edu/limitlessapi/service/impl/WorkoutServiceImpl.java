@@ -161,7 +161,9 @@ public class WorkoutServiceImpl implements WorkoutService {
 
 //        HashMap workoutExerciseCheck = new HashMap();
 //        List<Exercise> workoutExercisesList = workoutEntity.get().getExercises().stream().toList();
-        List<Exercise> existedExercise;
+        if(workoutUpdateRequestBody.getExerciseIdList() != null){
+
+            List<Exercise> existedExercise;
 
 //        workoutExercisesList.stream().forEach(exercise -> {
 //            workoutExerciseCheck.put(exercise.getExerciseId(), exercise);
@@ -177,27 +179,27 @@ public class WorkoutServiceImpl implements WorkoutService {
 //        existedExercise = exerciseRepository.findByIdList(newExerciseIdList);
 
 
-        List<UUID> selectedExerciseId = new ArrayList<>();
-        selectedExerciseId.addAll(workoutUpdateRequestBody.getExerciseIdList());
-        existedExercise = exerciseRepository.findByIdList(selectedExerciseId);
+            List<UUID> selectedExerciseId = new ArrayList<>();
+            selectedExerciseId.addAll(workoutUpdateRequestBody.getExerciseIdList());
+            existedExercise = exerciseRepository.findByIdList(selectedExerciseId);
 
         //remove workout from all exercise
 //        List<Exercise> allExercise = exerciseRepository.findAll();
 //        allExercise.stream().forEach(exercise -> {
 //            exercise.getWorkouts().removeIf(workout -> workout.getWorkoutId() == workoutEntity.get().getWorkoutId());
 //        });
-        workoutEntity.get().getExercises().forEach(exercise -> {
-            exercise.getWorkouts().removeIf(workout -> workout.getWorkoutId() == workoutEntity.get().getWorkoutId());
-        });
+            workoutEntity.get().getExercises().forEach(exercise -> {
+                exercise.getWorkouts().removeIf(workout -> workout.getWorkoutId() == workoutEntity.get().getWorkoutId());
+            });
 
-        //reset exercise list in workout
-        workoutEntity.get().setExercises(new ArrayList<>());
-        //add workout to exercise
-        existedExercise.stream().forEach(exercise -> {
-            workoutEntity.get().getExercises().add(exercise);
-            exercise.getWorkouts().add(workoutEntity.get());
-        });
-
+            //reset exercise list in workout
+            workoutEntity.get().setExercises(new ArrayList<>());
+            //add workout to exercise
+            existedExercise.stream().forEach(exercise -> {
+                workoutEntity.get().getExercises().add(exercise);
+                exercise.getWorkouts().add(workoutEntity.get());
+            });
+        }
 
         if(workoutUpdateRequestBody.getName() != null && !workoutUpdateRequestBody.getName().isBlank()) workoutEntity.get().setName(workoutUpdateRequestBody.getName());
         if(workoutUpdateRequestBody.getThumbnail() != null && !workoutUpdateRequestBody.getThumbnail().isBlank()) workoutEntity.get().setThumbnail(workoutUpdateRequestBody.getThumbnail());
