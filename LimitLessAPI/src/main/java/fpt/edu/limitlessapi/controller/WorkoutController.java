@@ -2,6 +2,9 @@ package fpt.edu.limitlessapi.controller;
 
 import fpt.edu.limitlessapi.entity.Workout;
 import fpt.edu.limitlessapi.exception.WorkoutNotFoundException;
+import fpt.edu.limitlessapi.model.WorkoutCreateRequestBody;
+import fpt.edu.limitlessapi.model.WorkoutCreateUpdateRespondBody;
+import fpt.edu.limitlessapi.model.WorkoutUpdateRequestBody;
 import fpt.edu.limitlessapi.service.WorkoutService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -38,4 +41,14 @@ public class WorkoutController {
         return ResponseEntity.status(HttpStatus.OK).body(workoutService.getWorkoutsByLevel(level));
     }
 
+
+    @PostMapping("/create")
+    public ResponseEntity<WorkoutCreateUpdateRespondBody> createWorkout(@RequestBody WorkoutCreateRequestBody workoutCreateRequestBody){
+        return ResponseEntity.status(HttpStatus.OK).body(workoutService.createWorkout(workoutCreateRequestBody));
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<WorkoutCreateUpdateRespondBody> updateWorkout(@RequestBody WorkoutUpdateRequestBody workoutUpdateRequestBody){
+        return ResponseEntity.status(HttpStatus.OK).body(workoutService.updateWorkout(workoutUpdateRequestBody));
+    }
 }

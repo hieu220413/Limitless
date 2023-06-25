@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import fpt.edu.limitlessapi.meta.Status;
+import fpt.edu.limitlessapi.model.ExerciseCreateRequestBody;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -16,6 +17,20 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Exercise {
+
+    public Exercise(ExerciseCreateRequestBody exerciseCreateRequestBody, Level levelEntity) {
+        this.thumbnail = exerciseCreateRequestBody.getThumbnail();
+        this.description = exerciseCreateRequestBody.getDescription();
+        this.name = exerciseCreateRequestBody.getName();
+        this.video = exerciseCreateRequestBody.getVideo();
+        this.viewCount = 0;
+        this.sets = exerciseCreateRequestBody.getSets();
+        this.reps = exerciseCreateRequestBody.getReps();
+        this.duration = exerciseCreateRequestBody.getDuration();
+        this.status = Status.ACTIVE;
+        this.caloriesBurn = exerciseCreateRequestBody.getCaloriesBurn();
+        this.level = levelEntity;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

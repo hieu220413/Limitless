@@ -2,6 +2,9 @@ package fpt.edu.limitlessapi.controller;
 
 import fpt.edu.limitlessapi.entity.Exercise;
 import fpt.edu.limitlessapi.exception.ExerciseNotFoundException;
+import fpt.edu.limitlessapi.model.ExerciseCreateRequestBody;
+import fpt.edu.limitlessapi.model.ExerciseCreateUpdateRespondBody;
+import fpt.edu.limitlessapi.model.ExerciseUpdateRequestBody;
 import fpt.edu.limitlessapi.service.ExerciseService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +46,16 @@ public class ExerciseController {
     @GetMapping("/fetchByTag")
     public ResponseEntity<List<Exercise>> fetchByTag(@RequestParam("tag") String tag) throws ExerciseNotFoundException {
         return ResponseEntity.status(HttpStatus.OK).body(exerciseService.getExercisesByTag(tag));
+    }
+
+    @PostMapping("/create")
+    public ResponseEntity<ExerciseCreateUpdateRespondBody> createExercise(@RequestBody ExerciseCreateRequestBody exerciseCreateRequestBody){
+        return ResponseEntity.status(HttpStatus.OK).body(exerciseService.createExercise(exerciseCreateRequestBody));
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<ExerciseCreateUpdateRespondBody> updateExercise(@RequestBody ExerciseUpdateRequestBody exerciseUpdateRequestBody){
+        return ResponseEntity.status(HttpStatus.OK).body(exerciseService.updateExercise(exerciseUpdateRequestBody));
     }
 
 }
