@@ -27,6 +27,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Octicons from 'react-native-vector-icons/Octicons';
+import PackPurchaseMomoQR from './screen/paymentQR/PackPurchaseMomoQR';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -85,6 +86,10 @@ const App = () => {
         <Stack.Screen name="Edit Profile" component={EditProfile} />
         <Stack.Screen name="Premium" component={PremiumSubscribe} />
         <Stack.Screen name="MomoQR" component={MomoQR} />
+        <Stack.Screen
+          name="PackPurchaseMomoQR"
+          component={PackPurchaseMomoQR}
+        />
       </Stack.Navigator>
     </NavigationContainer >
   );

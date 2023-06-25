@@ -7,6 +7,7 @@ import lombok.*;
 
 import java.sql.Date;
 import java.util.Collection;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -53,7 +54,7 @@ public class Users {
             name = "user_workout",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "workout_id"))
-    Collection<Workout> workouts;
+    private Set<Workout> workouts;
 
     @OneToMany(
             mappedBy = "user",
@@ -70,4 +71,5 @@ public class Users {
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Collection<Subscription> subscriptions;
+
 }
