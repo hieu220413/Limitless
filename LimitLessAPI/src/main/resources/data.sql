@@ -146,3 +146,14 @@ INSERT INTO `limitless`.`exercise_workout` (`exercise_id`, `workout_id`) VALUES 
 INSERT INTO `limitless`.`exercise_workout` (`exercise_id`, `workout_id`) VALUES (UUID_TO_BIN('80b2b659-f7e7-11ed-bcc5-a85e45c41921') , UUID_TO_BIN('b8f84835-036d-11ee-bc40-0e9bf7f9a15b'));
 INSERT INTO `limitless`.`exercise_workout` (`exercise_id`, `workout_id`) VALUES (UUID_TO_BIN('80b2ddc0-f7e7-11ed-bcc5-a85e45c41921') , UUID_TO_BIN('b8f84835-036d-11ee-bc40-0e9bf7f9a15b'));
 INSERT INTO `limitless`.`exercise_workout` (`exercise_id`, `workout_id`) VALUES (UUID_TO_BIN('80b2fc49-f7e7-11ed-bcc5-a85e45c41921') , UUID_TO_BIN('b8f84835-036d-11ee-bc40-0e9bf7f9a15b'));
+
+
+
+
+-- user_workout
+INSERT INTO `limitless`.`user_workout` (`user_id`, `workout_id`) VALUES (UUID_TO_BIN('4e7960aa-f7dd-11ed-bcc5-a85e45c41921'), UUID_TO_BIN('c186c33d-f7ec-11ed-bcc5-a85e45c41921'));
+INSERT INTO `limitless`.`user_workout` (`user_id`, `workout_id`) VALUES (UUID_TO_BIN('4e7960aa-f7dd-11ed-bcc5-a85e45c41921'), UUID_TO_BIN('c186e4db-f7ec-11ed-bcc5-a85e45c41921'));
+INSERT INTO `limitless`.`user_workout` (`user_id`, `workout_id`) VALUES (UUID_TO_BIN('4e797140-f7dd-11ed-bcc5-a85e45c41921'), UUID_TO_BIN('c1870d98-f7ec-11ed-bcc5-a85e45c41921'));
+INSERT INTO `limitless`.`user_workout` (`user_id`, `workout_id`) VALUES (UUID_TO_BIN('4e797140-f7dd-11ed-bcc5-a85e45c41921'), UUID_TO_BIN('c186fdaf-f7ec-11ed-bcc5-a85e45c41921'));
+INSERT INTO `limitless`.`user_workout` (`user_id`, `workout_id`) VALUES (UUID_TO_BIN('4e797fdf-f7dd-11ed-bcc5-a85e45c41921'), UUID_TO_BIN('c186c33d-f7ec-11ed-bcc5-a85e45c41921'));
+INSERT INTO `limitless`.`user_workout` (`user_id`, `workout_id`) VALUES (UUID_TO_BIN('4e797fdf-f7dd-11ed-bcc5-a85e45c41921'), UUID_TO_BIN('c186e4db-f7ec-11ed-bcc5-a85e45c41921'));

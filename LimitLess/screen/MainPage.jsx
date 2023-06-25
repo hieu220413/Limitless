@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { SafeAreaView, Image, FlatList, StyleSheet, View, Text, TouchableOpacity, ScrollView, StatusBar, TextInput } from "react-native";
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -20,11 +20,13 @@ const MainPage = (props) => {
     const handleModal = () => setIsModalVisible(() => !isModalVisible);
     const { navigation, route } = props
     const [userFullName, setUserFullName] = useState('');
-    const [loaded,isLoaded] = useState(false);
+    const [loaded, isLoaded] = useState(false);
     const [isPremiumUser, setIsPremiumUser] = useState(false);
-    const [levelPicked,setLevelPicked] = useState('');
+    const [levelPicked, setLevelPicked] = useState('');
     const [workouts, setWorkouts] = useState({});
+    const selectedWorkoutPremium = useRef('');
     const [featureWorkouts, setfeatureWorkouts] = useState({});
+    const [workoutPurchased, setWorkoutPurchased] = useState([]);
     var featureWorkout = [];
     const ExerciseImages = {
         "barbell-curl.jpg": require('../assets/exe-thumbnail/barbell-curl.jpg'),
@@ -49,14 +51,14 @@ const MainPage = (props) => {
             .catch(error => console.log(error))
         console.log(JSON.stringify(workoutsResponseBody))
         console.log('is Array: ' + Array.isArray(workoutsResponseBody))
-        if(Array.isArray(workoutsResponseBody)){
-            workoutsResponseBody.sort((item1, item2) => item2.isPremium - item1.isPremium)    
+        if (Array.isArray(workoutsResponseBody)) {
+            workoutsResponseBody.sort((item1, item2) => item2.isPremium - item1.isPremium)
         }
         setLevelPicked(level)
         setWorkouts(workoutsResponseBody)
         setLevels(levelsDict)
         setLevels(prev => ({ ...prev, [level]: true }))
-        if(Object.keys(featureWorkouts).length == 0){
+        if (Object.keys(featureWorkouts).length == 0) {
             setfeatureWorkouts(workoutsResponseBody)
         }
     }
@@ -70,6 +72,7 @@ const MainPage = (props) => {
                 if (user_info != null) {
                     userId = JSON.parse(user_info).userId
                     setUserFullName(JSON.parse(user_info).fullName)
+                    setWorkoutPurchased(JSON.parse(user_info).workoutIdList)
                 } else {
                     //redirect to welcomepage
                 }
@@ -89,11 +92,11 @@ const MainPage = (props) => {
             };
         }, [])
     );
-    useEffect(()=>{
+    useEffect(() => {
         const loadWorkout = async () => {
-        const user_info = await AsyncStorage.getItem('user_info')
-        let user_level= JSON.parse(user_info).level
-        fetchWorkouts(user_level)
+            const user_info = await AsyncStorage.getItem('user_info')
+            let user_level = JSON.parse(user_info).level
+            fetchWorkouts(user_level)
         };
         loadWorkout()
     }, [])
@@ -146,7 +149,7 @@ const MainPage = (props) => {
                             Feature Workout
                         </Text>
                     </View>
-                    <View style={{ height: 145,flexWrap:'wrap'}}>
+                    <View style={{ height: 145, flexWrap: 'wrap' }}>
                         <FlatList
                             style={styles.featureWorkout}
                             horizontal
@@ -154,9 +157,9 @@ const MainPage = (props) => {
                             data={featureWorkouts}
                             keyExtractor={item => item.workoutId}
                             renderItem={({ item }) => (
-                                !(item.isPremium == 0) || isPremiumUser ?
+                                !(item.isPremium == 0) || isPremiumUser || workoutPurchased.findIndex(id => item.workoutId == id) != -1 ?
                                     <TouchableOpacity
-                                        onPress={() => navigation.navigate('Workout Detail',  {workoutId: item.workoutId, levelPicked: levelPicked })}
+                                        onPress={() => navigation.navigate('Workout Detail', { workoutId: item.workoutId, levelPicked: levelPicked })}
                                         activeOpacity={0.8}
                                         style={{
                                             width: 120,
@@ -178,6 +181,22 @@ const MainPage = (props) => {
                                         />
                                         <View style={{
                                             position: 'absolute',
+                                            right: 10,
+                                            top: 5,
+                                        }}>
+                                            {item.isPremium == 0 && <MaterialCommunityIcons
+                                                style={{
+                                                    color: 'white',
+                                                    borderRadius: 100,
+                                                    backgroundColor: '#f8f202',
+                                                    padding: 3
+                                                }}
+                                                name='star'
+                                                size={15}>
+                                            </MaterialCommunityIcons>}
+                                        </View>
+                                        <View style={{
+                                            position: 'absolute',
                                             marginLeft: '6%',
                                             marginTop: '50%'
                                         }}>
@@ -187,7 +206,11 @@ const MainPage = (props) => {
                                     </TouchableOpacity>
                                     :
                                     <TouchableOpacity
-                                        onPress={handleModal}
+                                        onPress={() => {
+                                            handleModal()
+                                            selectedWorkoutPremium.current = item.name
+                                            console.log('selectedWorkout: ' + selectedWorkoutPremium.current)
+                                        }}
                                         activeOpacity={0.8}
                                         style={{
                                             width: 120,
@@ -218,14 +241,37 @@ const MainPage = (props) => {
                                             }}
                                             overlayColor="transparent"
                                             blurType="light"
-                                            blurAmount={3}
-                                            blurRadius={5}
+                                            blurAmount={1}
+                                            blurRadius={3}
                                         />
-
+                                        <View style={{
+                                            position: 'absolute',
+                                            right: 10,
+                                            top: 5,
+                                        }}>
+                                            <MaterialCommunityIcons
+                                                style={{
+                                                    color: 'white',
+                                                    borderRadius: 100,
+                                                    backgroundColor: '#f8f202',
+                                                    padding: 3
+                                                }}
+                                                name='star'
+                                                size={15}>
+                                            </MaterialCommunityIcons>
+                                        </View>
+                                        <View style={{
+                                            position: 'absolute',
+                                            marginLeft: '6%',
+                                            marginTop: '50%'
+                                        }}>
+                                            <Text style={{ fontSize: 15, fontWeight: 600, color: 'white' }}>{item.name}</Text>
+                                            <Text style={{ fontSize: 10, color: 'white', fontWeight: 500 }}>{item.totalExercise} exercises</Text>
+                                        </View>
                                         <View style={{
                                             position: 'absolute',
                                             alignSelf: 'center',
-                                            marginVertical: '37%'
+                                            marginVertical: '15%'
                                         }}>
                                             <EvilIcons name='lock' size={40} style={{ color: 'white' }}  ></EvilIcons>
                                         </View>
@@ -233,7 +279,7 @@ const MainPage = (props) => {
                             )}
                         />
                     </View>
-                    <View style={{ flexDirection: 'row',marginTop:'2%' }}>
+                    <View style={{ flexDirection: 'row', marginTop: '2%' }}>
                         <Text style={{
                             fontWeight: 600,
                             fontSize: 20
@@ -261,7 +307,7 @@ const MainPage = (props) => {
                                     fetchWorkouts(title)
                                     setLevels(levelsDict)
                                     setLevels(prev => ({ ...prev, [title]: true }))
-                                    console.log(levelPicked) 
+                                    console.log(levelPicked)
                                 }}
                                 titleStyle={!levels[title] ? styles.titleBtn : styles.titleBtnPressed}
                                 buttonStyle={!levels[title] ? styles.button : styles.buttonPressed}
@@ -287,9 +333,9 @@ const MainPage = (props) => {
                             data={workouts}
                             keyExtractor={item => item.workoutId}
                             renderItem={({ item }) => (
-                                !(item.isPremium == 0) || isPremiumUser ?
+                                !(item.isPremium == 0) || isPremiumUser || workoutPurchased.findIndex(id => item.workoutId == id) != -1 ?
                                     <TouchableOpacity
-                                        onPress={() => navigation.navigate('Workout Detail',  {workoutId: item.workoutId, levelPicked: levelPicked })}
+                                        onPress={() => navigation.navigate('Workout Detail', { workoutId: item.workoutId, levelPicked: levelPicked })}
                                         activeOpacity={0.8}
                                         style={{
                                             width: '100%',
@@ -310,16 +356,36 @@ const MainPage = (props) => {
                                         />
                                         <View style={{
                                             position: 'absolute',
+                                            right: 25,
+                                            top: 10,
+                                        }}>
+                                            {item.isPremium == 0 && <MaterialCommunityIcons
+                                                style={{
+                                                    color: 'white',
+                                                    borderRadius: 100,
+                                                    backgroundColor: '#f8f202',
+                                                    padding: 4
+                                                }}
+                                                name='star'
+                                                size={20}>
+                                            </MaterialCommunityIcons>}
+                                        </View>
+                                        <View style={{
+                                            position: 'absolute',
                                             marginLeft: '8%',
                                             marginTop: '16%'
                                         }}>
                                             <Text style={{ fontSize: 25, fontWeight: 600, color: 'white' }}>{item.name}</Text>
-                                            <Text style={{ fontSize: 18,color: 'white' }}>{item.totalExercise} exercise | {levelPicked}</Text>
+                                            <Text style={{ fontSize: 18, color: 'white' }}>{item.totalExercise} exercise | {levelPicked}</Text>
                                         </View>
-                                    </TouchableOpacity> 
+                                    </TouchableOpacity>
                                     :
                                     <TouchableOpacity
-                                        onPress={handleModal}
+                                        onPress={() => {
+                                            handleModal()
+                                            selectedWorkoutPremium.current = item.name
+                                            console.log('selectedWorkout: ' + selectedWorkoutPremium.current)
+                                        }}
                                         activeOpacity={0.8}
                                         style={{
                                             width: '100%',
@@ -348,16 +414,39 @@ const MainPage = (props) => {
                                                 position: 'absolute'
                                             }}
                                             overlayColor="transparent"
-                                            blurType="light"
-                                            blurAmount={3}
-                                            blurRadius={5}
+                                            blurAmount={1}
+                                            blurRadius={3}
                                         />
                                         <View style={{
                                             position: 'absolute',
+                                            right: 25,
+                                            top: 10,
+                                        }}>
+                                            <MaterialCommunityIcons
+                                                style={{
+                                                    color: 'white',
+                                                    borderRadius: 100,
+                                                    backgroundColor: '#f8f202',
+                                                    padding: 4
+                                                }}
+                                                name='star'
+                                                size={20}>
+                                            </MaterialCommunityIcons>
+                                        </View>
+                                        <View style={{
+                                            position: 'absolute',
                                             alignSelf: 'center',
-                                            marginTop: '12%'
+                                            marginTop: '4%'
                                         }}>
                                             <EvilIcons name='lock' size={46} style={{ color: 'white' }}  ></EvilIcons>
+                                        </View>
+                                        <View style={{
+                                            position: 'absolute',
+                                            marginLeft: '8%',
+                                            marginTop: '16%'
+                                        }}>
+                                            <Text style={{ fontSize: 25, fontWeight: 600, color: 'white' }}>{item.name}</Text>
+                                            <Text style={{ fontSize: 18, color: 'white' }}>{item.totalExercise} exercise | {levelPicked}</Text>
                                         </View>
                                     </TouchableOpacity>
                             )}
@@ -365,14 +454,30 @@ const MainPage = (props) => {
                     </View>
                 </ScrollView>
                 <ReactNativeModal isVisible={isModalVisible} onBackdropPress={handleModal}>
-                    <View style={{ backgroundColor: 'white', borderWidth: 0.5, borderRadius: 20, height: '20%', maxHeight: 200, minHeight: 150, position:'relative' }}>
+                    <View style={{ backgroundColor: 'white', borderWidth: 0.5, borderRadius: 20, height: '20%', maxHeight: 200, minHeight: 150, position: 'relative' }}>
                         <TouchableOpacity style={styles.ugradePremiumStyle} activeOpacity={0.8} onPress={() => { navigation.navigate('Premium'), setIsModalVisible(() => !isModalVisible) }}>
-                            <View style={{ flexDirection: 'row', columnGap: 15, alignItems: 'center'}}>
+                            <View style={{ flexDirection: 'row', columnGap: 15, alignItems: 'center' }}>
                                 <Text style={{ paddingVertical: 3, paddingHorizontal: 15, color: 'white', backgroundColor: '#FAE20B', fontSize: 20, fontWeight: 'bold', borderRadius: 20 }}>PRO</Text>
                                 <Text style={{ flexGrow: 1, color: 'white', textAlign: 'center', fontSize: 19, fontWeight: 'bold' }}>Upgrade to Premium</Text>
                                 <Icon name='rightcircle' size={25} color="#fff"></Icon>
                             </View>
                             <Text style={{ color: 'white', fontSize: 16, fontWeight: 'bold' }}>Enjoy workout access without ads and restrictions</Text>
+                        </TouchableOpacity>
+                        {/* <TouchableOpacity onPress={handleModal} style={{ position: 'absolute', alignSelf: 'flex-end' }}>
+                            <Ionicons name='ios-close-outline' size={46} style={{ color: 'white' }}  ></Ionicons>
+                        </TouchableOpacity> */}
+                    </View>
+                    <Text style={{ color: 'white', textAlign: 'center', fontSize: 25, fontWeight: 'bold', marginVertical: 20 }}>
+                        OR
+                    </Text>
+                    <View style={{ backgroundColor: 'white', borderWidth: 0.5, borderRadius: 20, height: '20%', maxHeight: 200, minHeight: 150, position: 'relative' }}>
+                        <TouchableOpacity style={styles.packPurchasedStyle} activeOpacity={0.8} onPress={() => { navigation.navigate('PackPurchaseMomoQR', { workoutName: selectedWorkoutPremium.current }), setIsModalVisible(() => !isModalVisible) }}>
+                            <View style={{ flexDirection: 'row', columnGap: 15, alignItems: 'center' }}>
+                                <Text style={{ paddingVertical: 3, paddingHorizontal: 15, color: 'white', backgroundColor: '#e0e0de', fontSize: 20, fontWeight: 'bold', borderRadius: 20 }}>LOW</Text>
+                                <Text style={{ flexGrow: 1, color: 'white', textAlign: 'center', fontSize: 19, fontWeight: 'bold' }}>Pack purchase</Text>
+                                <Icon name='rightcircle' size={25} color="#fff"></Icon>
+                            </View>
+                            <Text style={{ color: 'white', fontSize: 16, fontWeight: 'bold' }}>Purchase Once, Use Forever, No Ads And Restrictions</Text>
                         </TouchableOpacity>
                         {/* <TouchableOpacity onPress={handleModal} style={{ position: 'absolute', alignSelf: 'flex-end' }}>
                             <Ionicons name='ios-close-outline' size={46} style={{ color: 'white' }}  ></Ionicons>
@@ -443,6 +548,16 @@ const styles = StyleSheet.create({
     ugradePremiumStyle: {
         flexDirection: 'column',
         backgroundColor: '#461CF0',
+        paddingHorizontal: 15,
+        paddingVertical: 25,
+        rowGap: 15,
+        padding: '10%',
+        borderRadius: 20,
+        flex: 1,
+    },
+    packPurchasedStyle: {
+        flexDirection: 'column',
+        backgroundColor: '#886bff',
         paddingHorizontal: 15,
         paddingVertical: 25,
         rowGap: 15,

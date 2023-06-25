@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { SafeAreaView, Image, FlatList, StyleSheet, View, Text, TouchableOpacity, ScrollView, StatusBar, TextInput } from "react-native";
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
@@ -9,6 +9,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ReactNativeModal } from 'react-native-modal';
 import Icon from 'react-native-vector-icons/AntDesign';
 import { BlurView } from '@react-native-community/blur';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const Stack = createNativeStackNavigator();
 const Workouts = (props) => {
@@ -24,6 +25,8 @@ const Workouts = (props) => {
     const [isPremiumUser, setIsPremiumUser] = useState(false)
     const [workouts, setWorkouts] = useState({});
     const [levelPicked, setLevelPicked] = useState('');
+    const selectedWorkoutPremium = useRef('');
+    const [workoutPurchased, setWorkoutPurchased] = useState([]);
     const ExerciseImages = {
         "barbell-curl.jpg": require('../../assets/exe-thumbnail/barbell-curl.jpg'),
         "barbell-rows.jpg": require('../../assets/exe-thumbnail/barbell-rows.jpg'),
@@ -64,6 +67,7 @@ const Workouts = (props) => {
                 if (user_info != null) {
                     userId = JSON.parse(user_info).userId
                     user_level = JSON.parse(user_info).level
+                    setWorkoutPurchased(JSON.parse(user_info).workoutIdList)
                     console.log(user_info)
                     console.log(user_level)
                 } else {
@@ -83,11 +87,11 @@ const Workouts = (props) => {
             };
         }, [])
     );
-    useEffect(()=>{
+    useEffect(() => {
         const loadWorkout = async () => {
-        const user_info = await AsyncStorage.getItem('user_info')
-        let user_level= JSON.parse(user_info).level
-        fetchWorkouts(user_level)
+            const user_info = await AsyncStorage.getItem('user_info')
+            let user_level = JSON.parse(user_info).level
+            fetchWorkouts(user_level)
         };
         loadWorkout()
     }, [])
@@ -129,10 +133,10 @@ const Workouts = (props) => {
                             data={workouts}
                             keyExtractor={(item, index) => index.toString()}
                             renderItem={({ item }) => (
-                                !(item.isPremium == 0) || isPremiumUser ?
+                                !(item.isPremium == 0) || isPremiumUser || workoutPurchased.findIndex(id => item.workoutId == id) != -1 ?
                                     <TouchableOpacity
                                         key={item.workoutId}
-                                        onPress={() => navigation.navigate('Workout Detail', {workoutId: item.workoutId, levelPicked: levelPicked })}
+                                        onPress={() => navigation.navigate('Workout Detail', { workoutId: item.workoutId, levelPicked: levelPicked })}
                                         activeOpacity={0.8}
                                         style={{
                                             width: '100%',
@@ -151,6 +155,22 @@ const Workouts = (props) => {
                                                 borderWidth: 1
                                             }}
                                         />
+                                        <View style={{
+                                            position: 'absolute',
+                                            right: 25,
+                                            top: 10,
+                                        }}>
+                                            {item.isPremium == 0 && <MaterialCommunityIcons
+                                                style={{
+                                                    color: 'white',
+                                                    borderRadius: 100,
+                                                    backgroundColor: '#f8f202',
+                                                    padding: 4
+                                                }}
+                                                name='star'
+                                                size={20}>
+                                            </MaterialCommunityIcons>}
+                                        </View>
                                         <View key={item.workoutId + 'text'}
                                             style={{
                                                 position: 'absolute',
@@ -164,7 +184,11 @@ const Workouts = (props) => {
                                     :
                                     <TouchableOpacity
                                         key={item.workoutId}
-                                        onPress={handleModal}
+                                        onPress={() => {
+                                            handleModal()
+                                            selectedWorkoutPremium.current = item.name
+                                            console.log('selectedWorkout: ' + selectedWorkoutPremium.current)
+                                        }}
                                         activeOpacity={0.8}
                                         style={{
                                             width: '100%',
@@ -194,17 +218,40 @@ const Workouts = (props) => {
                                                 position: 'absolute'
                                             }}
                                             overlayColor="transparent"
-                                            blurType="light"
-                                            blurAmount={3}
-                                            blurRadius={5}
+                                            blurAmount={1}
+                                            blurRadius={3}
                                         />
+                                        <View style={{
+                                            position: 'absolute',
+                                            right: 25,
+                                            top: 10,
+                                        }}>
+                                            <MaterialCommunityIcons
+                                                style={{
+                                                    color: 'white',
+                                                    borderRadius: 100,
+                                                    backgroundColor: '#f8f202',
+                                                    padding: 4
+                                                }}
+                                                name='star'
+                                                size={20}>
+                                            </MaterialCommunityIcons>
+                                        </View>
+                                        <View style={{
+                                            position: 'absolute',
+                                            alignSelf: 'center',
+                                            marginTop: '4%'
+                                        }}>
+                                            <EvilIcons name='lock' size={46} style={{ color: 'white' }}  ></EvilIcons>
+                                        </View>
                                         <View key={item.workoutId + 'text'}
                                             style={{
                                                 position: 'absolute',
-                                                alignSelf: 'center',
-                                                marginTop: '12%'
+                                                marginLeft: '8%',
+                                                marginTop: '16%'
                                             }}>
-                                            <EvilIcons name='lock' size={46} style={{ color: 'white' }}  ></EvilIcons>
+                                            <Text style={{ fontSize: 25, fontWeight: 600, color: 'white' }}>{item.name}</Text>
+                                            <Text style={{ fontSize: 18, color: 'white' }}>{item.totalExercise} exercise | {levelPicked}</Text>
                                         </View>
                                     </TouchableOpacity>
                             )}
@@ -221,6 +268,22 @@ const Workouts = (props) => {
                             <Icon name='rightcircle' size={25} color="#fff"></Icon>
                         </View>
                         <Text style={{ color: 'white', fontSize: 16, fontWeight: 'bold' }}>Enjoy workout access without ads and restrictions</Text>
+                    </TouchableOpacity>
+                    {/* <TouchableOpacity onPress={handleModal} style={{ position: 'absolute', alignSelf: 'flex-end' }}>
+                            <Ionicons name='ios-close-outline' size={46} style={{ color: 'white' }}  ></Ionicons>
+                        </TouchableOpacity> */}
+                </View>
+                <Text style={{ color: 'white', textAlign: 'center', fontSize: 25, fontWeight: 'bold', marginVertical: 20 }}>
+                    OR
+                </Text>
+                <View style={{ backgroundColor: 'white', borderWidth: 0.5, borderRadius: 20, height: '20%', maxHeight: 200, minHeight: 150, position: 'relative' }}>
+                    <TouchableOpacity style={styles.packPurchasedStyle} activeOpacity={0.8} onPress={() => { navigation.navigate('PackPurchaseMomoQR', { workoutName: selectedWorkoutPremium.current }), setIsModalVisible(() => !isModalVisible) }}>
+                        <View style={{ flexDirection: 'row', columnGap: 15, alignItems: 'center' }}>
+                            <Text style={{ paddingVertical: 3, paddingHorizontal: 15, color: 'white', backgroundColor: '#e0e0de', fontSize: 20, fontWeight: 'bold', borderRadius: 20 }}>LOW</Text>
+                            <Text style={{ flexGrow: 1, color: 'white', textAlign: 'center', fontSize: 19, fontWeight: 'bold' }}>Pack purchase</Text>
+                            <Icon name='rightcircle' size={25} color="#fff"></Icon>
+                        </View>
+                        <Text style={{ color: 'white', fontSize: 16, fontWeight: 'bold' }}>Purchase Once, Use Forever, No Ads And Restrictions</Text>
                     </TouchableOpacity>
                     {/* <TouchableOpacity onPress={handleModal} style={{ position: 'absolute', alignSelf: 'flex-end' }}>
                             <Ionicons name='ios-close-outline' size={46} style={{ color: 'white' }}  ></Ionicons>
@@ -286,6 +349,16 @@ const styles = StyleSheet.create({
         padding: '10%',
         borderRadius: 20,
         flex: 1
+    },
+    packPurchasedStyle: {
+        flexDirection: 'column',
+        backgroundColor: '#886bff',
+        paddingHorizontal: 15,
+        paddingVertical: 25,
+        rowGap: 15,
+        padding: '10%',
+        borderRadius: 20,
+        flex: 1,
     },
 })
 export default Workouts;

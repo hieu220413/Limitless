@@ -1,13 +1,17 @@
 package fpt.edu.limitlessapi.model;
 
+import fpt.edu.limitlessapi.entity.Exercise;
 import fpt.edu.limitlessapi.entity.Users;
+import fpt.edu.limitlessapi.entity.Workout;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Date;
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Data
 @AllArgsConstructor
@@ -28,6 +32,7 @@ public class UserResponseModel {
         this.level = users.getLevel();
         this.gender = users.getGender();
         this.status = users.getStatus();
+        this.workoutIdList = users.getWorkouts().stream().map(workout -> workout.getWorkoutId()).collect(Collectors.toSet());
     }
 
     private UUID userId;
@@ -53,4 +58,6 @@ public class UserResponseModel {
     private int gender;
 
     private int status;
+
+    private Set<UUID> workoutIdList;
 }
