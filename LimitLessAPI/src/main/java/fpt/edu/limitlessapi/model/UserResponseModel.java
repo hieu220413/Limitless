@@ -1,12 +1,14 @@
 package fpt.edu.limitlessapi.model;
 
 import fpt.edu.limitlessapi.entity.Exercise;
+import fpt.edu.limitlessapi.entity.Role;
 import fpt.edu.limitlessapi.entity.Users;
 import fpt.edu.limitlessapi.entity.Workout;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.Hibernate;
 
 import java.sql.Date;
 import java.util.Set;
@@ -32,6 +34,8 @@ public class UserResponseModel {
         this.level = users.getLevel();
         this.gender = users.getGender();
         this.status = users.getStatus();
+        this.role = (Role) Hibernate.unproxy(users.getRole());
+//        this.role = users.getRole();
         this.workoutIdList = users.getWorkouts().stream().map(workout -> workout.getWorkoutId()).collect(Collectors.toSet());
     }
 
@@ -58,6 +62,8 @@ public class UserResponseModel {
     private int gender;
 
     private int status;
+
+    private Role role;
 
     private Set<UUID> workoutIdList;
 }

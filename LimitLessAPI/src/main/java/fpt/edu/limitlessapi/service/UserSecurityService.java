@@ -18,11 +18,11 @@ public class UserSecurityService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 //        String test = new BCryptPasswordEncoder().encode("123admin");
-        Users userEntity = userRepository.findByUsername(username);
+        Users userEntity = userRepository.findByUsernameAndActive(username);
         UserDetailsPrincipalModel user = UserDetailsPrincipalModel.builder()
                 .username(userEntity.getUsername())
                 .password(userEntity.getPassword())
-//                .role(User.RoleEnum.valueOf(userEntity.getRole()))
+                .role(userEntity.getRole().getName())
                 .build();
 //        UserDetailsPrincipalModel user = null;
         UserDetailsPrincipal userDetailsPrincipal = new UserDetailsPrincipal(user);

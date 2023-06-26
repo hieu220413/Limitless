@@ -72,4 +72,7 @@ public class Users {
     @ToString.Exclude
     private Collection<Subscription> subscriptions;
 
+    @ManyToOne()
+    @JoinColumn(name = "role_id")
+    private Role role;
 }

@@ -31,6 +31,10 @@ public class BasicAuthWebSecurityConfiguration {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.csrf().disable().authorizeRequests()
+                .requestMatchers("/workout/create").hasRole("AD")
+                .requestMatchers("/workout/update").hasRole("AD")
+                .requestMatchers("/exercise/update").hasRole("AD")
+                .requestMatchers("/exercise/create").hasRole("AD")
                 .anyRequest().permitAll()
                 .and().httpBasic().and().exceptionHandling().authenticationEntryPoint(myBasicAuthenticationEntryPoint).and().logout().logoutUrl("/user/logout");
         return http.build();
