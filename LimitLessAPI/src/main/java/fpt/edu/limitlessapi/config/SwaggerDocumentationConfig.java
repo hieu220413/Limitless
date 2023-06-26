@@ -1,9 +1,12 @@
 package fpt.edu.limitlessapi.config;
 
 
+import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Contact;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 //import springfox.documentation.builders.ApiInfoBuilder;
@@ -50,16 +53,19 @@ public class SwaggerDocumentationConfig {
     @Bean
     public OpenAPI openApi() {
         return new OpenAPI()
-            .info(new Info()
-                .title("LGV Versatile Supermarket")
-                .description("This is the LGV Versatile Supermarket server based on the OpenAPI 3.0 specification. All the apis are available here. You can help us improve the api by clicking [here](https://www.youtube.com/watch?v=xvFZjo5PgG0&ab_channel=Duran). If you want to know more about us, you can click this [link](https://www.youtube.com/watch?v=xvFZjo5PgG0&ab_channel=Duran) for more information.")
-                .termsOfService("")
-                .version("0.0.1")
-                .license(new License()
-                    .name("MIT License")
-                    .url("https://choosealicense.com/licenses/mit/"))
-                .contact(new io.swagger.v3.oas.models.info.Contact()
-                    .email("luugiavinh0@gmail.com")));
+                .components(new Components()
+                        .addSecuritySchemes("basicScheme", new SecurityScheme()
+                                .type(SecurityScheme.Type.HTTP).scheme("basic")))
+                .info(new Info()
+                    .title("LGV Versatile Supermarket")
+                    .description("This is the LGV Versatile Supermarket server based on the OpenAPI 3.0 specification. All the apis are available here. You can help us improve the api by clicking [here](https://www.youtube.com/watch?v=xvFZjo5PgG0&ab_channel=Duran). If you want to know more about us, you can click this [link](https://www.youtube.com/watch?v=xvFZjo5PgG0&ab_channel=Duran) for more information.")
+                    .termsOfService("")
+                    .version("0.0.1")
+                    .license(new License()
+                        .name("MIT License")
+                        .url("https://choosealicense.com/licenses/mit/"))
+                    .contact(new Contact()
+                        .email("luugiavinh0@gmail.com")));
     }
 
 }
