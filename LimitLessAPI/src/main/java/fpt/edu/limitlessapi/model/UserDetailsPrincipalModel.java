@@ -11,8 +11,8 @@ public class UserDetailsPrincipalModel {
     @JsonProperty("password")
     private String password = null;
 
-//    @JsonProperty("role")
-//    private User.RoleEnum role = null;
+    @JsonProperty("role")
+    private String role = null;
 
     public String getUsername() {
         return username;
@@ -22,9 +22,7 @@ public class UserDetailsPrincipalModel {
         return password;
     }
 
-//    public User.RoleEnum getRole() {
-//        return role;
-//    }
+    public String getRole() { return role; }
 
     public void setUsername(String username) {
         this.username = username;
@@ -34,7 +32,5 @@ public class UserDetailsPrincipalModel {
         this.password = password;
     }
 
-//    public void setRole(User.RoleEnum role) {
-//        this.role = role;
-//    }
+    public void setRole(String role) { this.role = role; }
 }

@@ -68,6 +68,7 @@ const FillProfile = ({ navigation, route }) => {
             user_info.weight = result.weight
             user_info.height = result.height
             user_info.age = result.age
+            user_info.level = result.level
             console.log(JSON.stringify(user_info))
             await AsyncStorage.setItem('user_info', JSON.stringify(user_info))
             navigation.reset({ index: 0, routes: [{ name: 'Main' }] })

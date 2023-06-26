@@ -20,9 +20,9 @@ public class UserDetailsPrincipal implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-//        SimpleGrantedAuthority authority = new SimpleGrantedAuthority("ROLE_"+user.getRole().toString());
+        SimpleGrantedAuthority authority = new SimpleGrantedAuthority("ROLE_"+user.getRole());
 //        SimpleGrantedAuthority authority = new SimpleGrantedAuthority("ROLE_"+"");
-//        authorities.add(authority);
+        authorities.add(authority);
         return authorities;
     }
 
