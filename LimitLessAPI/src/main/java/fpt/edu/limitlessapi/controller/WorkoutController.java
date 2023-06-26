@@ -6,6 +6,8 @@ import fpt.edu.limitlessapi.model.WorkoutCreateRequestBody;
 import fpt.edu.limitlessapi.model.WorkoutCreateUpdateRespondBody;
 import fpt.edu.limitlessapi.model.WorkoutUpdateRequestBody;
 import fpt.edu.limitlessapi.service.WorkoutService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,11 +45,14 @@ public class WorkoutController {
 
 
     @PostMapping("/create")
+    @Operation(security = { @SecurityRequirement(name = "basicScheme") })
+
     public ResponseEntity<WorkoutCreateUpdateRespondBody> createWorkout(@RequestBody WorkoutCreateRequestBody workoutCreateRequestBody){
         return ResponseEntity.status(HttpStatus.OK).body(workoutService.createWorkout(workoutCreateRequestBody));
     }
 
     @PutMapping("/update")
+    @Operation(security = { @SecurityRequirement(name = "basicScheme") })
     public ResponseEntity<WorkoutCreateUpdateRespondBody> updateWorkout(@RequestBody WorkoutUpdateRequestBody workoutUpdateRequestBody){
         return ResponseEntity.status(HttpStatus.OK).body(workoutService.updateWorkout(workoutUpdateRequestBody));
     }

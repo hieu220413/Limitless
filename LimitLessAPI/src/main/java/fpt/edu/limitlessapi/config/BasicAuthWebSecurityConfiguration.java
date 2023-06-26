@@ -25,6 +25,7 @@ public class BasicAuthWebSecurityConfiguration {
         return new BCryptPasswordEncoder();
     }
 
+    @Autowired
     private MyBasicAuthenticationEntryPoint  myBasicAuthenticationEntryPoint;
 
     @Bean
