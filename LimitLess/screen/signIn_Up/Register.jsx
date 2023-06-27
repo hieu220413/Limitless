@@ -40,7 +40,7 @@ const Register = ({ navigation }) => {
   })
   const signUp = async () => {
 
-    const result = await fetch('http://limitlessapi.us-east-1.elasticbeanstalk.com/api/user/signup', {
+    const result = await fetch('http://limitless-api.us-east-1.elasticbeanstalk.com/api/user/signup', {
       method: 'POST',
       headers: {
         Accept: 'application/json',

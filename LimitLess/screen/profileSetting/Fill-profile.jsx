@@ -49,7 +49,7 @@ const FillProfile = ({ navigation, route }) => {
             ...route.params,
             fullName: nameInput,
         }))
-        const result = await fetch(`http://limitlessapi.us-east-1.elasticbeanstalk.com/api/user/${userId}/updateAdditonalDetail`, {
+        const result = await fetch(`http://limitless-api.us-east-1.elasticbeanstalk.com/api/user/${userId}/updateAdditonalDetail`, {
             method: 'PUT',
             headers: {
                 Accept: 'application/json',

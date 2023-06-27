@@ -30,7 +30,7 @@ const WorkoutsDetail = (props) => {
     const [workoutImage,setWorkoutImage] = useState('');
     const [workout,setWorkout] = useState({});
     const fetchWorkoutDetail = async (workoutId) => {
-        workoutDetailResponseBody = await fetch(`http://limitlessapi.us-east-1.elasticbeanstalk.com/workout/${workoutId}`)
+        workoutDetailResponseBody = await fetch(`http://limitless-api.us-east-1.elasticbeanstalk.com/workout/${workoutId}`)
             .then(response => response.json())
             .then(json => json)
             .catch(error => console.log(error))
