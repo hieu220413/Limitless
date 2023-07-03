@@ -27,16 +27,24 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Octicons from 'react-native-vector-icons/Octicons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import PackPurchaseMomoQR from './screen/paymentQR/PackPurchaseMomoQR';
+import MainPageAdmin from './screen/admin/MainPageAdmin';
+import WorkoutsAdmin from './screen/admin/WorkoutAdmi';
+import ProfileAdmin from './screen/admin/ProfileAdmin';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
+const TabAdmin = createBottomTabNavigator();
 function FooterNav() {
   return (
     <Tab.Navigator screenOptions={{
       headerShown: false,
       tabBarActiveTintColor: '#083BF2',
-      tabBarInactiveTintColor: 'black'
+      tabBarInactiveTintColor: 'black',
+      tabBarLabelStyle: {
+        display: "none" 
+      }
     }}>
       <Tab.Screen name="MainPage" component={MainPage} options={{
         tabBarIcon: ({color}) => (
@@ -63,10 +71,40 @@ function FooterNav() {
   )
 }
 
+function FooterNavAdmin() {
+  return (
+    <TabAdmin.Navigator screenOptions={{
+      headerShown: false,
+      tabBarActiveTintColor: '#083BF2',
+      tabBarInactiveTintColor: 'black',
+      tabBarLabelStyle: {
+        display: "none" 
+      },
+    }}>
+      <TabAdmin.Screen name="MainPageAdmin" component={MainPageAdmin} options={{
+        tabBarIcon: ({color}) => (
+          <AntDesign name="linechart" size={25} color={color}/>
+        ),
+      }} />
+      <TabAdmin.Screen name="WorkoutsAdmin" component={WorkoutsAdmin} options={{
+        tabBarIcon: ({color}) => (
+          <Ionicons name="md-barbell-outline" size={25} color={color} />
+        ),
+      }}/>
+      <TabAdmin.Screen name="ProfileAdmin" component={ProfileAdmin} options={{
+        tabBarIcon: ({color}) => (
+          <Octicons name="note" size={25} color={color}/>
+        ),
+      }}/>
+    </TabAdmin.Navigator>
+  )
+}
+
 const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen name='AdminPage' component={FooterNavAdmin} />
         <Stack.Screen name='Intro1' component={IntroductionPage_1} />
         <Stack.Screen name='Intro2' component={IntroductionPage_2} />
         <Stack.Screen name='Intro3' component={IntroductionPage_3} />
